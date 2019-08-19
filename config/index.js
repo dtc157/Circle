@@ -6,9 +6,7 @@ const path = require('path')
 
 module.exports = {
     dev: {
-        //测试注释删掉了
-
-
+        //陶国栋
         // Paths
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
