@@ -6,9 +6,7 @@ const path = require('path')
 
 module.exports = {
     dev: {
-        //测试提交
-        //测试提交
-        //测试提交3
+        //测试注释删掉了
 
 
         // Paths
