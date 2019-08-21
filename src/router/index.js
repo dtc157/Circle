@@ -6,11 +6,21 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 声明使用插件
 Vue.use(VueRouter)
-
 import MSite from '../pages/MSite/MSite.vue'
 import Inform from '../pages/Inform/Inform.vue'
 import Chat from '../pages/Chat/Chat.vue'
 import Profile from '../pages/Profile/Profile.vue'
+import Circlemain from '../pages/Circlemain/Circlemain.vue'
+import Search from '../pages/Search/Search.vue'
+import AddCircle from '../pages/AddCircle/AddCircle.vue'
+import RatingInfo from "../pages/RatingInfo/RatingInfo";
+import TopicSearch from "../pages/TopicSearch/TopicSearch";
+import SendContent from "../pages/SendContent/SendContent";
+import LookTopics from "../pages/LookTopics/LookTopics";
+import Lookareas from "../pages/Lookareas/Lookareas";
+import Chooseareas from "../pages/Chooseareas/Chooseareas";
+import CircleInfo from "../pages/CircleInfo/CircleInfo";
+import JoinCircle from "../pages/JoinCircle/JoinCircle";
 
 // const MSite = () => import('../pages/MSite/MSite.vue')
 // const Search = () => import('../pages/Search/Search.vue')
@@ -56,6 +66,52 @@ export default new VueRouter({
       meta:{
         showFooter:true
       }
+    },
+    {
+      path: '/search',
+      component: Search,
+    },
+    {
+      path: '/circlemain',
+      component: Circlemain,
+    },
+    {
+      path: '/addcircle',
+      component: AddCircle,
+    },
+    {
+      path: '/ratinginfo',
+      component: RatingInfo,
+    },
+    {
+      path: '/topicsearch',
+      component: TopicSearch,
+    },
+    {
+      path: '/sendcontent',
+      component: SendContent,
+    },
+    ,
+    {
+      path: '/LookTopics',
+      component: LookTopics,
+    },
+    {
+      path: '/lookareas',
+      component: Lookareas,
+    },
+    {
+      path: '/chooseareas',
+      component: Chooseareas,
+    },
+    {
+      path: '/circleinfo',
+      component: CircleInfo,
+    },
+    {
+      path: '/joincircle',
+      component: JoinCircle,
     }
+
   ]
 })

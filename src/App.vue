@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HeaderTop></HeaderTop>
+
     <router-view></router-view>
     <FooterGuide v-show="$route.meta.showFooter"/>
   </div>
