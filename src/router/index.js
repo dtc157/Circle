@@ -22,6 +22,15 @@ import Chooseareas from "../pages/Chooseareas/Chooseareas";
 import CircleInfo from "../pages/CircleInfo/CircleInfo";
 import JoinCircle from "../pages/JoinCircle/JoinCircle";
 import UserInfo from "../pages/UserInfo/UserInfo";
+import Collection from '../pages/Collection/Collection.vue'
+import Conversation from '../pages/Conversation/Conversation.vue'
+import Setting from '../pages/Setting/Setting.vue'
+import toLogin from '../pages/toLogin/toLogin.vue'
+import Login from '../pages/Login/Login.vue'
+import Register1 from '../pages/Register/Register1.vue'
+import Register2 from '../pages/Register/Register2.vue'
+import Register3 from '../pages/Register/Register3.vue'
+import loginTest from '../pages/toLogin'
 
 // const MSite = () => import('../pages/MSite/MSite.vue')
 // const Search = () => import('../pages/Search/Search.vue')
@@ -38,85 +47,139 @@ import UserInfo from "../pages/UserInfo/UserInfo";
 
 
 export default new VueRouter({
-// 所有路由
-  routes: [
-    {
-      path: '/',
-      component: MSite,
-      meta:{
-        showFooter:true
-      }
-    },
-    {
-      path: '/chat',
-      component: Chat,
-      meta:{
-        showFooter:true
-      }
-    },
-    {
-      path: '/inform',
-      component: Inform,
-      meta:{
-        showFooter:true
-      }
-    },
-    {
-      path: '/profile',
-      component: Profile,
-      meta:{
-        showFooter:true
-      }
-    },
-    {
-      path: '/userinfo',
-      component: UserInfo,
-    },
-    {
-      path: '/search',
-      component: Search,
-    },
-    {
-      path: '/circlemain',
-      component: Circlemain,
-    },
-    {
-      path: '/addcircle',
-      component: AddCircle,
-    },
-    {
-      path: '/ratinginfo',
-      component: RatingInfo,
-    },
-    {
-      path: '/topicsearch',
-      component: TopicSearch,
-    },
-    {
-      path: '/sendcontent',
-      component: SendContent,
-    },
-    ,
-    {
-      path: '/LookTopics',
-      component: LookTopics,
-    },
-    {
-      path: '/lookareas',
-      component: Lookareas,
-    },
-    {
-      path: '/chooseareas',
-      component: Chooseareas,
-    },
-    {
-      path: '/circleinfo',
-      component: CircleInfo,
-    },
-    {
-      path: '/joincircle',
-      component: JoinCircle,
-    }
+    // 所有路由
+    routes: [{
+            path: '/',
+            component: MSite,
+            meta: {
+                showFooter: true
+            }
+        },
+        {
+            path: '/chat',
+            component: Chat,
+            meta: {
+                showFooter: true
+            }
+        },
+        {
+            path: '/inform',
+            component: Inform,
+            meta: {
+                showFooter: true
+            }
+        },
+        {
+            path: '/profile',
+            component: Profile,
+            meta: {
+                showFooter: true
+            }
+        },
+        {
+            path: '/userinfo',
+            component: UserInfo,
+        },
+        {
+            path: '/search',
+            component: Search,
+        },
+        {
+            path: '/circlemain',
+            component: Circlemain,
+        },
+        {
+            path: '/addcircle',
+            component: AddCircle,
+        },
+        {
+            path: '/ratinginfo',
+            component: RatingInfo,
+        },
+        {
+            path: '/topicsearch',
+            component: TopicSearch,
+        },
+        {
+            path: '/sendcontent',
+            component: SendContent,
+        }, ,
+        {
+            path: '/LookTopics',
+            component: LookTopics,
+        },
+        {
+            path: '/lookareas',
+            component: Lookareas,
+        },
+        {
+            path: '/chooseareas',
+            component: Chooseareas,
+        },
+        {
+            path: '/circleinfo',
+            component: CircleInfo,
+        },
+        {
+            path: '/joincircle',
+            component: JoinCircle,
+        },
+        // 我的收藏页面
+        {
+            path: '/Collection',
+            component: Collection
+        },
+        // 话题页面
+        {
+            path: '/Conversation',
+            component: Conversation
+        },
+        // 推送设置页面
+        {
+            path: '/Setting',
+            component: Setting
+        },
+        // 进入登录页面
+        {
+            path: '/toLogin',
+            component: toLogin
+        },
+        // 登录界面
+        {
+            path: '/Login',
+            component: Login
+        },
+        // 登录界面2
+        {
+            path: '/loginTest',
+            component: loginTest,
+            children: [{
+                path: '/loginTest',
+                component: loginTest
+            }, {
+                path: '/loginTest',
+                component: loginTest
+            }, {
+                path: '/loginTest',
+                component: loginTest
+            }]
 
-  ]
+        },
+        // 注册页面1
+        {
+            path: '/Register1',
+            component: Register1
+        },
+        // 注册页面2
+        {
+            path: '/Register2',
+            component: Register2
+        },
+        // 注册页面3
+        {
+            path: '/Register3',
+            component: Register3
+        }
+
+    ]
 })
