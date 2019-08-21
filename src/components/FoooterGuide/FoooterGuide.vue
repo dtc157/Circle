@@ -1,7 +1,7 @@
 
 <template>
     <div class="footer_guide border-1px">
-            <span class="guide_item" :class="{on: '/'===$route.path}" @click="goTo('/')">
+            <span class="guide_item" :class="{on: '/msite'===$route.path}" @click="goTo('/msite')">
             <span class="item_icon">
                 <i class="iconfont icon-quanzi"></i>
             </span>

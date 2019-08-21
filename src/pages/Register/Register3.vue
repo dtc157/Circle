@@ -11,7 +11,9 @@
       <div class="input_password">
         <input type="password" placeholder="不少于6位字符" autofocus />
       </div>
-      <button class="register3_btn">完成</button>
+      <router-link to="/msite">
+        <button class="register3_btn">完成</button>
+      </router-link>
     </div>
   </div>
 </template>

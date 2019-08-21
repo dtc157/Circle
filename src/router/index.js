@@ -30,7 +30,7 @@ import Login from '../pages/Login/Login.vue'
 import Register1 from '../pages/Register/Register1.vue'
 import Register2 from '../pages/Register/Register2.vue'
 import Register3 from '../pages/Register/Register3.vue'
-import loginTest from '../pages/toLogin'
+import loginTest from '../pages/toLogin/toLogin.vue'
 
 // const MSite = () => import('../pages/MSite/MSite.vue')
 // const Search = () => import('../pages/Search/Search.vue')
@@ -50,6 +50,13 @@ export default new VueRouter({
     // 所有路由
     routes: [{
             path: '/',
+            component: toLogin,
+            meta: {
+                showFooter: true
+            }
+        },
+        {
+            path: '/msite',
             component: MSite,
             meta: {
                 showFooter: true

@@ -27,7 +27,9 @@
       <div class="remember_password">
         <input type="checkbox" />&nbsp;记住密码
       </div>
-      <button class="login_btn">登录</button>
+      <router-link to="/msite">
+        <button class="login_btn">登录</button>
+      </router-link>
     </div>
   </div>
 </template>

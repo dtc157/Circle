@@ -2,7 +2,7 @@
   <div id="container">
     <!-- 顶部 -->
     <div id="top">
-      <div id="back_icon">
+      <div id="back_icon" @click="back()">
         <i class="iconfont icon-zuo"></i>
       </div>
       <div id="top_title">我的收藏</div>
@@ -150,7 +150,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    back(){
+      this.$router.go(-1)
+    }
+  }
+};
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

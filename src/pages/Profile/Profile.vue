@@ -25,7 +25,7 @@
         </div>
       </div>
     </a>
-    <a class="link-topic">
+    <a class="link-topic" @click="JumpConversation()">
       <div class="topic-box">
         <div class="topic">
           <i class="iconfont icon-huati"></i>
@@ -38,7 +38,7 @@
     </a>
     <a class="link-colection">
       <div class="colection-box">
-        <div class="colection">
+        <div class="colection" @click="JumpCollection">
           <i class="iconfont icon-yixianshi-"></i>
           <span class="my-colection">我的收藏</span>
         </div>
@@ -108,7 +108,16 @@
 
 <script>
   export default {
-
+      methods:{
+        //跳转我的收藏 
+        JumpCollection(){
+          this.$router.push("/Collection")
+        },
+        //跳转我的话题
+        JumpConversation(){
+          this.$router.push("/Conversation")
+        }
+      }
   }
 </script>
 
