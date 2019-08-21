@@ -21,6 +21,7 @@ import Lookareas from "../pages/Lookareas/Lookareas";
 import Chooseareas from "../pages/Chooseareas/Chooseareas";
 import CircleInfo from "../pages/CircleInfo/CircleInfo";
 import JoinCircle from "../pages/JoinCircle/JoinCircle";
+import UserInfo from "../pages/UserInfo/UserInfo";
 
 // const MSite = () => import('../pages/MSite/MSite.vue')
 // const Search = () => import('../pages/Search/Search.vue')
@@ -66,6 +67,10 @@ export default new VueRouter({
       meta:{
         showFooter:true
       }
+    },
+    {
+      path: '/userinfo',
+      component: UserInfo,
     },
     {
       path: '/search',
