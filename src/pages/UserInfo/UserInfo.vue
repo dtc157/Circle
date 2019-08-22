@@ -16,16 +16,24 @@
             </div>
           </div>
         </div>
-        <div class="userinfo-items">
-          <div class="head-img">昵称</div>
+        <div class="userinfo-items" @click="toNickName()">
+          <div class="head-img" >昵称</div>
           <div>
             <div class="arrow">
-              <div class="userinfo-left">辣辣</div>
+              <div class="userinfo-left">{{nickname}}</div>
               <div class="userinfo-right">
                 <i class="iconfont icon-range-left"></i>
               </div>
             </div>
           </div>
+        </div>
+        <div class="userinfo-items">
+          <div class="head-img">真实姓名</div>
+          <div class="userinfo-right2">ls</div>
+        </div>
+        <div class="userinfo-items">
+          <div class="head-img">身份证号</div>
+          <div class="userinfo-right2">909404</div>
         </div>
         <div class="userinfo-items">
           <div class="head-img">ID</div>
@@ -54,7 +62,7 @@
           </div>
         </div>
         <div class="userinfo-items">
-          <div class="head-img" style="color: red">退出登录</div>
+          <div class="head-img" style="color: red" @click="Logout()">退出登录</div>
         </div>
       </div>
     </div>
@@ -62,7 +70,24 @@
 
 <script>
     export default {
-
+      data(){
+        return{
+         nickname: '辣辣'
+        }
+      },
+      methods: {
+        Logout(){
+          this.$router.replace("/toLogin")
+        },
+        toNickName(){
+          this.$router.push({
+            path:"/nickname",
+            query:{
+              nickname:this.nickname
+            }
+          })
+        }
+      }
     }
 </script>
 
@@ -100,7 +125,6 @@
         .icon-range-left
           font-size 30px
       .userinfo-items
-        margin-top 20px
         display flex
         justify-content space-between
         height 60px
@@ -109,7 +133,7 @@
           margin-top 30px
         .userinfo-right2
           margin-right 8%
-          margin-top 20px
+          margin-top 30px
         .userinfo-images
           display flex
           justify-content space-between

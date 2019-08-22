@@ -109,7 +109,7 @@
 <script>
   export default {
       methods:{
-        //跳转我的收藏 
+        //跳转我的收藏
         JumpCollection(){
           this.$router.push("/Collection")
         },
@@ -169,7 +169,7 @@
         height 70px
         width 100%
         .wallet
-          width 70%
+          width 100%
         .icon-qianbao-
           font-weight bold
           font-size 28px
@@ -184,7 +184,7 @@
         height 70px
         width 100%
         .topic
-          width 70%
+          width 100%
           .icon-huati
             font-weight bold
             font-size 28px
@@ -201,7 +201,7 @@
         height 70px
         width 100%
         .colection
-          width 70%
+          width 100%
           .icon-yixianshi-
             font-weight bold
             font-size 28px
@@ -218,7 +218,7 @@
         height 70px
         width 100%
         .setting
-          width 70%
+          width 100%
           .icon-tuisong
             font-weight bold
             font-size 28px
@@ -234,7 +234,7 @@
         height 70px
         width 100%
         .advice
-          width 70%
+          width 100%
           .icon-xiaoxi2
             font-weight bold
             font-size 25px
@@ -250,7 +250,7 @@
         height 70px
         width 100%
         .recommend
-          width 70%
+          width 100%
           .icon-guanzhu
             font-weight bold
             font-size 28px
@@ -265,7 +265,7 @@
         height 70px
         width 100%
         .follow
-          width 70%
+          width 100%
           .icon-wechat
             font-size 28px
             color red
@@ -279,7 +279,7 @@
         height 70px
         width 100%
         .update
-          width 70%
+          width 100%
           .icon-gengxin
             font-weight bold
             font-size 28px
