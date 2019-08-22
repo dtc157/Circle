@@ -19,7 +19,7 @@
           <p class="group_people">10个成员 邀请<i class="iconfont icon-jia"></i></p>
           <div class="user_info">
             <div class="user" >
-              <img src="https://cdn.duitang.com/uploads/item/201308/04/20130804024028_rZEMa.thumb.700_0.jpeg">
+              <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379173402&di=9eb4b5a0175c1593be5b8fd03ca78edd&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201604%2F02%2F20160402161853_ZQWhz.thumb.700_0.jpeg">
               <span class="username">西西弗</span>
             </div>
             <div class="signin " >
@@ -93,7 +93,7 @@
           <div class="comments_item" @click="jumpRatingInfo()">
             <div class="item_master">
               <div class="userinfo">
-                <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
+                <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379173402&di=9eb4b5a0175c1593be5b8fd03ca78edd&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201604%2F02%2F20160402161853_ZQWhz.thumb.700_0.jpeg">
                 <div class="username">
                   <span>西西弗</span>
                   <p>昨天 9.50</p>
@@ -104,7 +104,7 @@
               </div>
             </div>
             <div class="item_content">
-              <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
+              <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379001016&di=39b7ed8e1f893c8ef7e9bd0f31ee1f52&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201504%2F13%2F20150413H5949_CWaPL.thumb.700_0.jpeg">
               <p>小雷家的环境好极了，团队相处非常融洽，不信你来试试，每个人都很努力</p>
             </div>
             <div class="item_operation">
@@ -195,7 +195,31 @@
 <script>
     export default {
       name:"circlemain",
+      data(){
+        return{
+          list:""
+        }
+      },
+      created(){
+        this.circleDetails()
+        console.log(this.$route.query.clusterId)
+      },
       methods:{
+        //根据圈id查询圈子详情
+        circleDetails(){
+          let self=this
+          const params={clusterId:this.$route.query.clusterId}
+          const url = "http://10.96.127.250:8080/api/cluster/details";
+          this.$http.fetchGet(url,{params}).then(res => {
+            if(res.status==200){
+              self.list=res.data
+              console.log(self.list)
+            }else{
+              alert(res.msg)
+            }
+          })
+        },
+        //回到上一页面
         back(){
           this.$router.go(-1)
         },

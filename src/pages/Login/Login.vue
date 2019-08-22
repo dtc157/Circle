@@ -9,11 +9,11 @@
     <div id="login_content">
       <div class="login_title">账号登录</div>
       <div class="inp username">
-        <input type="text" placeholder="手机号/账号" />
+        <input type="text" placeholder="手机号/账号" v-model="userName" />
       </div>
       <div class="inp password">
-        <input type="password" v-if="true" placeholder="密码" />
-        <input type="text" v-if="!true" />
+        <input type="password" v-if="true" placeholder="密码" v-model="userPassword" />
+        <input type="text" v-if="!true"/>
         <div class="eye">
           <i class="iconfont icon-yanjing"></i>
         </div>
@@ -27,15 +27,38 @@
       <div class="remember_password">
         <input type="checkbox" />&nbsp;记住密码
       </div>
-      <router-link to="/msite">
-        <button class="login_btn">登录</button>
-      </router-link>
+        <button class="login_btn" @click="login1">登录</button>
+
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+  import Cookies from 'js-cookie'
+export default {
+    data(){
+      return{
+        userName:"",
+        userPassword:"",
+        result:""
+      }
+    },
+     methods:{
+      //登录
+       async login1() {
+           const url = "http://10.96.116.148:8080/api/user/login";
+           const {userName,userPassword}=this
+           this.$http.fetchPost(url,{username:userName,password:userPassword}).then(res => {
+             if(res.status==200){
+               Cookies.set('username', res.data);
+               this.$router.push("/msite")
+             }else{
+               alert("用户名密码错误")
+             }
+           })
+         },
+      }
+};
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

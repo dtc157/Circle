@@ -177,7 +177,7 @@ export default {
     -webkit-align-items center
     height 50px
     width 100%
-    background-color #FFFFFF
+    background-color orangered
     #back_icon
       margin-left 13px
       height 50px

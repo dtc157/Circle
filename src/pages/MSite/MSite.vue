@@ -11,33 +11,20 @@
         </div>
       </div>
       <div id="box">
-        <div class="circle_join" @click="jumpCirclemain()">
+
+
+        <div class="circle_join" @click="jumpCirclemain(circle.clusterId)" v-for="(circle,clusterId) in circles">
           <div class="img_wrap">
             <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566229549207&di=521990d0053a919c638f80b335f110c6&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201707%2F19%2F20170719211350_4PnBt.jpeg">
           </div>
           <div class="circle_title">
-            <p>乌托邦官方</p>
-            <span>大同</span>
+            <p>{{circle.clusterName}}</p>
+            <span>{{circle.clusterComment}}</span>
           </div>
         </div>
-        <div class="circle_join">
-        <div class="img_wrap">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566824520&di=ce57e667b9a6f8a4acb773544ab31124&imgtype=jpg&er=1&src=http%3A%2F%2Fimg4q.duitang.com%2Fuploads%2Fitem%2F201507%2F07%2F20150707233018_YJsVW.jpeg">
-        </div>
-        <div class="circle_title">
-          <p>乌托邦官方</p>
-          <span>大同</span>
-        </div>
-      </div>
-        <div class="circle_join">
-        <div class="img_wrap">
-          <img src="">
-        </div>
-        <div class="circle_title">
-          <p>乌托邦官方</p>
-          <span>大同</span>
-        </div>
-      </div>
+
+
+
         <div class="circle_join1" @click="jumpAddCircle()">
           <div class="img_wrap">
             <i class="iconfont icon-jia"></i>
@@ -51,19 +38,42 @@
 </template>
 
 <script>
+  import Cookies from 'js-cookie'
   import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
     export default {
         name: "MSite",
       data(){
           return{
-            title:"圈圈"
+            title:"圈圈",
+            circles:[{}]
           }
 
       },
+      created(){
+          this.myCircleshow()
+      },
       methods:{
+          //初始化本用户所有的圈子
+          myCircleshow(){
+             let self=this
+            //得到登录的人的ID
+          const a= JSON.parse(Cookies.get('username')).userId
+            //根据ID查询圈子
+            let params ={userId:a}
+            const url = "http://10.96.127.250:8080/api/cluster/view";
+            this.$http.fetchGet(url,{params}).then(res => {
+              if(res.status==200){
+                self.circles =res.data[0].clusters
+                console.log(self.circles)
+              }else{
+                alert(res.msg)
+              }
+            })
+            //
+          },
           //跳转到圈子主页
-        jumpCirclemain(){
-          this.$router.push("/circlemain")
+        jumpCirclemain(clusterId){
+          this.$router.push({ name: "Circlemain", query: {clusterId:clusterId}})
         },
         //跳转到搜索页面
         jumpSearch(){
