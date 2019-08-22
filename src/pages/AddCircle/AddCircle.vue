@@ -41,10 +41,9 @@
       }
     },
       methods:{
-      back(){
-        this.$router.back(-1)
-      }
-
+        back(){
+          this.$router.back(-1)
+        }
       },
     components:{
       HeaderTop

@@ -93,6 +93,7 @@ export default new VueRouter({
         },
         {
             path: '/circlemain',
+            name:'Circlemain',
             component: Circlemain,
         },
         {

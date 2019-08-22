@@ -1,38 +1,37 @@
-/*
-ajax请求函数模块
-返回值：promise对象(异步返回的数据是：response.data)
- */
-import axios from 'axios'
-export default function ajax (url,data={},type='GET') {
-//高阶函数
-  return new Promise(function (resolve,reject) {
-  //执行异步ajax请求
-    let promise
-      if (type === 'GET') {
-      // 准备 url query 参数数据
-        let dataStr = '' //数据拼接字符串
-        Object.keys(data).forEach(key => {
-          dataStr += key + '=' + data[key] + '&'
-        })
-      if (dataStr !== '') {
-        dataStr = dataStr.substring(0, dataStr.lastIndexOf('&'))
-        url = url + '?' + dataStr
-      }
-    // 发送 get 请求
-      promise = axios.get(url)
-    } else {
-    // 发送 post 请求
-      promise = axios.post(url, data)
-    }
-    promise.then(function (response) {
-      //成功了调用resolve()
-      resolve(response.data)
-    }).catch (function (error) {
-      //失败了调用reject（）
-      reject(error)
-    })
-  })
-}
-// const response = await ajax()
-// const result = response.data()
-// const resule = await ajax()
+import axios from 'axios';
+ import qs from 'qs'
+import { MessageBox} from 'mint-ui'
+
+ // 注意点,按照以下写
+ var instance = axios.create();
+ instance.defaults.timeout = 10000;
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+ export default {
+      fetchGet(url, params = {}) {
+          return new Promise((resolve, reject) => {
+                axios.get(url, params).then(res => {
+                       if(res.data.code === 302) {
+                             MessageBox('提示', '登录失效,请重新登录');
+                            // MessageBox.alert('登录失效,请重新登录', '提示').then(action => {
+                            //        //router.push("/login");
+                            //    });
+                         }
+                       resolve(res.data);
+                  }).catch(error => {
+                      reject(error);
+                   })
+          })
+       },
+   fetchPost(url, params = {}) {
+
+  // 解决方案二：使用qs模块(axios中自带),使用qs.stringify()序列化params
+           return new Promise((resolve, reject) => {
+    axios.post(url, qs.stringify(params)).then(res => {
+                       resolve(res.data);
+                   }).catch(error => {
+                      reject(error);
+                   })
+             })
+       }
+ }
