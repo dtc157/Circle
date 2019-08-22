@@ -108,7 +108,7 @@ export default {
       this.$router.go(-1)
     }
   }
-  
+
 };
 </script>
 
@@ -130,7 +130,7 @@ export default {
     height 50px
     width 100%
     color white
-    background-color #74E149
+    background-color orangered
     #back_icon
       margin-left 13px
       height 50px
@@ -140,7 +140,6 @@ export default {
       height 50px
       line-height 50px
       font-size 19px
-      margin-left 50px
     #join
       font-size 13px
       margin-right 11px
