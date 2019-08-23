@@ -5,7 +5,7 @@
         <div class="header_title">
           <p>编辑内容<br><span>小华</span></p>
         </div>
-        <span class="send">发布</span>
+        <span class="send" @click="sendTopic()">发布</span>
       </header>
       <div class="choose_area" @click="Jumpchooseareas()">
         <div class="area_name">
@@ -15,8 +15,7 @@
         <i class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1"></i>
 
       </div>
-      <textarea placeholder="有什么新消息分享给大家...">
-        你好
+      <textarea placeholder="有什么新消息分享给大家..." v-model="content">
       </textarea>
       <footer>
         <div class="footer_item">
@@ -57,10 +56,37 @@
 </template>
 
 <script>
+  import Cookies from 'js-cookie'
     export default {
+      data(){
+        return{
+          content:""
+        }
+      },
       methods:{
+        //返回上一界面
         back(){
           this.$router.go(-1)
+        },
+        //发布动态话题
+        sendTopic(){
+          let self=this
+          const userId=JSON.parse(Cookies.get('username')).userId
+          const clusterId= this.$route.query.clusterId
+          const params={
+            userId:userId,
+            clusterId:clusterId,
+            content:self.content,
+          }
+          const url = "http://10.96.107.14:8080/api/topic/add";
+          this.$http.fetchGet(url,{params}).then(res => {
+            if(res.status==200){
+              console.log(res)
+              alert("创建成功")
+            }else{
+              alert(res.msg)
+            }
+          })
         },
         Jumpchooseareas(){
           this.$router.push("/chooseareas")

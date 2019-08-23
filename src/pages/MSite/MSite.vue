@@ -47,7 +47,6 @@
             title:"圈圈",
             circles:[{}]
           }
-
       },
       created(){
           this.myCircleshow()
@@ -69,7 +68,6 @@
                 alert(res.msg)
               }
             })
-            //
           },
           //跳转到圈子主页
         jumpCirclemain(clusterId){
@@ -84,7 +82,6 @@
         }
       },
       //跳转到添加页面
-
       components:{
         HeaderTop
       }

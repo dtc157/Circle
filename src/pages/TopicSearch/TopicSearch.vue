@@ -3,7 +3,8 @@
       <div class="search_wrap">
         <div class="content_search">
           <div class="iconfont icon-sousuo"> </div>
-          <input class="search2" placeholder="搜索话题或标签"  >
+          <input class="search2" placeholder="搜索话题或标签" @keydown="searchTopics($event)"
+                 v-model="message">
         </div>
         <span @click="back">取消</span>
       </div>
@@ -17,27 +18,12 @@
       <div class="topic_title">
         <p>话题</p>
       </div>
-      <div class="topic">
+      <div class="topic" v-for="(topic,index) in topics" :key="index"
+           @click="jumpRatingInfo(topic.topicId)">
         <div class="topic_content">
-          <p>你好！欢迎您参加雷圈的面试,我们将于19：00对您进行视频面试</p>
+          <p>{{topic.topicContent}}</p>
           <p class="topic_time">
-            05月13日·西西弗
-          </p>
-        </div>
-      </div>
-      <div class="topic">
-        <div class="topic_content">
-          <p>你好！欢迎您参加雷圈的面试,我们将于19：00对您进行视频面试</p>
-          <p class="topic_time">
-            05月13日·西西弗
-          </p>
-        </div>
-      </div>
-      <div class="topic">
-        <div class="topic_content">
-          <p>你好！欢迎您参加雷圈的面试,我们将于19：00对您进行视频面试</p>
-          <p class="topic_time">
-            05月13日·西西弗
+            {{topic.topicCreateTime}}·{{topic.user.userRealname}}
           </p>
         </div>
       </div>
@@ -46,10 +32,38 @@
 
 <script>
     export default {
+      data(){
+        return{
+          message: "",
+          topics:""
+        }
+      },
       methods:{
+        //返回上一页面
         back(){
           this.$router.back(-1)
-        }
+        },
+        //模糊搜索动态话题
+        searchTopics(ev){
+          let self =this
+          if(ev.keyCode == 13) {
+            const params={clusterId:this.$route.query.clusterId,message:this.message}
+            const url = "http://10.96.107.14:8080/api/topic/search";
+            this.$http.fetchGet(url,{params}).then(res => {
+              if(res.status==200){
+                //self.none=false
+                self.topics=res.data
+                console.log(self.topics)
+              }else{
+                alert(res.msg)
+              }
+            })
+          }
+        },
+        //跳转话题详情
+        jumpRatingInfo(topicId){
+          this.$router.replace({ name: "RatingInfo", query: {topicId:topicId}})
+        },
       }
     }
 </script>

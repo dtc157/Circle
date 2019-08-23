@@ -9,8 +9,8 @@
         <div class="userinfo">
           <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
           <div class="username">
-            <span>西西弗</span>
-            <p>昨天 9.50</p>
+            <span>{{topic.user.userRealname}}</span>
+            <p>{{topic.topicCreateTime}}</p>
           </div>
         </div>
         <div class="item_update">
@@ -19,9 +19,9 @@
       </div>
       <div class="wrap_content">
         <div class="item_content">
-          <p>小雷家的环境好极了，团队相处非常融洽，不信你来试试，每个人都很努力</p>
+          <p>{{topic.topicContent}}</p>
         </div>
-        <p class="time">最后修改时间：11.20</p>
+        <p class="time">最后修改时间：{{topic.topicCreateTime}}</p>
         <div class="item_operation">
           <div class="operation">
             <i class="iconfont  icon-dianzan "></i>
@@ -101,12 +101,30 @@
     export default {
     data(){
       return{
-        title:"雷圈"
+        title:"雷圈",
+        topic:""
       }
     },
+      created(){
+        this.topicDetail()
+      },
     methods:{
+      //返回上一页面
       back(){
         this.$router.go(-1)
+      },
+      //查询话题详情
+      topicDetail(){
+        let self=this
+        const params={topicId:this.$route.query.topicId}
+        const url = "http://10.96.107.14:8080/api/topic/viewByTid";
+        this.$http.fetchGet(url,{params}).then(res => {
+          if(res.status==200){
+            self.topic=res.data
+          }else{
+            alert(res.msg)
+          }
+        })
       }
     },
     components:{

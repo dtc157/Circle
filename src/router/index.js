@@ -27,6 +27,7 @@ import Conversation from '../pages/Conversation/Conversation.vue'
 import Setting from '../pages/Setting/Setting.vue'
 import toLogin from '../pages/toLogin/toLogin.vue'
 import Login from '../pages/Login/Login.vue'
+import NoteInfo from '../pages/NoteInfo/NoteInfo.vue'
 import Register1 from '../pages/Register/Register1.vue'
 import Register2 from '../pages/Register/Register2.vue'
 import Register3 from '../pages/Register/Register3.vue'
@@ -102,19 +103,28 @@ export default new VueRouter({
         },
         {
             path: '/ratinginfo',
+            name:'RatingInfo',
             component: RatingInfo,
         },
         {
             path: '/topicsearch',
+            name:'TopicSearch',
             component: TopicSearch,
         },
         {
             path: '/sendcontent',
+            name:'SendContent',
             component: SendContent,
-        }, ,
+        },
         {
             path: '/LookTopics',
+            name:'LookTopics',
             component: LookTopics,
+        },
+        {
+          path: '/noteinfo',
+          name:'NoteInfo',
+          component: NoteInfo,
         },
         {
             path: '/lookareas',
@@ -130,6 +140,7 @@ export default new VueRouter({
         },
         {
             path: '/joincircle',
+            name:"JoinCircle",
             component: JoinCircle,
         },
         // 我的收藏页面

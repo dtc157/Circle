@@ -1,27 +1,31 @@
 <template>
     <div id="looktopics">
-      <HeaderTop :title="title" style="background-color: orangered">
-        <span class="header_search" slot="left">
-          <i class="iconfont icon-zuo" @click="back()"></i>
-        </span>
-      </HeaderTop>
+      <header class="header3">
+        <i class="iconfont icon-zuo" @click="back()"></i>
+        <div class="header_title">
+          <p>公告</p>
+        </div>
+        <span class="send" v-if="istrue">发布</span>
+      </header>
       <div class="comments" >
-        <div class="comments_item" @click="jumpRatingInfo()">
+        <div class="comments_item"
+             v-for="(note,index) in notes" :key="index">
           <div class="item_master">
             <div class="userinfo">
               <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
               <div class="username">
-                <span>西西弗  <i class="iconfont icon-zhiding2"></i></span>
-                <p>昨天 9.50</p>
+                <span>{{note.user.userRealname}}&nbsp;<i class="iconfont icon-zhiding2"></i></span>
+                <p>{{note.user.noteCreateTime}}</p>
               </div>
             </div>
             <div class="item_update">
               <i class="iconfont icon-qitaxuanxiang"></i>
             </div>
           </div>
-          <div class="item_content">
-            <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
-            <p>小雷家的环境好极了，团队相处非常融洽，不信你来试试，每个人都很努力</p>
+          <div class="item_content" >
+            <!--<img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">-->
+            <p style="color: orangered"><i class="iconfont icon-xing1"></i> {{note.noteName}}</p>
+            <p>{{note.noteContent}}</p>
           </div>
           <div class="item_operation">
             <div class="operation">
@@ -106,10 +110,40 @@
     export default {
     data(){
       return{
-        title:"置顶"
+        title:"置顶",
+        notes:"",
+        istrue:""
       }
     },
+    created(){
+      this.queryNotes()
+      this.judjeRole()
+    },
       methods:{
+      //查询所有公告
+        queryNotes(){
+          let self=this
+          const params={clusterId:this.$route.query.clusterId}
+          const url = "http://10.96.107.14:8080/api/note/view";
+          this.$http.fetchGet(url,{params}).then(res => {
+            if(res.status==200){
+              self.notes=res.data
+              console.log(self.notes)
+            }else{
+              alert(res.msg)
+            }
+          })
+        },
+        //判断角色
+        judjeRole(){
+          const a=this.$route.query.role
+          if(a=="圈主"){
+              this.istrue=true
+          }else{
+            this.istrue=false
+          }
+        },
+      //返回上一页面
         back(){
           this.$router.go(-1)
         }
@@ -123,7 +157,43 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/sylus/mixins.styl"
   #looktopics
-    .comments
+    .header3
+      position fixed
+      display flex
+      color:#fff
+      background-color orangered
+      justify-content space-between
+      box-sizing border-box
+      padding 10px
+      z-index 100
+      left 0
+      top 0
+      width 100%
+      height 50px
+      i
+        margin-top 8px
+      .send
+        margin-top 8px
+        font-size 14px
+        margin-right 10px
+      bottom-border-1px(#e5e5e5)
+      .header_title
+        position absolute
+        top 50%
+        left 50%
+        transform translateX(-30%) translateY(-50%)
+        display flex
+        line-height 18px
+        align-items center
+        flex-direction column
+        font-size 18px
+        span,p
+          text-align center
+          span
+            color #fff
+            font-size 14px
+
+  .comments
       display flex
       flex-direction column
       .comments_item

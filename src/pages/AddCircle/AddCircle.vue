@@ -5,11 +5,11 @@
             <i class="iconfont icon-zuo"></i>
           </span>
           <span class="header_login" slot="right">
-          <span class="header_login_text">完成</span>
+          <span class="header_login_text" @click="createCircle">完成</span>
         </span>
         </HeaderTop>
       <div class="body">
-        <input type="text" class="text" placeholder="输入圈子名称">
+        <input type="text" class="text" placeholder="输入圈子名称" v-model="circlename">
         <div class="header_img">
           <div class="content">
             <i class="iconfont icon-xiangji"></i>
@@ -34,15 +34,39 @@
 
 <script>
   import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
+  import Cookies from 'js-cookie'
     export default {
     data(){
       return{
-        title:"创建乌托邦"
+        title:"创建乌托邦",
+        circlename:""
       }
     },
       methods:{
+      //返回上一页面
         back(){
           this.$router.back(-1)
+        },
+        //创建圈子
+        createCircle(){
+          const a= JSON.parse(Cookies.get('username')).userId
+          let params ={
+            clusterName:this.circlename,
+            clusterComment:"暂无描述",
+            clusterCreateById:a,
+            clusterAdd:0,
+            clusterPassword:"",
+            clusterIcon:"http://pic30.nipic.com/20130619/9885883_210838271000_2.jpg",
+          }
+          const url = "http://10.96.127.250:8080/api/cluster/add";
+          this.$http.fetchGet(url,{params}).then(res => {
+            if(res.status==200){
+              alert("创建成功")
+              this.$router.push("/msite")
+            }else{
+              alert(res.msg)
+            }
+          })
         }
       },
     components:{

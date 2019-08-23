@@ -3,49 +3,103 @@
       <div class="search_wrap">
         <div class="content_search">
           <div class="iconfont icon-sousuo"> </div>
-          <input class="search2" placeholder="发现乌托邦"  >
+          <!--<form @submit.prevent="formSubmit" action="javascript:return true">-->
+            <input class="search2" placeholder="请输入圈名/圈名关键字" @keydown="searchCircle($event)"
+                   v-model="searchName">
+          <!--</form>-->
         </div>
         <span @click="back">取消</span>
       </div>
-      <div class="content_wrap">
-        <p class="recommended">推荐乌托邦</p>
+      <div class="content_wrap" v-if="none">
+        <p class="recommended" v-if="!searchName">推荐乌托邦</p>
         <ul>
-          <li class="content_item" @click="jumpJoinCircle">
+          <li class="content_item" @click="jumpJoinCircle(item.clusterId)" v-for="(item,index) in lists" :key="index">
             <div class="img">
               <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566235049785&di=4ab364f229bd0517ac2e43a4dd10472d&imgtype=0&src=http%3A%2F%2Fthumb.1010pic.com%2Fpic10%2Fallimg%2F201601%2F3951-1601211A012A1.jpg">
             </div>
             <div class="content">
-              <p class="title">小雷家大队</p>
+              <p class="title">{{item.clusterName}}</p>
               <p class="introduce">免费：吹牛逼.打广告.专业大小锤.三陪服务</p>
               <p class="sort">拆迁大队·成员 N</p>
             </div>
           </li>
-          <li class="content_item">
-            <div class="img">
-              <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566235049785&di=4ab364f229bd0517ac2e43a4dd10472d&imgtype=0&src=http%3A%2F%2Fthumb.1010pic.com%2Fpic10%2Fallimg%2F201601%2F3951-1601211A012A1.jpg">
-            </div>
-            <div class="content">
-              <p class="title">小雷家大队</p>
-              <span class="introduce">免费：吹牛逼.打广告.专业大小锤.三陪服务</span>
-              <span class="sort">拆迁大队·成员 N</span>
-            </div>
-          </li>
         </ul>
-
+      </div>
+      <div class="content_wrap" v-else>
+        <p>暂无此圈</p>
       </div>
     </div>
 </template>
 
 <script>
+  import Cookies from 'js-cookie'
     export default {
+      data(){
+        return{
+          lists:"",
+          searchName:"",
+          none:true
+        }
+      },
+      created(){
+        this.recommendCircle();
+      },
       methods:{
+        searchCircle(ev){
+          let self =this
+          if(ev.keyCode == 13) {  //键盘回车的编码是13
+            const params={clusterName:self.searchName}
+            const url = "http://10.96.127.250:8080/api/cluster/obscure";
+            this.$http.fetchGet(url,{params}).then(res => {
+              if(res.status==200){
+                //self.none=false
+                self.lists=res.data
+                console.log(self.lists)
+              }else{
+                alert(res.msg)
+              }
+            })
+          }
+        },
         back(){
           this.$router.back(-1)
         },
-        jumpJoinCircle(){
-          this.$router.push("joincircle")
+        //跳转加入圈子页面
+        jumpJoinCircle(clusterId){
+          //判断当前用户是否加入过此圈
+          let self=this
+          const a= JSON.parse(Cookies.get('username')).userId
+          const params={ucClusterId:clusterId,ucUserId:a}
+          console.log(params)
+            const url = "http://10.96.127.250:8080/api/cluster/addcluster";
+            this.$http.fetchGet(url,{params}).then(res => {
+              if(res.status==200){
+                console.log(res)
+                if(res.data==1){
+                  this.$router.push({name:"Circlemain",query:{clusterId:clusterId}})
+                }else{
+                  this.$router.push({name:"JoinCircle",query: {clusterId:clusterId}})
+                }
+                self.role=res.msg
+                console.log(self.role)
+              }else{
+                alert(res.msg)
+              }
+            })
+        },
+        //搜索圈子
+        recommendCircle() {
+          let self =this
+          const url = "http://10.96.127.250:8080/api/cluster/allview";
+          this.$http.fetchGet(url).then(res => {
+            if (res.status == 200) {
+              self.lists = res.data
+              console.log(self.lists)
+            } else {
+              alert(res.msg)
+            }
+          })
         }
-
       }
     }
 </script>

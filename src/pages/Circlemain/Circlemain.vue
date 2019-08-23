@@ -15,12 +15,12 @@
         <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566229549207&di=521990d0053a919c638f80b335f110c6&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201707%2F19%2F20170719211350_4PnBt.jpeg">
       </div>
       <div class="circle_title">
-          <span class="title">少儿郎</span>
+          <span class="title">{{list.clusterName}}</span>
           <p class="group_people">10个成员 邀请<i class="iconfont icon-jia"></i></p>
           <div class="user_info">
             <div class="user" >
               <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379173402&di=9eb4b5a0175c1593be5b8fd03ca78edd&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201604%2F02%2F20160402161853_ZQWhz.thumb.700_0.jpeg">
-              <span class="username">西西弗</span>
+              <span class="username">{{user.userRealname}}({{role}})</span>
             </div>
             <div class="signin " >
               <i class="iconfont icon-xiezi"></i>
@@ -36,15 +36,14 @@
         <div class="stick">
          <div class="stick_left">
            <i class="iconfont icon-zhiding1"></i>
-           <span>置顶</span>
+           <span>公告</span>
          </div>
           <div class="stick_right" @click="jumpLookTopics">
-            <span>查看全部2</span>
+            <span>查看全部{{notes.length}}</span>
             <i class="iconfont icon-range-left"></i>
           </div>
         </div>
-        <p class="stick_content"><i class="iconfont icon-xing"></i> 小雷家大队招募成员啦！！！有意向的快来加入我们吧</p>
-        <p class="stick_content"> <i class="iconfont icon-xingzuhe"></i>小雷家大队招募成员啦！！！有意向的快来加入我们吧</p>
+        <p class="stick_content" v-for="(note,index) in notes" :key="index"><i class="iconfont icon-xing"></i>&nbsp;&nbsp;{{note.noteName}}:{{note.noteContent}}</p>
       </div>
       <div class="all_area">
         <div class="area_title">
@@ -90,13 +89,13 @@
       </div>
       <div >
         <div class="comments" >
-          <div class="comments_item" @click="jumpRatingInfo()">
+          <div class="comments_item" @click="jumpRatingInfo(topic.topicId)" v-for="(topic,index) in topics" :key="index">
             <div class="item_master">
               <div class="userinfo">
-                <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379173402&di=9eb4b5a0175c1593be5b8fd03ca78edd&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201604%2F02%2F20160402161853_ZQWhz.thumb.700_0.jpeg">
+                <img :src="'http://10.96.107.14:8080/static/'+topic.user.userPhoto">
                 <div class="username">
-                  <span>西西弗</span>
-                  <p>昨天 9.50</p>
+                  <span>{{topic.user.userRealname}}</span>
+                  <p>{{topic.topicCreateTime}}</p>
                 </div>
               </div>
               <div class="item_update">
@@ -104,53 +103,8 @@
               </div>
             </div>
             <div class="item_content">
-              <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379001016&di=39b7ed8e1f893c8ef7e9bd0f31ee1f52&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201504%2F13%2F20150413H5949_CWaPL.thumb.700_0.jpeg">
-              <p>小雷家的环境好极了，团队相处非常融洽，不信你来试试，每个人都很努力</p>
-            </div>
-            <div class="item_operation">
-              <div class="operation">
-                <i class="iconfont  icon-dianzan on"></i>
-                <span>6</span>
-              </div>
-              <div class="operation">
-                <i class="iconfont icon-xiaoxi"></i>
-                <span>21</span>
-              </div>
-              <div class="operation">
-                <i class="iconfont icon-yixianshi-"></i>
-                <span>收藏</span>
-              </div>
-              <div class="operation">
-                <i class="iconfont icon-fenxiang"></i>
-                <span>分享</span>
-              </div>
-            </div>
-            <div class="item_rating">
-              <p> <span>你</span> 回复 <span>wo</span>:
-                sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-              </p>
-            </div>
-            <div class="item_rating">
-              <p> <span>你</span>:
-                sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-              </p>
-            </div>
-          </div>
-          <div class="comments_item" @click="jumpRatingInfo()">
-            <div class="item_master">
-              <div class="userinfo">
-                <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
-                <div class="username">
-                  <span>西西弗</span>
-                  <p>昨天 9.50</p>
-                </div>
-              </div>
-              <div class="item_update">
-                <i class="iconfont icon-qitaxuanxiang"></i>
-              </div>
-            </div>
-            <div class="item_content">
-              <p>小雷家的环境好极了，团队相处非常融洽，不信你来试试，每个人都很努力</p>
+              <!--<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379001016&di=39b7ed8e1f893c8ef7e9bd0f31ee1f52&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201504%2F13%2F20150413H5949_CWaPL.thumb.700_0.jpeg">-->
+              <p>{{topic.topicContent}}</p>
             </div>
             <div class="item_operation">
               <div class="operation">
@@ -193,51 +147,108 @@
     </div>
 </template>
 <script>
+  import Cookies from 'js-cookie'
     export default {
       name:"circlemain",
       data(){
         return{
-          list:""
+          list:"",
+          user:"",
+          topics:"",
+          role:"",
+          notes:""
         }
       },
       created(){
-        this.circleDetails()
-        console.log(this.$route.query.clusterId)
+        //初始化圈详情
+        this.circleDetails(),
+          //初始化圈话题
+          this.circletopic(),
+          //初始化圈角色
+          this.judgeRole(),
+          this.queryNotes()
       },
       methods:{
         //根据圈id查询圈子详情
         circleDetails(){
+          //获取本用户信息
+          this.user= JSON.parse(Cookies.get('username'))
+          //console.log(this.user)
           let self=this
           const params={clusterId:this.$route.query.clusterId}
           const url = "http://10.96.127.250:8080/api/cluster/details";
           this.$http.fetchGet(url,{params}).then(res => {
             if(res.status==200){
-              self.list=res.data
-              console.log(self.list)
+              self.list=res.data[0]
             }else{
               alert(res.msg)
             }
           })
         },
+        //查询圈子动态话题
+          circletopic(){
+            let self=this
+            const params={clusterId:this.$route.query.clusterId}
+            const url = "http://10.96.107.14:8080/api/topic/view";
+            this.$http.fetchGet(url,{params}).then(res => {
+              if(res.status==200){
+                self.topics=res.data
+              }else{
+                alert(res.msg)
+              }
+            })
+          },
+        //判断当前用户进入圈子的角色
+        judgeRole(){
+          let self=this
+          const params={clusterId:this.$route.query.clusterId,userId:this.user.userId}
+          const url = "http://10.96.127.250:8080//api/cluster/Judg";
+          this.$http.fetchGet(url,{params}).then(res => {
+            if(res.status==200){
+              self.role=res.msg
+              console.log(self.role)
+            }else{
+              alert(res.msg)
+            }
+          })
+         },
+        //查询当前圈子的公告
+        queryNotes(){
+          let self=this
+          const params={clusterId:this.$route.query.clusterId}
+          const url = "http://10.96.107.14:8080/api/note/view";
+          this.$http.fetchGet(url,{params}).then(res => {
+            if(res.status==200){
+              self.notes=res.data
+              console.log(self.notes)
+            }else{
+              alert(res.msg)
+            }
+          })
+        },
+
         //回到上一页面
         back(){
           this.$router.go(-1)
         },
         //跳转评论详情
-        jumpRatingInfo(){
-          this.$router.push("/ratinginfo")
+        jumpRatingInfo(topicId){
+          this.$router.push({ name: "RatingInfo", query: {topicId:topicId}})
         },
         //跳转话题搜索
         jumpTopcSearch(){
-          this.$router.push("/topicsearch")
+          this.$router.push({ name: "TopicSearch", query: {clusterId:this.$route.query.clusterId}})
         },
         //跳转内容发布
         jumpSendContent(){
-          this.$router.push("/sendcontent")
+          this.$router.push({ name: "SendContent", query: {clusterId:this.$route.query.clusterId}})
         },
         //跳转查看全部置顶
         jumpLookTopics(){
-          this.$router.push("/looktopics")
+          let b=this
+          this.$router.push({name:"LookTopics",query: {
+            clusterId:this.$route.query.clusterId,
+            role:this.role}})
         },
         //跳转查看分区详情
         jumpLookareas(){
