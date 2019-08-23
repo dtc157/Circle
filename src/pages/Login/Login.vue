@@ -38,7 +38,7 @@ export default {
   methods: {
     //登录
     async login1() {
-      const url = "http://10.96.116.148:8080/api/user/login";
+      const url = "http://10.96.122.34:8080/api/user/login";
       const { userName, userPassword } = this;
       this.$http
         .fetchPost(url, { username: userName, password: userPassword })

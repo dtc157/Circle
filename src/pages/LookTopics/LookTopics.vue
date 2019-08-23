@@ -5,7 +5,7 @@
         <div class="header_title">
           <p>公告</p>
         </div>
-        <span class="send" v-if="istrue">发布</span>
+        <span class="send" v-if="istrue" @click="jumpto">发布</span>
       </header>
       <div class="comments" >
         <div class="comments_item"
@@ -27,36 +27,8 @@
             <p style="color: orangered"><i class="iconfont icon-xing1"></i> {{note.noteName}}</p>
             <p>{{note.noteContent}}</p>
           </div>
-          <div class="item_operation">
-            <div class="operation">
-              <i class="iconfont  icon-dianzan on"></i>
-              <span>6</span>
-            </div>
-            <div class="operation">
-              <i class="iconfont icon-xiaoxi"></i>
-              <span>21</span>
-            </div>
-            <div class="operation">
-              <i class="iconfont icon-yixianshi-"></i>
-              <span>收藏</span>
-            </div>
-            <div class="operation">
-              <i class="iconfont icon-fenxiang"></i>
-              <span>分享</span>
-            </div>
-          </div>
-          <div class="item_rating">
-            <p> <span>你</span> 回复 <span>wo</span>:
-              sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-            </p>
-          </div>
-          <div class="item_rating">
-            <p> <span>你</span>:
-              sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-            </p>
-          </div>
         </div>
-        <div class="comments_item" @click="jumpRatingInfo()">
+        <!-- <div class="comments_item" @click="jumpRatingInfo()">
           <div class="item_master">
             <div class="userinfo">
               <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
@@ -100,7 +72,7 @@
               sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 </template>
@@ -146,6 +118,9 @@
       //返回上一页面
         back(){
           this.$router.go(-1)
+        },
+        jumpto(){
+          this.$router.push({name:'publishNotice',query:{clusterId:this.$route.query.clusterId}})
         }
       },
     components:{

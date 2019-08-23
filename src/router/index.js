@@ -33,7 +33,8 @@ import Register2 from '../pages/Register/Register2.vue'
 import Register3 from '../pages/Register/Register3.vue'
 import loginTest from '../pages/toLogin/toLogin.vue'
 import Register0 from '../pages/Register/Register0.vue'
-import NickName from "../pages/NickName/NickName";
+import NickName from "../pages/NickName/NickName"
+import publishNotice from '../pages/LookTopics/publishNotice.vue'
 
 // const MSite = () => import('../pages/MSite/MSite.vue')
 // const Search = () => import('../pages/Search/Search.vue')
@@ -127,6 +128,11 @@ export default new VueRouter({
             path: '/LookTopics',
             name: 'LookTopics',
             component: LookTopics,
+        },
+        {
+            path: '/publishNotice',
+            name: 'publishNotice',
+            component: publishNotice,
         },
         {
             path: '/noteinfo',

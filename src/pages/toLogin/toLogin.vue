@@ -1,5 +1,8 @@
 <template>
   <div id="container">
+    <div class="icon">
+      <img src="../../assets/photo/login.png">
+    </div>
     <router-link to="/Login">
       <button class="btn login">账号登录</button>
     </router-link>
@@ -20,6 +23,14 @@ export default {};
 <style lang="stylus" rel="stylesheet/stylus">
 #container
   width 100%
+  overflow hidden
+  .icon
+    position absolute
+    width 80%
+    top 100px
+    left 10%
+    img 
+     width 100%
   .btn
     position absolute
     height 50px

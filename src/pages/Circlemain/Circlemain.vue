@@ -550,6 +550,7 @@ export default {
         align-items center
         -webkit-align-items center
         .operation
+          height 20px
           line-height 20px
           #col
            font-size 23px

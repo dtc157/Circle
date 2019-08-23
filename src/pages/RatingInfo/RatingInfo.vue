@@ -29,7 +29,7 @@
           </div>
           <div class="operation">
             <i class="iconfont icon-xiaoxi"></i>
-            <span>21</span>
+            <span>{{topic.comments.length}}</span>
           </div>
           <div class="operation">
             <i class="iconfont icon-yixianshi-"></i>
@@ -54,13 +54,13 @@
         </div>
       </div>
       <div class="comment_container">
-        <div class="comment_main">
+        <div class="comment_main" v-for="(topicComments,index) in topic.comments" :key="index">
           <div class="comment_head">
             <div class="head_container">
               <div class="head_picture"></div>
               <div class="head_message">
-                <div class="username">3号测试员工</div>
-                <div class="time">11:53</div>
+                <div class="username">{{topicComments.user.userRealname}}</div>
+                <div class="time">{{topicComments.commentCreateTime}}</div>
               </div>
             </div>
             <div class="option">
@@ -69,10 +69,10 @@
               <i class="iconfont icon-dianzan2"></i>
             </div>
           </div>
-          <div class="comment_content">评论</div>
+          <div class="comment_content">{{topicComments.commentContent}}</div>
         </div>
         <!-- 评论测试2 -->
-        <div class="comment_main">
+        <!-- <div class="comment_main">
           <div class="comment_head">
             <div class="head_container">
               <div class="head_picture"></div>
@@ -88,7 +88,7 @@
             </div>
           </div>
           <div class="comment_content">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</div>
-        </div>
+        </div> -->
       </div>
       <footer class="footer">
         <input type="text" placeholder="说点什么">
