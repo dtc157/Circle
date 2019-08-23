@@ -8,6 +8,7 @@ import http from './api/ajax';
 import axios from 'axios'
 import qs from 'qs'
 
+
 Vue.prototype.$http =http
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs

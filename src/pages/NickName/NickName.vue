@@ -34,7 +34,7 @@
         this.$http.fetchGet('http://10.96.122.34:8080/api/user/update',
           {
             params:{
-            userId:self.userId,userName:self.nickName
+              userId:self.userId,userName:self.nickName
             }
           }).then(res=>{
           if(res.status==200){
@@ -70,7 +70,6 @@
       .nickname-left
         margin-right 5%
         margin-top 14px
-
     .nickname-content
       width 100%
       height 40px
@@ -86,6 +85,7 @@
         width 8%
         margin-top 10px
         margin-right 6%
+        height 40px
         .iconfont
           font-size 20px
           color #7e8c8d

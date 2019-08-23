@@ -34,6 +34,9 @@ import Register3 from '../pages/Register/Register3.vue'
 import loginTest from '../pages/toLogin/toLogin.vue'
 import Register0 from '../pages/Register/Register0.vue'
 import NickName from "../pages/NickName/NickName"
+import Files from "../pages/Files/File"
+import MemberMain from "../pages/MemberMain/MemberMain"
+import PhotoPages from "../pages/PhotoPages/PhotoPages"
 import publishNotice from '../pages/LookTopics/publishNotice.vue'
 
 // const MSite = () => import('../pages/MSite/MSite.vue')
@@ -87,9 +90,16 @@ export default new VueRouter({
                 showFooter: true
             }
         },
+        //用户详情页
         {
             path: '/userinfo',
             component: UserInfo,
+        },
+        //成员主页
+        {
+          path: '/membermain',
+          name:'MemberMain',
+          component: MemberMain,
         },
         //昵称修改页面
         {
@@ -141,14 +151,17 @@ export default new VueRouter({
         },
         {
             path: '/lookareas',
+            name: Lookareas,
             component: Lookareas,
         },
         {
             path: '/chooseareas',
+            name: Chooseareas,
             component: Chooseareas,
         },
         {
             path: '/circleinfo',
+            name: "CircleInfo",
             component: CircleInfo,
         },
         {
@@ -156,10 +169,16 @@ export default new VueRouter({
             name: "JoinCircle",
             component: JoinCircle,
         },
-
+        //照片详情页
+        {
+          path: '/photopages',
+          name: "PhotoPages",
+          component: PhotoPages,
+        },
         // 我的收藏页面
         {
             path: '/Collection',
+            name:'Collection',
             component: Collection
         },
         // 话题页面
@@ -170,6 +189,7 @@ export default new VueRouter({
         // 推送设置页面
         {
             path: '/Setting',
+            name:'Setting',
             component: Setting
         },
         // 进入登录页面
@@ -221,7 +241,11 @@ export default new VueRouter({
         {
             path: '/Register3',
             component: Register3
+        },
+        //文件
+        {
+          path: '/files',
+          component: Files
         }
-
     ]
 })

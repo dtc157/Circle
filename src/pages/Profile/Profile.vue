@@ -2,7 +2,7 @@
   <div class="profile">
     <router-link to="/userinfo" class="profile-link">
       <div class="profile-images">
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566366732063&di=9a9b20ec73aa3b1f48ad268ad4c3d514&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4c7811030d895c5d40b799d4db5b1e13077370e58bff-9hnxpe_fw658" class="profile_image">
+        <img :src="'http://10.96.122.34:8080/static/'+userPhoto" class="profile_image">
       </div>
       <div class="user">
         <div class="user-info">
@@ -111,14 +111,24 @@
   export default {
     data(){
       return{
-        nickName:JSON.parse(Cookies.get('username')).userName
+        userId:JSON.parse(Cookies.get('username')).userId,
+        nickName:'',
+        userPhoto:''
       }
     },
     created(){
-        console.log(JSON.parse(Cookies.get('username')))
+      this.reqUserinfo()
     },
     methods:{
-
+      reqUserinfo(){
+        let self=this
+        this.$http.fetchPost('http://10.96.122.34:8080/api/user/ById',{userId:self.userId}).then(res=>{
+          if(res.status==200){
+            self.nickName=res.data.userName
+            self.userPhoto=res.data.userPhoto
+          }
+        })
+      },
       //跳转我的收藏
       JumpCollection(){
         this.$router.push("/Collection")

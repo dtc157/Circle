@@ -71,31 +71,13 @@
           <img
             src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg"
           />
-          <p>社长报道</p>
+          <p>文件</p>
         </div>
         <div class="box_item">
           <img
             src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg"
           />
-          <p>社长报道</p>
-        </div>
-        <div class="box_item">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg"
-          />
-          <p>社长报道</p>
-        </div>
-        <div class="box_item">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg"
-          />
-          <p>社长报道</p>
-        </div>
-        <div class="box_item">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg"
-          />
-          <p>社长报道</p>
+          <p>照片</p>
         </div>
         <div class="box_item">
           <img
