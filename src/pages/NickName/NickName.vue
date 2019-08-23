@@ -5,10 +5,10 @@
         <i class="iconfont icon-xiangzuo"></i>
       </div>
       <div class="nickname-title">昵称</div>
-      <div class="nickname-left">完成</div>
+      <div class="nickname-left" @click="editNickName()">完成</div>
     </div>
     <div class="nickname-content">
-      <input type="text" v-model="nickname">
+      <input type="text" v-model="nickName">
       <div class="nickname-icon" @click="removeInput()">
         <i class="iconfont icon-cuowu"></i>
       </div>
@@ -17,21 +17,36 @@
 </template>
 
 <script>
+  import Cookies from 'vue-cookie'
   export default {
     data(){
       return{
-        nickname:''
+        nickName:'',
+        userId:JSON.parse(Cookies.get('username')).userId
       }
     },
     created(){
       this.toGetNick()
     },
     methods:{
+      editNickName(){
+        let self=this
+        this.$http.fetchGet('http://10.96.122.34:8080/api/user/update',
+          {
+            params:{
+            userId:self.userId,userName:self.nickName
+            }
+          }).then(res=>{
+          if(res.status==200){
+            self.$router.push('/userinfo')
+          }
+        })
+      },
       toGetNick(){
-        this.nickname=this.$route.query.nickname
+        this.nickName=this.$route.query.nickName
       },
       removeInput(){
-        this.nickname=''
+        this.nickName=''
       }
     }
   }

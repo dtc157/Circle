@@ -1,9 +1,9 @@
 <template>
   <div id="container">
     <router-link to="/Login">
-      <button class="btn login">账号/短信验证登录</button>
+      <button class="btn login">账号登录</button>
     </router-link>
-    <router-link to="/Register1">
+    <router-link to="/Register0">
       <button class="btn register">注册</button>
     </router-link>
     <div class="remind">

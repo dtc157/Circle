@@ -10,7 +10,7 @@
         <div class="userinfo-items">
           <div class="head-img">头像</div>
           <div class="userinfo-images">
-            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566366732063&di=9a9b20ec73aa3b1f48ad268ad4c3d514&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F4c7811030d895c5d40b799d4db5b1e13077370e58bff-9hnxpe_fw658" class="userinfo_image">
+            <img src="http://10.96.122.34:8080/static/" class="userinfo_image">
             <div class="arrow">
               <i class="iconfont icon-range-left"></i>
             </div>
@@ -20,7 +20,7 @@
           <div class="head-img" >昵称</div>
           <div>
             <div class="arrow">
-              <div class="userinfo-left">{{nickname}}</div>
+              <div class="userinfo-left">{{nickName}}</div>
               <div class="userinfo-right">
                 <i class="iconfont icon-range-left"></i>
               </div>
@@ -29,32 +29,22 @@
         </div>
         <div class="userinfo-items">
           <div class="head-img">真实姓名</div>
-          <div class="userinfo-right2">ls</div>
+          <div class="userinfo-right2">{{userRealname}}</div>
         </div>
         <div class="userinfo-items">
           <div class="head-img">身份证号</div>
-          <div class="userinfo-right2">909404</div>
+          <div class="userinfo-right2">{{userCardId}}</div>
         </div>
         <div class="userinfo-items">
           <div class="head-img">ID</div>
-          <div class="userinfo-right2">909404</div>
+          <div class="userinfo-right2">{{userId}}</div>
         </div>
         <div class="userinfo-items">
           <div class="head-img">手机号</div>
+
           <div>
             <div class="arrow">
-              <div class="userinfo-left">151****1870</div>
-              <div class="userinfo-right">
-                <i class="iconfont icon-range-left"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="userinfo-items">
-          <div class="head-img">微信</div>
-          <div>
-            <div class="arrow">
-              <div class="userinfo-left">已绑定</div>
+              <div class="userinfo-left">{{userMobile}}</div>
               <div class="userinfo-right">
                 <i class="iconfont icon-range-left"></i>
               </div>
@@ -69,21 +59,46 @@
 </template>
 
 <script>
+  import Cookies from 'vue-cookie'
     export default {
       data(){
         return{
-         nickname: '辣辣'
+          phoneNumber: true,
+          userId:JSON.parse(Cookies.get('username')).userId,
+          nickName:'',
+          userRealname:'',
+          userCardId:'',
+          userMobile:''
         }
       },
+      created(){
+        this.reqUserinfo()
+      },
       methods: {
+        reqUserinfo(){
+          let self=this
+          this.$http.fetchPost('http://10.96.122.34:8080/api/user/ById',{userId:self.userId}).then(res=>{
+            if(res.status==200){
+              self.userMobile=res.data.userMobile
+              self.userCardId=res.data.userCardId
+              self.userRealname=res.data.userRealname
+              self.nickName=res.data.userName
+            }
+          })
+        },
         Logout(){
-          this.$router.replace("/toLogin")
+          let self=this
+          this.$http.fetchPost('http://10.96.116.148:8080/api/user/logout').then(res=>{
+            if(res.status==200){
+              self.$router.replace("/toLogin")
+            }
+          })
         },
         toNickName(){
           this.$router.push({
             path:"/nickname",
             query:{
-              nickname:this.nickname
+              nickName:this.nickName
             }
           })
         }

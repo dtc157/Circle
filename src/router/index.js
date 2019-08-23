@@ -32,6 +32,8 @@ import Register1 from '../pages/Register/Register1.vue'
 import Register2 from '../pages/Register/Register2.vue'
 import Register3 from '../pages/Register/Register3.vue'
 import loginTest from '../pages/toLogin/toLogin.vue'
+import Register0 from '../pages/Register/Register0.vue'
+import NickName from "../pages/NickName/NickName";
 
 // const MSite = () => import('../pages/MSite/MSite.vue')
 // const Search = () => import('../pages/Search/Search.vue')
@@ -53,7 +55,7 @@ export default new VueRouter({
             path: '/',
             component: toLogin,
             meta: {
-                showFooter: true
+                showFooter: false
             }
         },
         {
@@ -88,13 +90,18 @@ export default new VueRouter({
             path: '/userinfo',
             component: UserInfo,
         },
+        //昵称修改页面
+        {
+            path: '/nickname',
+            component: NickName,
+        },
         {
             path: '/search',
             component: Search,
         },
         {
             path: '/circlemain',
-            name:'Circlemain',
+            name: 'Circlemain',
             component: Circlemain,
         },
         {
@@ -103,28 +110,28 @@ export default new VueRouter({
         },
         {
             path: '/ratinginfo',
-            name:'RatingInfo',
+            name: 'RatingInfo',
             component: RatingInfo,
         },
         {
             path: '/topicsearch',
-            name:'TopicSearch',
+            name: 'TopicSearch',
             component: TopicSearch,
         },
         {
             path: '/sendcontent',
-            name:'SendContent',
+            name: 'SendContent',
             component: SendContent,
         },
         {
             path: '/LookTopics',
-            name:'LookTopics',
+            name: 'LookTopics',
             component: LookTopics,
         },
         {
-          path: '/noteinfo',
-          name:'NoteInfo',
-          component: NoteInfo,
+            path: '/noteinfo',
+            name: 'NoteInfo',
+            component: NoteInfo,
         },
         {
             path: '/lookareas',
@@ -140,9 +147,10 @@ export default new VueRouter({
         },
         {
             path: '/joincircle',
-            name:"JoinCircle",
+            name: "JoinCircle",
             component: JoinCircle,
         },
+
         // 我的收藏页面
         {
             path: '/Collection',
@@ -161,12 +169,16 @@ export default new VueRouter({
         // 进入登录页面
         {
             path: '/toLogin',
-            component: toLogin
+            component: toLogin,
+            meta: {
+                showFooter: false
+            }
         },
         // 登录界面
         {
             path: '/Login',
-            component: Login
+            component: Login,
+
         },
         // 登录界面2
         {
@@ -183,6 +195,11 @@ export default new VueRouter({
                 component: loginTest
             }]
 
+        },
+        // 注册页面1
+        {
+            path: '/Register0',
+            component: Register0
         },
         // 注册页面1
         {

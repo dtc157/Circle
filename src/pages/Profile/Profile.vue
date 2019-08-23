@@ -6,7 +6,7 @@
       </div>
       <div class="user">
         <div class="user-info">
-          <p class="user-info-top">辣辣</p>
+          <p class="user-info-top">{{nickName}}</p>
           <p class="user-info-top2">账号信息</p>
         </div>
         <div class="arrow">
@@ -107,17 +107,27 @@
 </template>
 
 <script>
+  import Cookies from 'vue-cookie'
   export default {
-      methods:{
-        //跳转我的收藏
-        JumpCollection(){
-          this.$router.push("/Collection")
-        },
-        //跳转我的话题
-        JumpConversation(){
-          this.$router.push("/Conversation")
-        }
+    data(){
+      return{
+        nickName:JSON.parse(Cookies.get('username')).userName
       }
+    },
+    created(){
+        console.log(JSON.parse(Cookies.get('username')))
+    },
+    methods:{
+
+      //跳转我的收藏
+      JumpCollection(){
+        this.$router.push("/Collection")
+      },
+      //跳转我的话题
+      JumpConversation(){
+        this.$router.push("/Conversation")
+      }
+    }
   }
 </script>
 
