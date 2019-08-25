@@ -1,57 +1,19 @@
 <template>
     <div id="sendcontent">
-      <header class="header">
+      <header class="sendcontent_header">
         <i class="iconfont icon-zuo" @click="back()"></i>
         <div class="header_title">
-          <p>编辑内容<br><span>小华</span></p>
+          <p>发动态</p>
         </div>
-        <span class="send" @click="sendTopic()">发布</span>
       </header>
-      <div class="choose_area" @click="Jumpchooseareas()">
-        <div class="area_name">
-          <i class="iconfont icon-shouye-fenlei"></i>
-          <span>选择分区</span>
-        </div>
-        <i class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1"></i>
-
-      </div>
       <textarea placeholder="有什么新消息分享给大家..." v-model="content">
       </textarea>
-      <footer>
-        <div class="footer_item">
-          <i class="iconfont icon-tupian"></i>
-          <span>图片</span>
-        </div>
-        <i class="iconfont icon-wenjian"></i>
-        <i class="iconfont icon-lianjie"></i>
-        <i class="iconfont icon-xian-buguize-tiji"></i>
-      </footer>
-      <div class="footer_guide border-1px">
-            <span class="guide_item">
-            <span class="item_icon">
-                <i class="iconfont icon-tupian"></i>
-            </span>
-            <span>图片</span>
-            </span>
-        <a href="javascript:;" class="guide_item" >
-            <span class="item_icon">
-                <i class="iconfont icon-wenjian1"></i>
-            </span>
-          <span>文件</span>
-        </a>
-        <a href="javascript:;" class="guide_item" >
-            <span class="item_icon">
-                <i class="iconfont icon-lianjie_"></i>
-            </span>
-          <span>链接</span>
-        </a>
-        <a href="javascript:;" class="guide_item" >
-            <span class="item_icon">
-                <i class="iconfont icon-tiji"></i>
-            </span>
-          <span>提及</span>
-        </a>
+      <div class="left">
+        <van-uploader :after-read="afterRead" v-model="fileList" />
       </div>
+
+
+      <button @click="sendTopic">确认发布</button>
     </div>
 </template>
 
@@ -60,10 +22,20 @@
     export default {
       data(){
         return{
-          content:""
+          content:"",
+          fileList: [
+            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
+            // Uploader 根据文件后缀来判断是否为图片文件
+            // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+          ]
         }
       },
       methods:{
+        //用于上传文件
+        afterRead(file) {
+          // 此时可以自行将文件上传至服务器
+          console.log(file);
+        },
         //返回上一界面
         back(){
           this.$router.go(-1)
@@ -98,11 +70,14 @@
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/sylus/mixins.styl"
   #sendcontent
+    height 100%
     background-color #fff
-    .header
+    text-align center
+    .sendcontent_header
       position fixed
       display flex
-      background-color orangered
+      color:#fff
+      background-color red
       justify-content space-between
       box-sizing border-box
       padding 10px
@@ -115,19 +90,24 @@
         margin-top 8px
       .send
         margin-top 8px
+        font-size 14px
+        margin-right 10px
       bottom-border-1px(#e5e5e5)
       .header_title
+        position absolute
+        top 50%
+        left 50%
+        transform translateX(-50%) translateY(-50%)
         display flex
         line-height 18px
         align-items center
         flex-direction column
-        font-size 15px
+        font-size 18px
         span,p
           text-align center
           span
             color #fff
             font-size 14px
-
     .choose_area
       display flex
       padding 10px
@@ -140,36 +120,20 @@
         color #999
         font-size 20px
     textarea
-      width 99%
-      min-height 500px
+      width 90%
+      min-height 180px
       box-sizing border-box
-      padding 10px
+      padding 20px
       border none
-    .footer_guide  //footer
-      top-border-1px(#e4e4e4)
-      position fixed
-      z-index 100
-      left 0
-      right 0
-      bottom 0
-      background-color #fff
-      width 100%
-      height 50px
-      display flex
-      .guide_item
-        display flex
-        flex 1
-        text-align center
-        flex-direction column
-        align-items center
-        margin 5px
-        color #999999
-        &.on
-          color #02a774
-        span
-          font-size 12px
-          margin-top 2px
-          margin-bottom 2px
-          .iconfont
-            font-size 22px
+    .left
+      float left
+      margin-left 40px
+    button
+      background-color red
+      margin-top 30px
+      border none
+      height 40px
+      width 80%
+      color #fff
+      border-radius 10px
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div id="joincircle">
     <button class="btn" @click="JoinCircle">
-      <i class="iconfont icon-xie"></i>
+      <i class="iconfont icon-jiaru"></i>
+      申请加入
     </button >
     <header>
       <i class="iconfont icon-zuo" @click="back()"></i>
@@ -10,24 +11,26 @@
       </div>
     </header>
     <div class="circle_img">
-      <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566229549207&di=521990d0053a919c638f80b335f110c6&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201707%2F19%2F20170719211350_4PnBt.jpeg">
+      <img :src="'http://10.96.107.14:8080/static/'+list.clusterIcon">
     </div>
     <div class="circle_title">
       <span class="title">{{list.clusterName}}</span>
       <p class="group_people">10个成员 邀请<i class="iconfont icon-jia"></i></p>
       <div class="user_info">
-        <div class="user" >
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379173402&di=9eb4b5a0175c1593be5b8fd03ca78edd&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201604%2F02%2F20160402161853_ZQWhz.thumb.700_0.jpeg">
-          <span class="username">{{user.userRealname}}({{role}})</span>
-        </div>
-        <div class="signin " >
-          <i class="iconfont icon-xiezi"></i>
-          <span>签到</span>
-        </div>
-        <div class="signin1" style="display: none">
-          <i class="iconfont icon-icon-test3"></i>
-          <span>签到成功</span>
-        </div>
+        <span> 类型：{{list.clusterComment}}</span>
+        <span> 地址：{{list.clusterAddress}}</span>
+        <!--<div class="user" >-->
+          <!--<img :src="'http://10.96.107.14:8080/static/'+user.userPhoto">-->
+          <!--<span class="username">{{user.userRealname}}({{role}})</span>-->
+        <!--</div>-->
+        <!--<div class="signin " >-->
+          <!--<i class="iconfont icon-xiezi"></i>-->
+          <!--<span>签到</span>-->
+        <!--</div>-->
+        <!--<div class="signin1" style="display: none">-->
+          <!--<i class="iconfont icon-icon-test3"></i>-->
+          <!--<span>签到成功</span>-->
+        <!--</div>-->
       </div>
     </div>
     <div class="stick_wrap">
@@ -58,23 +61,11 @@
       <div class="area_box">
         <div class="box_item">
           <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>社长报道</p>
+          <p>图片</p>
         </div>
         <div class="box_item">
           <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>社长报道</p>
-        </div>
-        <div class="box_item">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>社长报道</p>
-        </div>
-        <div class="box_item">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>社长报道</p>
-        </div>
-        <div class="box_item">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>社长报道</p>
+          <p>简历</p>
         </div>
         <div class="box_item">
           <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
@@ -141,12 +132,13 @@
         <i class="iconfont icon-kong1"></i>
         <p>暂无话题</p>
       </div>
-
     </div>
+    <Alert :isshow="isshow" :clusterId="isclusterId" ref="Al"></Alert>
   </div>
 </template>
 <script>
   import Cookies from 'js-cookie'
+  import Alert from '../../components/Alert/Alert'
   export default {
     name:"circlemain",
     data(){
@@ -155,6 +147,8 @@
         user:"",
         topics:"",
         role:"",
+        isshow:false,
+        isclusterId:''
       }
     },
     created(){
@@ -174,7 +168,7 @@
         let self=this
         const params={clusterId:this.$route.query.clusterId}
         console.log(params)
-        const url = "http://10.96.127.250:8080/api/cluster/details";
+        const url = "http://10.96.107.14:8080/api/cluster/details";
         this.$http.fetchGet(url,{params}).then(res => {
           console.log(res)
           if(res.status==200){
@@ -201,7 +195,7 @@
       judgeRole(){
         let self=this
         const params={clusterId:this.$route.query.clusterId,userId:this.user.userId}
-        const url = "http://10.96.127.250:8080//api/cluster/Judg";
+        const url = "http://10.96.107.14:8080/api/cluster/Judg";
         this.$http.fetchGet(url,{params}).then(res => {
           if(res.status==200){
             self.role=res.msg
@@ -220,13 +214,14 @@
         let self=this
         const params={ucClusterId:this.$route.query.clusterId,ucUserId:this.user.userId}
         console.log(params)
-        const url = "http://10.96.127.250:8080/api/cluster/method";
+        const url = "http://10.96.107.14:8080/api/cluster/method";
         this.$http.fetchGet(url,{params}).then(res => {
           console.log(res)
           if(res.status==200){
               alert("允许用户直接加入")
             }else if(res.status==201){
-              alert("要求用户密码加入")
+              self.$refs.Al.onClick()
+              self.isclusterId=self.$route.query.clusterId
           }else{
             alert("加入错误")
           }
@@ -256,6 +251,9 @@
       // jumpCircleInfo(){
       //   this.$router.push("/circleinfo")
       // }
+    },
+    components:{
+      Alert
     }
   }
 </script>
@@ -271,6 +269,7 @@
       background-color orangered
       bottom 30px
       right 50%
+      color #fff
       transform translateX(50%)
       border none
       position fixed
@@ -327,54 +326,11 @@
         color #499273
       .user_info
         display flex
-        margin-top 10px
-        align-items center
         justify-content space-between
-        .user
-          display flex
-          align-items center
-        img
-          width 30px
-          height 30px
-          border-radius 50%
-        .username
-          margin-top 5px
-          margin-left 10px
-          font-size 12px
-        .signin
-          display inline-block
-          float right
-          width 70px
-          height 25px
-          text-align center
-          line-height 25px
-          font-size 12px
-          border-radius 25px
-          color #ff4200
-          border #ff4200 solid 1px
-          i
-            font-size 16px
-            color #ff4200
-        .signin1
-          display inline-block
-          padding  0 10px
-          float right
-          width 70px
-          height 25px
-          text-align center
-          line-height 25px
-          font-size 12px
-          border-radius 25px
-          color #fc9020
-          border #fc9020 solid 1px
-          &.on
-            color #999
-            border-color #999
-            i
-              color #999
-          i
-            font-size 16px
-            color #fc9020
+        align-items center
+        margin-top 15px
+        font-size 14px
+        color #888
     .stick_wrap
       background-color #fff
       position relative

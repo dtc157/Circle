@@ -12,21 +12,17 @@
       </div>
     </header>
     <div class="circle_img">
-      <img
-        src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566229549207&di=521990d0053a919c638f80b335f110c6&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201707%2F19%2F20170719211350_4PnBt.jpeg"
-      />
+      <img :src="'http://10.96.107.14:8080/static/'+list.clusterIcon">
     </div>
     <div class="circle_title">
       <span class="title">{{list.clusterName}}</span>
-      <p class="group_people">
-        10个成员 邀请
-        <i class="iconfont icon-jia"></i>
+      <p class="group_people" @click="jumpMemberMain()">
+        {{allpeople}}个成员
+        <i class="iconfont icon-range-left"></i>
       </p>
       <div class="user_info">
         <div class="user">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379173402&di=9eb4b5a0175c1593be5b8fd03ca78edd&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201604%2F02%2F20160402161853_ZQWhz.thumb.700_0.jpeg"
-          />
+          <img :src="'http://10.96.107.14:8080/static/'+user.userPhoto">
           <span class="username">{{user.userRealname}}({{role}})</span>
         </div>
         <div class="signin">
@@ -67,13 +63,13 @@
         </div>
       </div>
       <div class="area_box">
-        <div class="box_item">
+        <div class="box_item" @click="jumpFiles()">
           <img
             src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg"
           />
           <p>文件</p>
         </div>
-        <div class="box_item">
+        <div class="box_item" @click="jumpPhotoPages()">
           <img
             src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg"
           />
@@ -114,8 +110,8 @@
             </div>
           </div>
           <div class="item_content">
-            <!--<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379001016&di=39b7ed8e1f893c8ef7e9bd0f31ee1f52&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201504%2F13%2F20150413H5949_CWaPL.thumb.700_0.jpeg">-->
             <p>{{topic.topicContent}}</p>
+            <img :src="'http://10.96.107.14:8080/static/'+topic.topicPhoto" v-if="topic.topicPhoto">
           </div>
           <div class="item_operation">
             <div class="operation">
@@ -135,11 +131,17 @@
               <span>分享</span>
             </div>
           </div>
-          <div class="item_rating" v-for="(commentdeatail,index2) in topic.comments" :key="index2">
+          <div class="item_rating" v-for="(commentdeatail,index2) in topic.comments"
+               :key="index2" v-if="index2<3">
             <p>
               <span>{{commentdeatail.user.userRealname}}:</span>
               <span class="comment_content">{{commentdeatail.commentContent}}</span>
+
             </p>
+          </div>
+          <div class="lookall_comment">
+            <span>查看更多评价</span>
+            <i class="iconfont icon-range-left"></i>
           </div>
           <!-- <div class="item_rating">
             <p>
@@ -168,7 +170,8 @@ export default {
       user: "",
       topics: "",
       role: "",
-      notes: ""
+      notes: "",
+      allpeople:""
     };
   },
   created() {
@@ -178,7 +181,10 @@ export default {
       this.circletopic(),
       //初始化圈角色
       this.judgeRole(),
+      //查询公告
       this.queryNotes();
+      //查询圈子人数
+      this.queryAllpeople()
   },
   methods: {
     //根据圈id查询圈子详情
@@ -188,7 +194,7 @@ export default {
       //console.log(this.user)
       let self = this;
       const params = { clusterId: this.$route.query.clusterId };
-      const url = "http://10.96.127.250:8080/api/cluster/details";
+      const url = "http://10.96.107.14:8080/api/cluster/details";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.list = res.data[0];
@@ -205,9 +211,21 @@ export default {
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.topics = res.data;
-          console.log(self.topics);
         } else {
-          alert(res.msg);
+          this.Toast(res.msg)
+        }
+      });
+    },
+    //查询圈子总人数
+    queryAllpeople(){
+      let self = this;
+      const params = {clusterId: this.$route.query.clusterId};
+      const url = "http://10.96.107.14:8080/api/cluster/sum";
+      this.$http.fetchGet(url, { params }).then(res => {
+        if (res.status == 200) {
+          self.allpeople = res.data;
+        } else {
+          this.Toast(res.msg)
         }
       });
     },
@@ -218,13 +236,12 @@ export default {
         clusterId: this.$route.query.clusterId,
         userId: this.user.userId
       };
-      const url = "http://10.96.127.250:8080//api/cluster/Judg";
+      const url = "http://10.96.107.14:8080/api/cluster/Judg";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.role = res.msg;
-          console.log(self.role);
         } else {
-          alert(res.msg);
+          this.Toast("res.msg")
         }
       });
     },
@@ -236,16 +253,26 @@ export default {
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.notes = res.data;
-          console.log(self.notes);
         } else {
-          alert(res.msg);
+          this.Toast("res.msg")
         }
       });
     },
-
     //回到上一页面
     back() {
       this.$router.go(-1);
+    },
+    //跳转照片详情页
+    jumpPhotoPages(){
+      this.$router.push({name:"PhotoPages",query:{clusterId: this.$route.query.clusterId }})
+    },
+    //跳转文件详情页
+    jumpFiles(){
+      this.$router.push({name:"Files",query:{clusterId: this.$route.query.clusterId }})
+    },
+    //跳转成员主页
+    jumpMemberMain(){
+      this.$router.push({name:"MemberMain",query:{clusterId: this.$route.query.clusterId }})
     },
     //跳转评论详情
     jumpRatingInfo(topicId) {
@@ -553,6 +580,12 @@ export default {
           white-space nowrap
         .comment_content
           color #000000
+    .lookall_comment
+      display flex
+      margin-top 5px
+      justify-content space-between
+      color #888
+      font-size 12px
   .no_comments
     color #f5f5f5
     height 300px

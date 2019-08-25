@@ -1,0 +1,248 @@
+<template>
+    <div id="groupdetails">
+      <header class="group_header">
+        <i class="iconfont icon-zuo" @click="back()"></i>
+        <div class="header_title">
+          <p>{{peoples.clusterName}}</p>
+        </div>
+      </header>
+      <div class="search_wrap">
+        <div class="content_search">
+          <div class="iconfont icon-sousuo"> </div>
+          <!--<form @submit.prevent="formSubmit" action="javascript:return true">-->
+          <input class="search2" placeholder="请输入组员"
+          >
+          <!--</form>-->
+        </div>
+      </div>
+      <div class="group">
+        <div class="group_people" v-for="(people,index) in peoples.user"
+             :key="index" v-if="index==0">
+          <div class="leader_left">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566580014530&di=8454588083b2b18213b6aa14c15bbee2&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201810%2F18%2F20181018162951_kgwzm.thumb.700_0.jpeg">
+            <span>{{people.userRealname}}</span>
+            <i class="iconfont "></i>
+          </div>
+          <span class="leader_right">组长</span>
+        </div>
+        <div class="group_people" v-for="(people,index) in peoples.user" :key="index" v-if="index>0" >
+          <div class="leader_left">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566580014530&di=8454588083b2b18213b6aa14c15bbee2&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201810%2F18%2F20181018162951_kgwzm.thumb.700_0.jpeg">
+            <span>{{people.userRealname}}</span>
+            <i class="iconfont "></i>
+          </div>
+          <span class="leader_right">组员</span>
+        </div>
+      </div>
+      <footer>
+        <button class="join" v-show="isIn==0" @click="joinGroup">立即加入</button>
+        <button class="exit"  v-show ="isIn==1" @click="exitGroup">退出</button>
+      </footer>
+    </div>
+</template>
+
+<script>
+  import Cookies from "js-cookie";
+    export default {
+      data(){
+        return{
+          isIn:"",
+          peoples:''
+        }
+      },
+      created(){
+        this.judjeInGroup(),
+          this.queryGrouppeople()
+      },
+      methods: {
+        //返回上一界面
+        back() {
+          this.$router.go(-1)
+        },
+        //加入小组
+        joinGroup(){
+          const userId = JSON.parse(Cookies.get("username")).userId;
+          let self = this;
+          const params = {
+            clusterId: this.$route.query.clusterId,
+            userId:userId
+          };
+          const url = "http://10.96.107.14:8080/api/group/Addgroup";
+          this.$http.fetchGet(url, { params }).then(res => {
+            console.log("res")
+            if (res.status == 200) {
+              if(res.data==1){
+                alert("加入成功")
+              }
+            } else if(res.status==300){
+              alert(res.data);
+            }else{
+              alert(res.msg);
+            }
+          });
+        },
+        //退出小组
+        exitGroup(){
+          const userId = JSON.parse(Cookies.get("username")).userId;
+          let self = this;
+          const params = {
+            clusterId: this.$route.query.clusterId,
+            userId:userId
+          };
+          const url = "http://10.96.107.14:8080/api/group/quit";
+          this.$http.fetchGet(url, { params }).then(res => {
+            if (res.status == 200) {
+              self.isIn=res.data
+              alert("退出成功")
+            } else {
+              alert(res.msg);
+            }
+          });
+        },
+        //判断此人是否在这个小组
+        judjeInGroup() {
+          const userId = JSON.parse(Cookies.get("username")).userId;
+          let self = this;
+          const params = {
+            clusterId: this.$route.query.clusterId,
+            userId:userId
+          };
+          const url = "http://10.96.107.14:8080/api/group/addcluster";
+          this.$http.fetchGet(url, { params }).then(res => {
+            if (res.status == 200) {
+              self.isIn=res.data
+              console.log(self.isIn)
+            } else {
+              alert(res.msg);
+            }
+          });
+        },
+        //根据组id查询组员
+        queryGrouppeople() {
+          //console.log(this.user)
+          let self = this;
+          const params = { clusterId: this.$route.query.clusterId };
+          const url = "http://10.96.107.14:8080/api/group/details";
+          this.$http.fetchGet(url, { params }).then(res => {
+            if (res.status == 200) {
+              self.peoples = res.data[0];
+              console.log(self.peoples)
+            } else {
+              alert(res.msg);
+            }
+          });
+        },
+      }
+    }
+</script>
+
+<style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/sylus/mixins.styl"
+  #groupdetails
+    background-color #fff
+    height 100%
+    img
+      width 35px
+      height 35px
+      margin-right 10px
+      border-radius 50%
+    .group_header
+      position fixed
+      display flex
+      color:#fff
+      background-color #ff8a09
+      justify-content space-between
+      box-sizing border-box
+      padding 10px
+      z-index 100
+      left 0
+      top 0
+      width 100%
+      height 50px
+      i
+        margin-top 8px
+      .send
+        margin-top 8px
+        font-size 14px
+        margin-right 10px
+      bottom-border-1px(#e5e5e5)
+      .header_title
+        position absolute
+        top 50%
+        left 50%
+        transform translateX(-30%) translateY(-50%)
+        display flex
+        line-height 18px
+        align-items center
+        flex-direction column
+        font-size 18px
+        span,p
+          text-align center
+          span
+            color #fff
+            font-size 14p
+    .search_wrap
+      display flex
+      padding 10px
+      background-color #fff
+      bottom-border-1px(#e4e4e4)
+      span
+        margin auto
+      .content_search
+        display flex
+        background-color #f2f2f2
+        width 100%
+        box-sizing border-box
+        margin-top 5px
+        color #7e8c8d
+        border-radius 10px
+        outline: none;    //消除默认点击蓝色边框效果消除
+        .icon-sousuo
+          margin-left 10px;
+          line-height 35px;
+          font-size 20px;
+          width 20px;
+          height 35px;
+        & .search2
+          margin-left 5px;
+          height 35px;
+          width 60%
+          border-radius 10px
+          background-color #f2f2f2
+    .group
+      .group_people
+        padding 10px 30px 5px 30px
+        align-items center
+        background-color #fff
+        justify-content space-between
+        display flex
+        bottom-border-1px(#e5e5e5)
+        .leader_left
+          display flex
+          align-items center
+        .leader_right
+          color #ff8a09
+          margin-right 10px
+    footer
+      position absolute
+      bottom 0
+      left 0
+      width 100%
+      height 60px
+      background-color #f5f5f5
+      text-align center
+      button
+        width 90%
+        height 40px
+        margin-top 10px
+        border-radius 10px
+        color #fff
+        font-size 16px
+        border 0
+      .join
+        background-color #ff8a09
+      .exit
+        color #ff8a09
+        background-color #ffffff
+        border #ff8a09 solid 1px
+</style>

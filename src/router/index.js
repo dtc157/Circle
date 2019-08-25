@@ -38,21 +38,13 @@ import Files from "../pages/Files/File"
 import MemberMain from "../pages/MemberMain/MemberMain"
 import PhotoPages from "../pages/PhotoPages/PhotoPages"
 import publishNotice from '../pages/LookTopics/publishNotice.vue'
-
+import Groupdetails from "../pages/Groupdetails/Groupdetails"
+import chatDetail from '../pages/Chat/chatDetail.vue'
+import CreateGroup from '../pages/CreateGroup/CreateGroup.vue'
 // const MSite = () => import('../pages/MSite/MSite.vue')
 // const Search = () => import('../pages/Search/Search.vue')
 // const Order = () => import('../pages/Order/Order.vue')
 // const Profile = () => import('../pages/Profile/Profile.vue')
-
-// import Login from '../pages/Login/Login.vue'
-// import Shop from '../pages/Shop/Shop.vue'
-// import ShopGoods from '../pages/Shop/ShopGoods/ShopGoods'
-// import ShopInfo from '../pages/Shop/ShopInfo/ShopInfo'
-// import ShopRatings from '../pages/Shop/ShopRatings/ShopRatings'
-
-
-
-
 export default new VueRouter({
     // 所有路由
     routes: [{
@@ -95,11 +87,28 @@ export default new VueRouter({
             path: '/userinfo',
             component: UserInfo,
         },
+        //创建小组页
+        {
+          path: '/creategroup',
+          name:'CreateGroup',
+          component: CreateGroup,
+        },
         //成员主页
         {
           path: '/membermain',
           name:'MemberMain',
           component: MemberMain,
+        },
+        //小组详情页
+        {
+          path:'/groupdetails',
+          name:'Groupdetails',
+          component:Groupdetails,
+        },
+      //通知详情
+        {
+          path: '/chatDetail',
+          component: chatDetail
         },
         //昵称修改页面
         {
@@ -245,6 +254,7 @@ export default new VueRouter({
         //文件
         {
           path: '/files',
+          name:'Files',
           component: Files
         }
     ]

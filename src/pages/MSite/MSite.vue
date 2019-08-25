@@ -15,16 +15,13 @@
 
         <div class="circle_join" @click="jumpCirclemain(circle.clusterId)" v-for="(circle,clusterId) in circles">
           <div class="img_wrap">
-            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566229549207&di=521990d0053a919c638f80b335f110c6&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201707%2F19%2F20170719211350_4PnBt.jpeg">
+            <img :src="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
           </div>
           <div class="circle_title">
             <p>{{circle.clusterName}}</p>
             <span>{{circle.clusterComment}}</span>
           </div>
         </div>
-
-
-
         <div class="circle_join1" @click="jumpAddCircle()">
           <div class="img_wrap">
             <i class="iconfont icon-jia"></i>
@@ -59,7 +56,7 @@
           const a= JSON.parse(Cookies.get('username')).userId
             //根据ID查询圈子
             let params ={userId:a}
-            const url = "http://10.96.127.250:8080/api/cluster/view";
+            const url = "http://10.96.107.14:8080/api/cluster/view";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 self.circles =res.data[0].clusters

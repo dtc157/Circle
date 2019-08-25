@@ -12,10 +12,10 @@
       <input type="text" class="text" placeholder="输入圈子名称" v-model="circlename" />
       <input type="text" class="text" placeholder="输入圈子地址" v-model="clusterAddress" />
       <div class="header_img">
-        <div class="content">
-          <i class="iconfont icon-xiangji"></i>
+        <van-uploader :after-read="afterRead" preview-size="80px" />
+
           <p>乌托邦头像</p>
-        </div>
+
       </div>
       <div class="joinStyle">
         <div>设置加圈方式</div>
@@ -72,7 +72,7 @@ export default {
           "http://pic30.nipic.com/20130619/9885883_210838271000_2.jpg",
         clusterAddress: this.clusterAddress
       };
-      const url = "http://10.96.127.250:8080/api/cluster/add";
+      const url = "http://10.96.107.14:8080/api/cluster/add";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           alert("创建成功");
@@ -142,14 +142,15 @@ export default {
         text-align center
     .createCircle
       position absolute
-      left 30%
-      bottom 20%
-      width 40%
+      left 50%
+      transform translateX(-50%)
+      bottom 15%
+      width 80%
       height 50px
       line-height 50px
       text-align center
       background-color #FF4500
-      border-radius 27px
+      border-radius 20px
       border none
       color #ffffff
       font-size 17px

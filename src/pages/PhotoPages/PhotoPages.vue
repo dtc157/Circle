@@ -1,136 +1,76 @@
 <template>
-    <div class="photoPages">
-        <div class="head">
-            <div class="goBack" @click="$router.back()">
-                <i class="iconfont icon-xiangzuo"></i>
-            </div>
-            <div class="title">
-                照片库
-            </div>
-            <div class="add">
-                <i class="iconfont icon-xiangzuo"></i>
-            </div>
-        </div>
-        <div class="search-box">
-            <div class="search">
-            <div class="iconfont icon-sousuo"> </div>
-            <input class="search2" placeholder="搜索图片">
-        </div>
-        </div>
-        <div class="container">
-            <div class="photo-box">
-                <div class="images">
-                    <img src="http://localhost:8080/static/111.jpg"/>
-                </div>
-                <div class="images-user">
-                    <span>发布人：</span>
-                    <span>刘粤</span>
-                </div>
-                <div class="images-time">
-                    <span>发布时间：</span>
-                    <span>2019-8-23 16:17:55</span>
-                </div>
-            </div>
-            <div class="photo-box">
-                <div class="images">
-                    <img src="http://localhost:8080/static/123.jpg"/>
-                </div>
-                <div class="images-user">
-                    <span>发布人：</span>
-                    <span>刘粤</span>
-                </div>
-                <div class="images-time">
-                    <span>发布时间：</span>
-                    <span>2019-8-23 16:17:55</span>
-                </div>
-            </div>
-        </div>
+  <div class="photopages">
+    <div class="photopages_header">
+      <i class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing" @click="back()"></i>
+      <p>图片库</p>
     </div>
+    <div class="btn">
+      <button><i class="iconfont icon-xiangji"></i>  上传图片</button>
+    </div>
+    <div class="photo_wrap">
+      <div class="img">
+          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566675874592&di=5af92aa12a8f5f07606af80ce9a3bddd&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6eb878299fdc5412035f8b6f9a1701fa4cd3e46a1ada9-KEaWmP_fw658">
+        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566675874592&di=5af92aa12a8f5f07606af80ce9a3bddd&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6eb878299fdc5412035f8b6f9a1701fa4cd3e46a1ada9-KEaWmP_fw658">
+        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566675874592&di=5af92aa12a8f5f07606af80ce9a3bddd&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6eb878299fdc5412035f8b6f9a1701fa4cd3e46a1ada9-KEaWmP_fw658">
+        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566675874592&di=5af92aa12a8f5f07606af80ce9a3bddd&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6eb878299fdc5412035f8b6f9a1701fa4cd3e46a1ada9-KEaWmP_fw658">
+        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566675874592&di=5af92aa12a8f5f07606af80ce9a3bddd&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F6eb878299fdc5412035f8b6f9a1701fa4cd3e46a1ada9-KEaWmP_fw658">
+
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
-    
-}
+  export default {
+    data(){
+      return{
+      url:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566672704855&di=86b89b9c1bdd690bf65e69199f94eae4&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201210%2F21%2F20121021201351_hx3R2.thumb.700_0.jpeg"
+      }
+    },
+    methods:{
+      //回到上一页
+      back(){
+        this.$router.go(-1)
+      }
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-    .photoPages
-        width 100%
-        .head
-            height 45px
-            bacground white
-            display flex
-            justify-content space-between
-            .goBack
-                margin-left 2%
-                margin-top 5px
-                .iconfont
-                    font-size 35px
-            .title
-                margin-top 14px
-            .add
-                margin-left 2%
-                margin-top 5px
-                .iconfont
-                    font-size 35px
-        .search-box
-            width 100%
-            padding-top 10px
-            .search
-                display flex
-                margin-left 10%;
-                background white
-                width 80%
-                box-sizing border-box
-                margin-top 5px
-                color #7e8c8d
-                border-radius 10px
-                outline: none;    //消除默认点击蓝色边框效果消除
-                .icon-sousuo
-                    margin-left 10px
-                    line-height 35px
-                    font-size 20px
-                    width 20px
-                    height 35px
-                & .search2
-                    margin-left 5px
-                    height 35px
-                    width 80%
-                    border-radius 10px
-                    background white
-        .container
-            width 100%
-            padding-top 10px
-            .photo-box
-                margin-top 5px
-                width 80%
-                margin-left 10%
-                background orange
-                overflow:hidden
-                border-radius 10px    
-                .images
-                    margin-top 15px
-                    width 90%
-                    margin-left 5%
-                    height 250px
-                    img 
-                        width: 100%
-                        height: 100%
-                        max-width: 100%
-                        max-height: 100%                     
-                .images-user
-                    width 100%
-                    height 25px
-                    margin-top 5px
-                    line-height 25px
-                    span 
-                        margin-left 10px
-                .images-time
-                    width 100%
-                    height 25px
-                    font-size 14px
-                    line-height 25px
-                    span 
-                        margin-left 10px
+  @import "../../common/sylus/mixins.styl"
+  .photopages
+    .photopages_header
+      display flex
+      flex-direction column
+      justify-content space-between
+      height 130px
+      color #fff
+      padding 20px
+      background-size 100% 100%
+      background-image url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566672704855&di=86b89b9c1bdd690bf65e69199f94eae4&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201210%2F21%2F20121021201351_hx3R2.thumb.700_0.jpeg")
+      p
+        font-size 20px
+        font-weight 500
+      i
+        font-size 20px
+    .btn
+      text-align center
+      padding 15px 0
+      bottom-border-1px(#e5e5e5)
+      button
+        background-color red
+        box-sizing border-box
+        border none
+        height 40px
+        width 90%
+        color #fff
+        border-radius 10px
+    .photo_wrap
+      padding 0 10px 10px 10px
+      .img
+        padding 10px
+        img
+          width 100px
+          height 100px
+          margin 5px 0 5px 5px
 </style>

@@ -10,12 +10,13 @@
         </div>
         <span @click="back">取消</span>
       </div>
-      <div class="content_wrap" v-if="none">
+      <div class="content_wrap" v-show="none">
         <p class="recommended" v-if="!searchName">推荐乌托邦</p>
         <ul>
-          <li class="content_item" @click="jumpJoinCircle(item.clusterId)" v-for="(item,index) in lists" :key="index">
+          <li class="content_item" @click="jumpJoinCircle(item.clusterId)"
+              v-for="(item,index) in lists" :key="index">
             <div class="img">
-              <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566235049785&di=4ab364f229bd0517ac2e43a4dd10472d&imgtype=0&src=http%3A%2F%2Fthumb.1010pic.com%2Fpic10%2Fallimg%2F201601%2F3951-1601211A012A1.jpg">
+              <img :src="'http://10.96.107.14:8080/static/'+item.clusterIcon">
             </div>
             <div class="content">
               <p class="title">{{item.clusterName}}</p>
@@ -25,7 +26,7 @@
           </li>
         </ul>
       </div>
-      <div class="content_wrap" v-else>
+      <div class="content_wrap" v-show="!none">
         <p>暂无此圈</p>
       </div>
     </div>
@@ -45,22 +46,27 @@
         this.recommendCircle();
       },
       methods:{
+        //查询圈子
         searchCircle(ev){
           let self =this
           if(ev.keyCode == 13) {  //键盘回车的编码是13
             const params={clusterName:self.searchName}
-            const url = "http://10.96.127.250:8080/api/cluster/obscure";
+            const url = "http://10.96.107.14:8080/api/cluster/obscure";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
-                //self.none=false
-                self.lists=res.data
-                console.log(self.lists)
+                if(res.data=="没有你要搜索的圈"){
+                  self.none=false
+                }else{
+                  self.none=true
+                  self.lists=res.data
+                }
               }else{
                 alert(res.msg)
               }
             })
           }
         },
+        //返回
         back(){
           this.$router.back(-1)
         },
@@ -71,7 +77,7 @@
           const a= JSON.parse(Cookies.get('username')).userId
           const params={ucClusterId:clusterId,ucUserId:a}
           console.log(params)
-            const url = "http://10.96.127.250:8080/api/cluster/addcluster";
+            const url = "http://10.96.107.14:8080/api/cluster/addcluster";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 console.log(res)
@@ -87,12 +93,23 @@
               }
             })
         },
-        //搜索圈子
+        //推荐圈子
         recommendCircle() {
           let self =this
-          const url = "http://10.96.127.250:8080/api/cluster/allview";
-          this.$http.fetchGet(url).then(res => {
+          const UserId= JSON.parse(Cookies.get('username')).userId
+          const Address= JSON.parse(Cookies.get('username')).userAddress
+          let params = {
+            ucUserId:UserId,
+            clusterAddress:Address,
+            pageNum:1,
+            pageSize:4}
+            console.log(params)
+          const url = "http://10.96.107.14:8080/api/cluster/allview";
+          this.$http.fetchGet(url,{params}).then(res => {
             if (res.status == 200) {
+              if(res.data.list==""){
+                self.none=false
+              }
               self.lists = res.data
               console.log(self.lists)
             } else {

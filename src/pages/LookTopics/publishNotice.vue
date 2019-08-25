@@ -46,13 +46,13 @@ export default {
         title: this.title,
         content: this.content,
         userId:this.user.userId,
-        clusterId:parseInt(this.clusterId) 
+        clusterId:this.clusterId
       };
       console.log(params);
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           console.log("发布成功");
-          this.$router.push("/LookTopics");
+          this.$router.go(-1);
         } else {
           alert("发布失败");
         }
