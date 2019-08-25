@@ -168,6 +168,7 @@ export default {
   height 100%
   #top
     position absolute
+    color white
     top 0
     display flex
     display -webkit-flex

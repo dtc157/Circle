@@ -2,7 +2,7 @@
   <div id="container">
     <!-- 顶部 -->
     <div id="top">
-      <div id="back_icon">
+      <div id="back_icon" @click="back">
         <i class="iconfont icon-zuo"></i>
       </div>
       <div id="top_title">推送设置</div>
@@ -37,10 +37,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    back(){
+      this.$router.go(-1);
+    }
+  }
+};
 </script>
-
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../common/sylus/mixins.styl'
 #container
   background-color #ffffff
@@ -81,8 +86,6 @@ export default {};
     .inform_title
     .inform_content
       margin-bottom 15px
-      .content
-        font-weight 600
      
     
 

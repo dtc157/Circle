@@ -7,7 +7,7 @@
     <div id="login_content">
       <div class="login_title">账号登录</div>
       <div class="inp username">
-        <input type="text" placeholder="账号" v-model="userName"/>
+        <input type="text" placeholder="账号" v-model="userName" onblur="checkUsername"/>
       </div>
       <div class="inp password">
         <input type="password" v-if=show placeholder="密码" v-model="userPassword" />
@@ -38,7 +38,7 @@ export default {
   methods: {
     //登录
     async login1() {
-      const url = "http://10.96.122.34:8080/api/user/login";
+      const url = "http://10.96.107.14:8080/api/user/login";
       const { userName, userPassword } = this;
       this.$http
         .fetchPost(url, { username: userName, password: userPassword })
@@ -55,6 +55,11 @@ export default {
     showPassword() {
       this.show = !(this.show);
     },
+    // 检验账号
+    // checkUsername(){
+    //   let reg=/^\d{6}$/;
+    //   if()
+    // },
     // 返回上一页面
     back(){
       this.$router.go(-1);

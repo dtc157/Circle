@@ -43,7 +43,7 @@ export default {
   methods: {
     //登录
     async login1() {
-      const url = "http://10.96.116.148:8080/api/user/add";
+      const url = "http://10.96.107.14:8080/api/user/add";
       const { userName, userPassword, userRealname, userEmail } = this;
       this.$http
         .fetchPost(url, {
