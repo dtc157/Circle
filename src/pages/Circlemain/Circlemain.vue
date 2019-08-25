@@ -7,8 +7,8 @@
       <i class="iconfont icon-zuo" @click="back()"></i>
       <div class="header_right">
         <i class="iconfont icon-sousuo--" @click="jumpTopcSearch"></i>
-        <i class="iconfont icon-xiaoxi"></i>
-        <i class="iconfont icon-caidan" @click="jumpCircleInfo"></i>
+        <i class="iconfont icon-tuichu" @click="exitCircle" v-show="role!=='圈主'"></i>
+        <i class="iconfont icon-caidan" @click="jumpCircleInfo" v-if="role=='圈主'"></i>
       </div>
     </header>
     <div class="circle_img">
@@ -46,7 +46,7 @@
           <i class="iconfont icon-range-left"></i>
         </div>
       </div>
-      <p class="stick_content" v-for="(note,index) in notes" :key="index">
+      <p class="stick_content" v-for="(note,index) in notes" :key="index" v-if="index<3">
         <i class="iconfont icon-xing"></i>
         &nbsp;&nbsp;{{note.noteName}}:{{note.noteContent}}
       </p>
@@ -93,16 +93,16 @@
       <div class="comments">
         <div
           class="comments_item"
-          @click="jumpRatingInfo(topic.topicId)"
+          @click="jumpRatingInfo(topic.topicData.topicId)"
           v-for="(topic,index) in topics"
           :key="index"
         >
           <div class="item_master">
             <div class="userinfo">
-              <img :src="'http://10.96.107.14:8080/static/'+topic.user.userPhoto" />
+              <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto" />
               <div class="username">
-                <span>{{topic.user.userRealname}}</span>
-                <p>{{topic.topicCreateTime}}</p>
+                <span>{{topic.topicData.user.userRealname}}</span>
+                <p>{{topic.topicData.topicCreateTime}}</p>
               </div>
             </div>
             <div class="item_update">
@@ -110,8 +110,9 @@
             </div>
           </div>
           <div class="item_content">
-            <p>{{topic.topicContent}}</p>
-            <img :src="'http://10.96.107.14:8080/static/'+topic.topicPhoto" v-if="topic.topicPhoto">
+            <p>{{topic.topicData.topicContent}}</p>
+            <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto"
+                 v-if="topic.topicData.topicPhoto">
           </div>
           <div class="item_operation">
             <div class="operation">
@@ -120,7 +121,7 @@
             </div>
             <div class="operation">
               <i class="iconfont icon-xiaoxi"></i>
-              <span>{{topic.comments.length}}</span>
+              <span>{{topic.topicData.comments.length}}</span>
             </div>
             <div class="operation">
               <i id="col" class="iconfont icon-yixianshi-"></i>
@@ -131,7 +132,7 @@
               <span>分享</span>
             </div>
           </div>
-          <div class="item_rating" v-for="(commentdeatail,index2) in topic.comments"
+          <div class="item_rating" v-for="(commentdeatail,index2) in topic.topicData.comments"
                :key="index2" v-if="index2<3">
             <p>
               <span>{{commentdeatail.user.userRealname}}:</span>
@@ -194,7 +195,7 @@ export default {
       //console.log(this.user)
       let self = this;
       const params = { clusterId: this.$route.query.clusterId };
-      const url = "http://10.96.107.14:8080/api/cluster/details";
+      const url = "/api/cluster/details";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.list = res.data[0];
@@ -206,13 +207,15 @@ export default {
     //查询圈子动态话题
     circletopic() {
       let self = this;
-      const params = { clusterId: this.$route.query.clusterId };
-      const url = "http://10.96.107.14:8080/api/topic/view";
+      const params = {
+        clusterId: this.$route.query.clusterId ,
+        userId: this.user.userId};
+      const url = "/api/topic/view";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.topics = res.data;
         } else {
-          this.Toast(res.msg)
+          //this.$toast(res.msg)
         }
       });
     },
@@ -220,12 +223,12 @@ export default {
     queryAllpeople(){
       let self = this;
       const params = {clusterId: this.$route.query.clusterId};
-      const url = "http://10.96.107.14:8080/api/cluster/sum";
+      const url = "/api/cluster/sum";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.allpeople = res.data;
         } else {
-          this.Toast(res.msg)
+          this.$toast(res.msg)
         }
       });
     },
@@ -236,12 +239,12 @@ export default {
         clusterId: this.$route.query.clusterId,
         userId: this.user.userId
       };
-      const url = "http://10.96.107.14:8080/api/cluster/Judg";
+      const url = "/api/cluster/Judg";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.role = res.msg;
         } else {
-          this.Toast("res.msg")
+          this.$toast(res.msg)
         }
       });
     },
@@ -249,14 +252,42 @@ export default {
     queryNotes() {
       let self = this;
       const params = { clusterId: this.$route.query.clusterId };
-      const url = "http://10.96.107.14:8080/api/note/view";
+      const url = "/api/note/view";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.notes = res.data;
         } else {
-          this.Toast("res.msg")
+          //this.$toast(res.msg)
         }
       });
+    },
+    //退出圈子
+    exitCircle(){
+      let self = this;
+      this.$dialog.confirm({
+        title: '',
+        message: '确定退出吗？'
+      }).then(() => {
+        // 退出
+        const params = {
+          clusterId: this.$route.query.clusterId,
+          userId: this.user.userId
+        };
+        const url = "/api/cluster/quit";
+        this.$http.fetchGet(url, { params }).then(res => {
+          if (res.status == 200) {
+            self.role = res.msg;
+            self.$router.go(-1)
+          } else {
+            this.$toast(res.msg)
+          }
+        });
+      }).catch(() => {
+        // on cancel
+        this.$toast("退出取消")
+      });
+
+
     },
     //回到上一页面
     back() {
@@ -309,7 +340,7 @@ export default {
     },
     //跳转圈子信息
     jumpCircleInfo() {
-      this.$router.push("/circleinfo");
+      this.$router.push({name:"CircleInfo",query:{clusterId: this.$route.query.clusterId}});
     }
   }
 };
@@ -347,11 +378,11 @@ export default {
     color #fff
     justify-content space-between
     .header_right
-      width 120px !important
       margin-right 10px
       display flex
       justify-content space-between
       i
+        margin-right 20px
         font-size 18px
   .circle_img
     position absolute

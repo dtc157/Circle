@@ -31,7 +31,7 @@
     methods:{
       editNickName(){
         let self=this
-        this.$http.fetchGet('http://10.96.122.34:8080/api/user/update',
+        this.$http.fetchGet('/api/user/update',
           {
             params:{
               userId:self.userId,userName:self.nickName

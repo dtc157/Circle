@@ -48,14 +48,14 @@
           let self =this
           if(ev.keyCode == 13) {
             const params={clusterId:this.$route.query.clusterId,message:this.message}
-            const url = "http://10.96.107.14:8080/api/topic/search";
+            const url = "/api/topic/search";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 //self.none=false
                 self.topics=res.data
-                console.log(self.topics)
+
               }else{
-                alert(res.msg)
+                this.$toast(res.msg)
               }
             })
           }

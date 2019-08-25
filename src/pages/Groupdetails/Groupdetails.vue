@@ -50,6 +50,13 @@
           peoples:''
         }
       },
+      // watch:{
+      //   peoples(){
+      //     this.$nextTick(()=>{
+      //       this.judjeInGroup()
+      //     })
+      //   }
+      // },
       created(){
         this.judjeInGroup(),
           this.queryGrouppeople()
@@ -67,17 +74,18 @@
             clusterId: this.$route.query.clusterId,
             userId:userId
           };
-          const url = "http://10.96.107.14:8080/api/group/Addgroup";
+          const url = "/api/group/Addgroup";
           this.$http.fetchGet(url, { params }).then(res => {
             console.log("res")
             if (res.status == 200) {
               if(res.data==1){
-                alert("加入成功")
+                this.$toast("加入成功")
+                this.$router.go(0);
               }
             } else if(res.status==300){
-              alert(res.data);
+              this.$toast(res.data);
             }else{
-              alert(res.msg);
+              this.$toast(res.msg);
             }
           });
         },
@@ -85,19 +93,27 @@
         exitGroup(){
           const userId = JSON.parse(Cookies.get("username")).userId;
           let self = this;
-          const params = {
-            clusterId: this.$route.query.clusterId,
-            userId:userId
-          };
-          const url = "http://10.96.107.14:8080/api/group/quit";
-          this.$http.fetchGet(url, { params }).then(res => {
-            if (res.status == 200) {
-              self.isIn=res.data
-              alert("退出成功")
-            } else {
-              alert(res.msg);
-            }
-          });
+          this.$dialog.confirm({
+            title: '',
+            message: '确定退出吗？'
+          }).then(() => {
+            const params = {
+              clusterId: this.$route.query.clusterId,
+              userId: userId
+            };
+            const url = "/api/group/quit";
+            this.$http.fetchGet(url, {params}).then(res => {
+              if (res.status == 200) {
+                self.isIn = res.data
+                this.$toast("退出成功")
+              } else {
+                this.$toast(res.msg);
+              }
+            });
+            self.$router.go(-1);
+          }).catch(()=>{
+            this.$toast("退出取消")
+          })
         },
         //判断此人是否在这个小组
         judjeInGroup() {
@@ -107,13 +123,12 @@
             clusterId: this.$route.query.clusterId,
             userId:userId
           };
-          const url = "http://10.96.107.14:8080/api/group/addcluster";
+          const url = "/api/group/addcluster";
           this.$http.fetchGet(url, { params }).then(res => {
             if (res.status == 200) {
               self.isIn=res.data
-              console.log(self.isIn)
             } else {
-              alert(res.msg);
+              self.$toast(res.msg);
             }
           });
         },
@@ -122,13 +137,12 @@
           //console.log(this.user)
           let self = this;
           const params = { clusterId: this.$route.query.clusterId };
-          const url = "http://10.96.107.14:8080/api/group/details";
+          const url = "/api/group/details";
           this.$http.fetchGet(url, { params }).then(res => {
             if (res.status == 200) {
               self.peoples = res.data[0];
-              console.log(self.peoples)
             } else {
-              alert(res.msg);
+              self.$toast(res.msg);
             }
           });
         },

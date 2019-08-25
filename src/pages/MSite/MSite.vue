@@ -11,8 +11,6 @@
         </div>
       </div>
       <div id="box">
-
-
         <div class="circle_join" @click="jumpCirclemain(circle.clusterId)" v-for="(circle,clusterId) in circles">
           <div class="img_wrap">
             <img :src="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
@@ -56,13 +54,12 @@
           const a= JSON.parse(Cookies.get('username')).userId
             //根据ID查询圈子
             let params ={userId:a}
-            const url = "http://10.96.107.14:8080/api/cluster/view";
+            const url = "/api/cluster/view";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 self.circles =res.data[0].clusters
-                console.log(self.circles)
               }else{
-                alert(res.msg)
+                self.$toast(res.msg)
               }
             })
           },

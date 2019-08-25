@@ -51,7 +51,7 @@
           let self =this
           if(ev.keyCode == 13) {  //键盘回车的编码是13
             const params={clusterName:self.searchName}
-            const url = "http://10.96.107.14:8080/api/cluster/obscure";
+            const url = "/api/cluster/obscure";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 if(res.data=="没有你要搜索的圈"){
@@ -61,7 +61,7 @@
                   self.lists=res.data
                 }
               }else{
-                alert(res.msg)
+                self.$toast(res.msg)
               }
             })
           }
@@ -77,7 +77,7 @@
           const a= JSON.parse(Cookies.get('username')).userId
           const params={ucClusterId:clusterId,ucUserId:a}
           console.log(params)
-            const url = "http://10.96.107.14:8080/api/cluster/addcluster";
+            const url = "/api/cluster/addcluster";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 console.log(res)
@@ -104,7 +104,7 @@
             pageNum:1,
             pageSize:4}
             console.log(params)
-          const url = "http://10.96.107.14:8080/api/cluster/allview";
+          const url = "/api/cluster/allview";
           this.$http.fetchGet(url,{params}).then(res => {
             if (res.status == 200) {
               if(res.data.list==""){

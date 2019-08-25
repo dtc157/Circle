@@ -108,6 +108,7 @@ export default new VueRouter({
       //通知详情
         {
           path: '/chatDetail',
+          name:'chatDetail',
           component: chatDetail
         },
         //昵称修改页面

@@ -96,13 +96,13 @@
         queryNotes(){
           let self=this
           const params={clusterId:this.$route.query.clusterId}
-          const url = "http://10.96.107.14:8080/api/note/view";
+          const url = "/api/note/view";
           this.$http.fetchGet(url,{params}).then(res => {
             if(res.status==200){
               self.notes=res.data
               console.log(self.notes)
             }else{
-              alert(res.msg)
+              self.$toast(res.msg)
             }
           })
         },

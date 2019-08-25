@@ -72,13 +72,13 @@ export default {
           "http://pic30.nipic.com/20130619/9885883_210838271000_2.jpg",
         clusterAddress: this.clusterAddress
       };
-      const url = "http://10.96.107.14:8080/api/cluster/add";
+      const url = "/api/cluster/add";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
-          alert("创建成功");
+          this.$toast("创建成功");
           this.$router.push("/msite");
         } else {
-          alert(res.msg);
+          this.$toast(res.msg);
         }
       });
     }

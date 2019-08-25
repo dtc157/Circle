@@ -41,7 +41,7 @@ export default {
     publish() {
       this.user = JSON.parse(Cookies.get("username"));
       this.clusterId = this.$route.query.clusterId;
-      const url = "http://10.96.107.14:8080/api/note/add";
+      const url = "/api/note/add";
       const params = {
         title: this.title,
         content: this.content,
@@ -51,10 +51,10 @@ export default {
       console.log(params);
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
-          console.log("发布成功");
+          this.$toast("发布成功")
           this.$router.go(-1);
         } else {
-          alert("发布失败");
+          this.$toast("发布失败")
         }
       });
     },

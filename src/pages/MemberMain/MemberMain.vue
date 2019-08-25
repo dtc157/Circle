@@ -85,13 +85,12 @@
           //console.log(this.user)
           let self = this;
           const params = { clusterId: this.$route.query.clusterId };
-          const url = "http://10.96.107.14:8080/api/cluster/details";
+          const url = "/api/cluster/details";
           this.$http.fetchGet(url, { params }).then(res => {
             if (res.status == 200) {
               self.list = res.data[0];
-              console.log(self.list)
             } else {
-              alert(res.msg);
+              self.$toast(res.msg);
             }
           });
         },
@@ -101,7 +100,7 @@
           //console.log(this.user)
           let self = this;
           const params = { clusterId: this.$route.query.clusterId };
-          const url = "http://10.96.107.14:8080/api/group/view";
+          const url = "/api/group/view";
           this.$http.fetchGet(url, { params }).then(res => {
             if (res.status == 200) {
               self.groups = res.data;

@@ -100,7 +100,7 @@ export default {
     reqUserinfo() {
       let self = this;
       this.$http
-        .fetchPost("http://10.96.107.14:8080/api/user/ById", {
+        .fetchPost("/api/user/ById", {
           userId: self.userId
         })
         .then(res => {

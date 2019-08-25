@@ -78,7 +78,7 @@
     methods: {
       reqUserinfo(){
         let self=this
-        this.$http.fetchPost('http://10.96.122.34:8080/api/user/ById',{userId:self.userId}).then(res=>{
+        this.$http.fetchPost('/api/user/ById',{userId:self.userId}).then(res=>{
           if(res.status==200){
             self.userMobile=res.data.userMobile
             self.userCardId=res.data.userCardId
@@ -90,7 +90,7 @@
       },
       Logout(){
         let self=this
-        this.$http.fetchPost('http://10.96.116.148:8080/api/user/logout').then(res=>{
+        this.$http.fetchPost('/api/user/logout').then(res=>{
           if(res.status==200){
             self.$router.replace("/toLogin")
           }

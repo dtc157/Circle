@@ -9,8 +9,9 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 
  export default {
       fetchGet(url, params = {}) {
+        let uurl="http://10.96.107.14:8080"+url;
           return new Promise((resolve, reject) => {
-                axios.get(url, params).then(res => {
+                axios.get(uurl, params).then(res => {
                        if(res.data.code === 302) {
                              MessageBox('提示', '登录失效,请重新登录');
                             // MessageBox.alert('登录失效,请重新登录', '提示').then(action => {
@@ -24,10 +25,10 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
           })
        },
    fetchPost(url, params = {}) {
-
+     let uurl="http://10.96.107.14:8080"+url;
   // 解决方案二：使用qs模块(axios中自带),使用qs.stringify()序列化params
            return new Promise((resolve, reject) => {
-    axios.post(url, qs.stringify(params)).then(res => {
+    axios.post(uurl, qs.stringify(params)).then(res => {
                        resolve(res.data);
                    }).catch(error => {
                       reject(error);

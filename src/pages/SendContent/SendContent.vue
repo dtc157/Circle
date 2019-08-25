@@ -50,11 +50,11 @@
             clusterId:clusterId,
             content:self.content,
           }
-          const url = "http://10.96.107.14:8080/api/topic/add";
+          const url = "/api/topic/add";
           this.$http.fetchGet(url,{params}).then(res => {
             if(res.status==200){
-              console.log(res)
-              alert("创建成功")
+              this.$toast("发布成功")
+              this.$router.go(-1)
             }else{
               alert(res.msg)
             }

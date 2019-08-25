@@ -168,7 +168,7 @@
         let self=this
         const params={clusterId:this.$route.query.clusterId}
         console.log(params)
-        const url = "http://10.96.107.14:8080/api/cluster/details";
+        const url = "/api/cluster/details";
         this.$http.fetchGet(url,{params}).then(res => {
           console.log(res)
           if(res.status==200){
@@ -182,7 +182,7 @@
       circletopic(){
         let self=this
         const params={clusterId:this.$route.query.clusterId}
-        const url = "http://10.96.107.14:8080/api/topic/view";
+        const url = "/api/topic/view";
         this.$http.fetchGet(url,{params}).then(res => {
           if(res.status==200){
             self.topics=res.data
@@ -195,7 +195,7 @@
       judgeRole(){
         let self=this
         const params={clusterId:this.$route.query.clusterId,userId:this.user.userId}
-        const url = "http://10.96.107.14:8080/api/cluster/Judg";
+        const url = "/api/cluster/Judg";
         this.$http.fetchGet(url,{params}).then(res => {
           if(res.status==200){
             self.role=res.msg
@@ -214,43 +214,20 @@
         let self=this
         const params={ucClusterId:this.$route.query.clusterId,ucUserId:this.user.userId}
         console.log(params)
-        const url = "http://10.96.107.14:8080/api/cluster/method";
+        const url = "/api/cluster/method";
         this.$http.fetchGet(url,{params}).then(res => {
           console.log(res)
           if(res.status==200){
-              alert("允许用户直接加入")
+              this.$toast("加入成功")
+              this.$router.go(0)
             }else if(res.status==201){
               self.$refs.Al.onClick()
               self.isclusterId=self.$route.query.clusterId
           }else{
-            alert("加入错误")
+            this.$toast("加入错误")
           }
         })
       }
-      // //跳转评论详情
-      // jumpRatingInfo(topicId){
-      //   this.$router.push({ name: "RatingInfo", query: {topicId:topicId}})
-      // },
-      // //跳转话题搜索
-      // jumpTopcSearch(){
-      //   this.$router.push({ name: "TopicSearch", query: {clusterId:this.$route.query.clusterId}})
-      // },
-      // //跳转内容发布
-      // jumpSendContent(){
-      //   this.$router.push({ name: "SendContent", query: {clusterId:this.$route.query.clusterId}})
-      // },
-      // //跳转查看全部置顶
-      // jumpLookTopics(){
-      //   this.$router.push("/looktopics")
-      // },
-      // //跳转查看分区详情
-      // jumpLookareas(){
-      //   this.$router.push("/lookareas")
-      // },
-      // //跳转圈子信息
-      // jumpCircleInfo(){
-      //   this.$router.push("/circleinfo")
-      // }
     },
     components:{
       Alert

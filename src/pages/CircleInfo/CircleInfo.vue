@@ -46,12 +46,42 @@
           <i class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1"></i>
         </div>
       </div>
+      <div class="deleteCircle">
+        <button @click="deteleteCircle">删除此圈</button>
+      </div>
     </div>
 </template>
 
 <script>
+  import Cookies from "js-cookie";
     export default {
       methods:{
+        deteleteCircle(){
+          let self = this;
+          this.$dialog.confirm({
+            title: '',
+            message: '确定退出吗？'
+          }).then(() => {
+            // 退出
+            const params = {
+              ucClusterId: this.$route.query.clusterId,
+              ucUserId: JSON.parse(Cookies.get("username")).userId
+            };
+            const url = "/api/cluster/delete";
+            this.$http.fetchGet(url, { params }).then(res => {
+              if (res.status == 200) {
+                self.role = res.msg;
+                self.$toast("删除成功");
+                self.$router.push('/msite')
+              } else {
+                this.$toast(res.msg)
+              }
+            });
+          }).catch(() => {
+            // on cancel
+            this.$toast("退出取消")
+          });
+        },
         back(){
           this.$router.go(-1)
         }
@@ -123,4 +153,16 @@
         i
           color #999
           font-weight 600
+    .deleteCircle
+      text-align center
+      button
+        width 90%
+        height 40px
+        margin-top 10px
+        border-radius 10px
+        font-size 16px
+        border 0
+        color #ff8a09
+        background-color #ffffff
+        border #ff8a09 solid 1px
 </style>

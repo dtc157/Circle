@@ -4,37 +4,14 @@
       <span>聊天</span>
     </div>
     <div class="inform_content">
-      <div class="comment_main" @click="jumptoDe">
+      <div class="comment_main" @click="jumptoDe(circle.clusterId,circle.clusterName)" v-for="(circle,index) in circles" :key="index">
         <div class="comment_head">
           <div class="head_container">
-            <div class="head_picture"></div>
-            <div class="head_message">
-              <div class="username">小雷</div>
-              <div class="time">西西弗：哈哈哈</div>
+            <div class="head_picture">
+              <img :src="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
             </div>
-          </div>
-          <div class="option">11分钟前</div>
-        </div>
-      </div>
-      <div class="comment_main" @click="jumptoDe">
-        <div class="comment_head">
-          <div class="head_container">
-            <div class="head_picture"></div>
             <div class="head_message">
-              <div class="username">小雷</div>
-              <div class="time">西西弗：哈哈哈</div>
-            </div>
-          </div>
-          <div class="option">11分钟前</div>
-        </div>
-      </div>
-      <div class="comment_main" @click="jumptoDe">
-        <div class="comment_head">
-          <div class="head_container">
-            <div class="head_picture"></div>
-            <div class="head_message">
-              <div class="username">小雷</div>
-              <div class="time">西西弗：哈哈哈</div>
+              <div class="username">{{circle.clusterName}}</div>
             </div>
           </div>
           <div class="option">11分钟前</div>
@@ -45,16 +22,37 @@
 </template>
 
 <script>
+  import Cookies from 'js-cookie'
 export default {
   name: "Chat",
   data(){
       return{
-
+            circles:[{}]
       }
   },
+  created(){
+    this.myCircleshow()
+  },
   methods:{
-      jumptoDe(){
-          this.$router.push('/chatDetail');
+    //初始化本用户所有的圈子
+    myCircleshow(){
+      let self=this
+      //得到登录的人的ID
+      const a= JSON.parse(Cookies.get('username')).userId
+      //根据ID查询圈子
+      let params ={userId:a}
+      const url = "/api/cluster/view";
+      this.$http.fetchGet(url,{params}).then(res => {
+        if(res.status==200){
+          self.circles =res.data[0].clusters
+        }else{
+          this.$toast(res.msg)
+        }
+      })
+    },
+    //跳转圈子聊天界面
+      jumptoDe(clusterId,clusterName){
+          this.$router.push({name:'chatDetail',query:{clusterId:clusterId,clusterName:clusterName}});
       }
   }
 };
@@ -63,6 +61,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus">
 @import '../../common/sylus/mixins.styl'
 .container
+  background-color #fff
   width 100%
   height 100%
   .conTop
@@ -109,6 +108,10 @@ export default {
             width 38px
             border-radius 50%
             background-color pink
+            img
+              height 38px
+              width 38px
+              border-radius 50%
           .head_message
             margin-left 10px
             .username

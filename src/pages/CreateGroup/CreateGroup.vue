@@ -42,14 +42,16 @@
               clusterIcon:"1",
               clusterId: this.$route.query.clusterId,
             };
-            const url = "http://10.96.107.14:8080/api/group/add";
+            const url = "/api/group/add";
             this.$http.fetchGet(url, { params }).then(res => {
               console.log(res)
               if (res.status == 200) {
-                alert(res.data)
+                self.$toast("创建成功")
                 console.log(res)
-              } else {
-                alert(res.msg);
+              } else  if(res.status==300){
+                this.$toast(res.data);
+              }else{
+                //alert(res.msg)
               }
             });
           },
@@ -120,13 +122,13 @@
         font-size 18px
       input
         height 40px
-        padding 0px
+        box-sizing border-box
+        padding-left  40px
         width 60%
         border-bottom 1px solid #999
-        text-align center
+
         ::-webkit-input-placeholder
           color #f5f5f5
-
       button
         background-color red
         margin-top 50px
