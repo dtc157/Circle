@@ -10,20 +10,14 @@
       <div class="userinfo-items">
         <div class="head-img">头像</div>
         <div class="userinfo-images">
-          <img :src="'http://10.96.122.34:8080/static/'+userPhoto" class="userinfo_image">
-          <div class="arrow">
-            <i class="iconfont icon-range-left"></i>
-          </div>
+          <img :src="'http://10.96.107.14:8080/static/'+userPhoto" class="userinfo_image" />
         </div>
       </div>
-      <div class="userinfo-items" @click="toNickName()">
-        <div class="head-img" >昵称</div>
+      <div class="userinfo-items">
+        <div class="head-img">用户名</div>
         <div>
           <div class="arrow">
-            <div class="userinfo-left">{{nickName}}</div>
-            <div class="userinfo-right">
-              <i class="iconfont icon-range-left"></i>
-            </div>
+            <div class="userinfo-left">{{ursername}}</div>
           </div>
         </div>
       </div>
@@ -45,119 +39,128 @@
         <div>
           <div class="arrow">
             <div class="userinfo-left">{{userMobile}}</div>
-            <div class="userinfo-right">
-              <i class="iconfont icon-range-left"></i>
-            </div>
           </div>
         </div>
       </div>
-      <div class="userinfo-items">
-        <div class="head-img" style="color: red" @click="Logout()">退出登录</div>
-      </div>
+      <div class="setting" @click="jumpModify">修改信息</div>
+      <div class="setting" @click="Logout()">退出登录</div>
     </div>
   </div>
 </template>
 
 <script>
-  import Cookies from 'vue-cookie'
-  export default {
-    data(){
-      return{
-        phoneNumber: true,
-        userId:JSON.parse(Cookies.get('username')).userId,
-        nickName:'',
-        userRealname:'',
-        userCardId:'',
-        userMobile:'',
-        userPhoto:''
-      }
+import Cookies from "vue-cookie";
+export default {
+  data() {
+    return {
+      phoneNumber: true,
+      userId: JSON.parse(Cookies.get("username")).userId,
+      ursername: "",
+      userRealname: "",
+      userCardId: "",
+      userMobile: "",
+      userPhoto: ""
+    };
+  },
+  created() {
+    this.reqUserinfo();
+  },
+  methods: {
+    reqUserinfo() {
+      let self = this;
+      const url = "/api/user/ById";
+      const params = { userId: self.userId };
+      this.$http.fetchGet(url, { params }).then(res => {
+        if (res.status == 200) {
+          self.userMobile = res.data.userMobile;
+          self.userCardId = res.data.userCardId;
+          self.userRealname = res.data.userRealname;
+          self.ursername = res.data.userName;
+          self.userPhoto = res.data.userPhoto;
+        }
+      });
     },
-    created(){
-      this.reqUserinfo()
+    Logout() {
+      let self = this;
+      this.$http
+        .fetchPost("/api/user/logout")
+        .then(res => {
+          if (res.status == 200) {
+            Cookies.set("username","",-1);
+            // Cookies.remove("username");
+            self.$router.replace("/toLogin");
+          }
+        });
     },
-    methods: {
-      reqUserinfo(){
-        let self=this
-        this.$http.fetchPost('/api/user/ById',{userId:self.userId}).then(res=>{
-          if(res.status==200){
-            self.userMobile=res.data.userMobile
-            self.userCardId=res.data.userCardId
-            self.userRealname=res.data.userRealname
-            self.nickName=res.data.userName
-            self.userPhoto=res.data.userPhoto
-          }
-        })
-      },
-      Logout(){
-        let self=this
-        this.$http.fetchPost('/api/user/logout').then(res=>{
-          if(res.status==200){
-            self.$router.replace("/toLogin")
-          }
-        })
-      },
-      toNickName(){
-        this.$router.push({
-          path:"/nickname",
-          query:{
-            nickName:this.nickName
-          }
-        })
-      }
+    jumpModify() {
+      this.$router.push({
+        path: "/modifyInformation",
+        query: {
+          userRealname: this.userRealname,
+          userMobile: this.userMobile,
+          userCardId: this.userCardId
+        }
+      });
     }
   }
+};
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .userinfo
-    width 100%
-    .userinfo-head
-      background white
+.userinfo
+  width 100%
+  height 100%
+  background-color #ffffff
+  .userinfo-head
+    background white
+    height 50px
+    .arrow
+      position relative
+      margin-left 2%
+      padding-top 10px
+      .icon-xiangzuo
+        font-size 40px
+        color #7e8c8d
+      .userinfo-title
+        font-size 20px
+        position absolute
+        margin 0 auto
+        left 0
+        right 0
+        margin-top 6px
+        margin-left 40%
+  .items-container
+    background white
+    width 90%
+    margin-left 5%
+    .arrow
+      display flex
+      justify-content space-between
+      .icon-range-left
+        font-size 30px
+    .userinfo-items
+      display flex
+      display -webkit-flex
+      justify-content space-between
+      -webkit-justify-content space-between
+      align-items center
+      -webkit-align-items center
       height 50px
-      .arrow
-        position: relative
-        margin-left 2%
-        padding-top 10px
-        .icon-xiangzuo
-          font-size 40px
-          color #7e8c8d
-        .userinfo-title
-          font-size 20px
-          position absolute
-          margin 0 auto
-          left 0
-          right 0
-          margin-top 6px
-          margin-left 40%
-    .items-container
-      margin-top 38px
-      background white
-      .arrow
+      width 95%
+      margin-left auto
+      margin-right auto
+      .userinfo-images
         display flex
         justify-content space-between
-        margin-right 20px
-        margin-top 25px
-        .userinfo-left
-          margin-top 5px
-        .icon-range-left
-          font-size 30px
-      .userinfo-items
-        display flex
-        justify-content space-between
-        height 60px
-        .head-img
-          margin-left 8%
-          margin-top 30px
-        .userinfo-right2
-          margin-right 8%
-          margin-top 30px
-        .userinfo-images
-          display flex
-          justify-content space-between
-          .userinfo_image
-            padding-right 0
-            margin-top 20px
-            margin-right 10px
-            width 40px
-            height 40px
+        .userinfo_image
+          padding-right 0
+          width 40px
+          height 40px
+    .setting
+      height 50px
+      margin-left auto
+      margin-right auto
+      line-height 60px
+      text-align center
+      color red
 </style>

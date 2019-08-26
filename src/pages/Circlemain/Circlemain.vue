@@ -114,8 +114,9 @@
           </div>
           <div class="item_operation">
             <div class="operation">
-              <i class="iconfont icon-dianzan on"></i>
-              <span>6</span>
+              <i class="iconfont icon-dianzan" v-if="topic.likeFlag==0"></i>
+              <i class="iconfont icon-dianzan" style="color:orange"  v-if="topic.likeFlag==1"></i>
+              <span>{{topic.topicData.topicLike}}</span>
             </div>
             <div class="operation">
               <i class="iconfont icon-xiaoxi"></i>
@@ -138,16 +139,10 @@
 
             </p>
           </div>
-          <div class="lookall_comment">
+          <div class="lookall_comment" v-if="topic.topicData.comments.length>3">
             <span>查看更多评价</span>
             <i class="iconfont icon-range-left"></i>
           </div>
-          <!-- <div class="item_rating">
-            <p>
-              <span>你</span>:
-              sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-            </p>
-          </div> -->
         </div>
       </div>
     </div>
