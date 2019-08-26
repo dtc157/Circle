@@ -1,11 +1,12 @@
 import axios from 'axios';
  import qs from 'qs'
+import Aurl from './url'
 import { MessageBox} from 'mint-ui'
 
  // 注意点,按照以下写
  var instance = axios.create();
  instance.defaults.timeout = 10000;
-instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+instance.defaults.headers={"Content-Type": 'multipart/form-data'};
 
  export default {
       fetchGet(url, params = {}) {
@@ -34,5 +35,16 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
                       reject(error);
                    })
              })
-       }
+       },
+   filePost(url, params = {}) {
+     let uurl="http://10.96.107.14:8080"+url;
+     // 解决方案二：使用qs模块(axios中自带),使用qs.stringify()序列化params
+     return new Promise((resolve, reject) => {
+       axios.post(uurl, params).then(res => {
+         resolve(res.data);
+       }).catch(error => {
+         reject(error);
+       })
+     })
+   }
  }

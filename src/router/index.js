@@ -35,6 +35,7 @@ import loginTest from '../pages/toLogin/toLogin.vue'
 import Register0 from '../pages/Register/Register0.vue'
 import NickName from "../pages/NickName/NickName"
 import Files from "../pages/Files/File"
+import LoadingPage from "../pages/LoadingPage/LoadingPage"
 import MemberMain from "../pages/MemberMain/MemberMain"
 import PhotoPages from "../pages/PhotoPages/PhotoPages"
 import publishNotice from '../pages/LookTopics/publishNotice.vue'
@@ -49,10 +50,17 @@ export default new VueRouter({
     // 所有路由
     routes: [{
             path: '/',
-            component: toLogin,
+            component: LoadingPage,
             meta: {
                 showFooter: false
             }
+        },
+        {
+          path: '/tologin',
+          component: toLogin,
+          meta: {
+            showFooter: false
+          }
         },
         {
             path: '/msite',
@@ -81,6 +89,12 @@ export default new VueRouter({
             meta: {
                 showFooter: true
             }
+        },
+        //加载页面
+        {
+          path: '/loadingpage',
+          name:'LoadingPage',
+          component: LoadingPage,
         },
         //用户详情页
         {

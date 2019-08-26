@@ -107,10 +107,11 @@
           const url = "/api/cluster/allview";
           this.$http.fetchGet(url,{params}).then(res => {
             if (res.status == 200) {
+              console.log(res)
               if(res.data.list==""){
                 self.none=false
               }
-              self.lists = res.data
+              self.lists = res.data.list
               console.log(self.lists)
             } else {
               alert(res.msg)

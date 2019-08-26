@@ -2,7 +2,7 @@
   <!-- 话题页面 -->
   <div id="container">
     <!-- 顶部 -->
-    <div id="top">
+    <div id="container_top">
       <div id="back_icon" @click="back()">
         <i class="iconfont icon-zuo"></i>
       </div>
@@ -118,7 +118,7 @@ export default {
   background-color #FBFBFB
   position relative
   height 100%
-  #top
+  #container_top
     position absolute
     display flex
     display -webkit-flex
@@ -127,6 +127,7 @@ export default {
     align-items center
     -webkit-align-items center
     top 0
+    left 0
     height 50px
     width 100%
     color white

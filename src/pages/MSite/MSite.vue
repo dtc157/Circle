@@ -7,11 +7,12 @@
       <div class="search_wrap">
         <div class="content_search">
           <div class="iconfont icon-sousuo"> </div>
-          <input class="search2" placeholder="发现乌托邦"  @click="jumpSearch()" >
+          <input class="search2" placeholder="发现圈子世界"  @click="jumpSearch()" >
         </div>
       </div>
       <div id="box">
-        <div class="circle_join" @click="jumpCirclemain(circle.clusterId)" v-for="(circle,clusterId) in circles">
+        <div class="circle_join" @click="jumpCirclemain(circle.clusterId)"
+             v-for="(circle,clusterId) in circles" v-show="circles!==null ">
           <div class="img_wrap">
             <img :src="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
           </div>
@@ -40,7 +41,7 @@
       data(){
           return{
             title:"圈圈",
-            circles:[{}]
+            circles:""
           }
       },
       created(){
@@ -58,6 +59,7 @@
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 self.circles =res.data[0].clusters
+                console.log(self.circles)
               }else{
                 self.$toast(res.msg)
               }
@@ -85,6 +87,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
 #msite
   background-color #fff
+  margin-bottom 20px
   .search_wrap
     margin-top 10px;
     background-color #fff

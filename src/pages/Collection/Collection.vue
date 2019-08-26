@@ -1,7 +1,7 @@
 <template>
-  <div id="container">
+  <div id="collection">
     <!-- 顶部 -->
-    <div id="top">
+    <div id="collection_top">
       <div id="back_icon" @click="back()">
         <i class="iconfont icon-zuo"></i>
       </div>
@@ -161,12 +161,12 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus">
 @import '../../common/sylus/mixins.styl'
-#container
+#collection
   background-color #F4F4F4
   position relative
   width 100%
   height 100%
-  #top
+  #collection_top
     position absolute
     color white
     top 0

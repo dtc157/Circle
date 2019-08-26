@@ -219,7 +219,7 @@
           console.log(res)
           if(res.status==200){
               this.$toast("加入成功")
-              this.$router.go(0)
+              this.$router.replace({name:'Circlemain',query:{clusterId:this.$route.query.clusterId}})
             }else if(res.status==201){
               self.$refs.Al.onClick()
               self.isclusterId=self.$route.query.clusterId

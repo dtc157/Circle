@@ -47,7 +47,7 @@
               Cookies.set("username", res.data);
               this.$router.push("/msite");
             } else {
-              alert("用户名密码错误");
+              this.$toast("用户名密码错误")
             }
           });
       },

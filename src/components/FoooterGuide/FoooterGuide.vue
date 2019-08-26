@@ -7,17 +7,17 @@
             </span>
             <span>圈子</span>
             </span>
-            <a href="javascript:;" class="guide_item" :class="{on: '/chat'===$route.path}"  @click="goTo('/chat')">
+            <!--<a href="javascript:;" class="guide_item" :class="{on: '/chat'===$route.path}"  @click="goTo('/chat')">-->
+            <!--<span class="item_icon">-->
+                <!--<i class="iconfont icon-liaotian1"></i>-->
+            <!--</span>-->
+            <!--<span>聊天</span>-->
+            <!--</a>-->
+            <a href="javascript:;" class="guide_item" :class="{on: '/inform'===$route.path}"  @click="goTo('/inform')">
             <span class="item_icon">
                 <i class="iconfont icon-liaotian1"></i>
             </span>
-            <span>聊天</span>
-            </a>
-            <a href="javascript:;" class="guide_item" :class="{on: '/inform'===$route.path}"  @click="goTo('/inform')">
-            <span class="item_icon">
-                <i class="iconfont icon-tongzhi1"></i>
-            </span>
-            <span>通知</span>
+            <span>消息</span>
             </a>
             <a href="javascript:;" class="guide_item" :class="{on: '/profile'===$route.path}"  @click="goTo('/profile')">
             <span class="item_icon">

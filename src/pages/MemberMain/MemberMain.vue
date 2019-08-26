@@ -204,15 +204,15 @@
         display flex
         height 30px
         align-items center
-        background-color #f5f5f5
+        background-color #ffd798
+        margin-bottom 5px
         padding 10px 10px 10px 20px
         bottom-border-1px(#e4e4e4)
         p
           font-size 16px
           color black
       .groups_wrap
-        background-color #ffe4b5
-        border-radius 10px
+        background-color #ffedd1
         margin-bottom 5px
         padding 10px 20px 10px 20px
         img
@@ -250,7 +250,6 @@
               margin-right 10px
       .membermain_other
           background-color #e5e5e5
-          border-radius 10px
           padding 10px 20px 10px 20px
           img
             width 30px

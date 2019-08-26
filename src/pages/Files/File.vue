@@ -6,13 +6,12 @@
        </div>
       <div class="btn_wrap">
         <div class="btn">
-            <van-uploader :accept="'image/*'" :after-read="onRead" v-show="postData.length<=2">
+            <van-uploader accept="*" :after-read="Read" >
               上传文件
               <!--<button>上传文件askmfdksamlfmlsdmfldmflsamflsdmflsdkmfks</button>-->
             </van-uploader>
             <!--<button @click="afterRead">上传</button>-->
         </div>
-
       </div>
       <div class="file_wrap">
         <div class="file" v-for="(item,index) in lists" :key="index">
@@ -23,21 +22,10 @@
               <p class="file_msg">{{item.filerCreateTime}}     来自：小心心</p>
             </div>
           </div>
-          <div class="file_download">
+          <a ></a>
+          <a class="file_download" :href="'http://10.96.107.14:8080/static/'+item.filerName">
             <i class="iconfont icon-xiazai"></i>
-          </div>
-        </div>
-        <div class="file">
-          <div class="file_info">
-            <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1725905429,1328505641&fm=26&gp=0.jpg">
-            <div class="file_right">
-              <p class="file_title">学习.docx</p>
-              <p class="file_msg">2019.08.12     来自：小心心</p>
-            </div>
-          </div>
-          <div class="file_download">
-            <i class="iconfont icon-xiazai"></i>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -56,25 +44,24 @@ export default {
     this.queryFile()
   },
   methods:{
+    //下载
+    download(value){
+      let a = document.createElement('a')
+       let url="http://10.96.107.14:8080/static/"
+      a.href =url+value
+      a.click();
+      console.log(value)
+    },
     //上传文件
-    onRead(file) {
-      this.postData.push(file)
+    async  Read(file) {
+      // this.postData.push(file)
       // 此时可以自行将文件上传至服务器
-      let self = this;
-      //  let formData = new FormData()
-      // console.log(file)
-      // formData.append('file', file.file)
-      const params = {
-        file: file.file,
-
-        // filerColumnId:1,
-        // filerCreateById: JSON.parse(Cookies.get("username")).userId,
-        // filerclusterId:this.$route.query.clusterId,
-        // request:config};
-      }
-      console.log(params)
+       let formdata = new FormData()
+      formdata.append('file', file.file)
+      //添加请求头
+      let config = {headers: {  'Content-Type': 'multipart/form-data'}}
       const url = "/api/filer/upfiler";
-      this.$http.fetchPost(url, { params }).then(res => {
+      this.$http.filePost(url,formdata,config).then(res => {
         if (res.status == 200) {
           console.log(res)
           this.$toast("上传成功")
@@ -82,7 +69,6 @@ export default {
           this.$toast(res.msg)
         }
       });
-      console.log(file);
     },
     //查询所有文件
     queryFile(){
@@ -98,7 +84,7 @@ export default {
         if (res.status == 200) {
           self.lists = res.data;
         } else {
-          alert(res.msg);
+          this.$toast(res.msg);
         }
       });
     },

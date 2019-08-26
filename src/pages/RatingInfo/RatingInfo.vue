@@ -1,15 +1,13 @@
 <template>
   <div id="ratinginfo">
-    <HeaderTop :title="title" style="background-color: orangered">
+    <HeaderTop :title="title" style="background-color: orangered; position:fixed;">
       <span class="header_search" slot="left">
         <i class="iconfont icon-zuo" @click="back()"></i>
       </span>
     </HeaderTop>
     <div class="item_master">
       <div class="userinfo">
-        <img
-          src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg"
-        />
+        <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto">
         <div class="username">
           <span>{{topic.topicData.user.userRealname}}</span>
           <p>{{topic.topicData.topicCreateTime}}</p>
@@ -65,7 +63,9 @@
       <div class="comment_main" v-for="(topicComments,index) in topic.topicData.comments" :key="index">
         <div class="comment_head">
           <div class="head_container">
-            <div class="head_picture"></div>
+            <div class="head_picture">
+              <img :src="'http://10.96.107.14:8080/static/'+topicComments.user.userPhoto">
+            </div>
             <div class="head_message">
               <div class="username">{{topicComments.user.userRealname}}</div>
               <div class="time">{{topicComments.commentCreateTime}}</div>
@@ -79,24 +79,6 @@
         </div>
         <div class="comment_content">{{topicComments.commentContent}}</div>
       </div>
-      <!-- 评论测试2 -->
-      <!-- <div class="comment_main">
-          <div class="comment_head">
-            <div class="head_container">
-              <div class="head_picture"></div>
-              <div class="head_message">
-                <div class="username">3号测试员工</div>
-                <div class="time">11:53</div>
-              </div>
-            </div>
-            <div class="option">
-              <span>删除</span>
-              <span>·赞</span>
-              <i class="iconfont icon-dianzan2"></i>
-            </div>
-          </div>
-          <div class="comment_content">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</div>
-      </div>-->
     </div>
     <footer class="footer">
       <input type="text" placeholder="说点什么" v-model="comment" @keydown="addcomment($event)" />
@@ -206,11 +188,11 @@
           console.log(params);
           this.$http.fetchGet(url, { params }).then(res => {
             if (res.status == 200) {
-              alert("评论成功");
+              this.$toast("评论成功")
               self.comment = "";
               self.topicDetail();
             } else {
-              alert("评论失败");
+              this.$toast("评论失败");
             }
           });
         }
@@ -305,7 +287,7 @@
           margin-left 5px
           color orangered
     .comment_container
-      top-border-1px(#EDEDED)
+      margin-bottom 40px
       width 100%
       background-color #FBFBFB
       .comment_main
@@ -330,10 +312,10 @@
             align-items center
             -webkit-align-items center
             .head_picture
-              height 32px
-              width 32px
-              border-radius 50%
-              background-color pink
+              img
+                height 32px
+                width 32px
+                border-radius 50%
             .head_message
               margin-left 10px
               .username

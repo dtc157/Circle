@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <lg-preview></lg-preview>
     <FooterGuide v-show="$route.meta.showFooter"/>
   </div>
 </template>

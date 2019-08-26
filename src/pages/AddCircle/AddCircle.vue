@@ -11,12 +11,10 @@
     <div class="body">
       <input type="text" class="text" placeholder="输入圈子名称" v-model="circlename" />
       <input type="text" class="text" placeholder="输入圈子地址" v-model="clusterAddress" />
-      <div class="header_img">
-        <van-uploader :after-read="afterRead" preview-size="80px" />
-
+        <div class="left">
+          <van-uploader :after-read="afterRead" v-model="fileList" />
+        </div>
           <p>乌托邦头像</p>
-
-      </div>
       <div class="joinStyle">
         <div>设置加圈方式</div>
         <select id="joinSelect" v-model="A" @click="setStyle()">
@@ -27,7 +25,7 @@
       <div class="setPassword" v-if="show">
         <input type="text" placeholder="请输入密码" v-model="clusterPassword" />
       </div>
-      <button class="createCircle" @click="createCircle">创建圈子</button>
+      <button class="createCircle" @click="sedImg">创建圈子</button>
     </div>
   </div>
 </template>
@@ -35,19 +33,45 @@
 <script>
 import HeaderTop from "../../components/HeaderTop/HeaderTop.vue";
 import Cookies from "js-cookie";
+
 export default {
   data() {
     return {
+      fileList: [
+      ],
       title: "创建乌托邦",
       circlename: "",
       show: false,
       A: 0,
       address: "",
       clusterPassword: "",
-      clusterAddress: ""
+      clusterAddress: "",
+      imgName:"",
+      formdata:""
     };
   },
   methods: {
+    //上传图片的回调放入format中
+    afterRead(file){
+      this.formdata = new FormData()
+      this.formdata.append('file', file.file)
+    },
+    //上传图片
+     sedImg() {
+      //添加请求头
+      let config = {headers: {  'Content-Type': 'multipart/form-data'}}
+      const url = "/api/filer/upfiler";
+      this.$http.filePost(url,this.formdata,config).then(res => {
+        if (res.status == 200) {
+             this.imgName=res.data
+              this.createCircle();
+            this.$toast("上传成功")
+        } else {
+          this.$toast(res.msg)
+        }
+      });
+    },
+    //选择加入方式
     setStyle() {
       if (this.A == 1) {
         this.show = true;
@@ -61,24 +85,27 @@ export default {
     },
     //创建圈子
     createCircle() {
+      let self = this
+      //创建圈子
       const a = JSON.parse(Cookies.get("username")).userId;
       let params = {
-        clusterName: this.circlename,
+        clusterName: self.circlename,
         clusterComment: "暂无描述",
         clusterCreateById: a,
-        clusterAdd: this.A,
-        clusterPassword: this.clusterPassword,
-        clusterIcon:
-          "http://pic30.nipic.com/20130619/9885883_210838271000_2.jpg",
-        clusterAddress: this.clusterAddress
+        clusterAdd: self.A,
+        clusterPassword: self.clusterPassword,
+        clusterIcon: self.imgName,
+        clusterAddress: self.clusterAddress
       };
+      console.log(self.imgName)
+      console.log(params)
       const url = "/api/cluster/add";
-      this.$http.fetchGet(url, { params }).then(res => {
+      self.$http.fetchGet(url, {params}).then(res => {
         if (res.status == 200) {
-          this.$toast("创建成功");
-          this.$router.push("/msite");
+          self.$toast("创建成功");
+          self.$router.push("/msite");
         } else {
-          this.$toast(res.msg);
+          self.$toast(res.msg);
         }
       });
     }
@@ -99,6 +126,8 @@ export default {
     text-align center
     height 80%
     margin-top 50px
+    .left
+      margin 10px auto
     .text
       margin-top 20px
       margin-bottom 10px
