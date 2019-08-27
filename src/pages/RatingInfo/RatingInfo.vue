@@ -20,16 +20,16 @@
     <div class="wrap_content">
       <div class="item_content">
         <p>{{topic.topicData.topicContent}}</p>
-        <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto">
+        <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto" v-if="topic.topicData.topicPhoto">
       </div>
       <p class="time">最后修改时间：{{topic.topicData.topicCreateTime}}</p>
       <div class="item_operation">
         <div class="operation">
-          <i class="iconfont icon-dianzan" @click="likeit" v-if="topic.likeFlag==0"></i>
+          <i class="iconfont icon-dianzan" @click="likeit()" v-if="topic.likeFlag==0"></i>
           <i
             class="iconfont icon-dianzan"
             style="color:orange"
-            @click="likeit"
+            @click="likeit()"
             v-if="topic.likeFlag==1"
           ></i>
           <span>{{topic.topicData.topicLike}}</span>
@@ -66,7 +66,9 @@
       >
         <div class="comment_head">
           <div class="head_container">
-            <div class="head_picture"></div>
+            <div class="head_picture">
+              <img :src="'http://10.96.107.14:8080/static/'+topicComments.user.userPhoto">
+            </div>
             <div class="head_message">
               <div class="username">{{topicComments.user.userRealname}}</div>
               <div class="time">{{topicComments.commentCreateTime}}</div>
@@ -90,13 +92,14 @@
 
 <script>
 import HeaderTop from "../../components/HeaderTop/HeaderTop.vue";
-import Cookies from "js-cookie";
+import Cookies from "../../api/localStorage";
 export default {
   data() {
     return {
       title: "雷圈",
       topic: "",
       comment: "",
+      otherlist:"",
       user: JSON.parse(Cookies.get("username")),
       dz: false,
       likeSum: "",
@@ -106,8 +109,10 @@ export default {
   created() {
     this.topicDetail();
     this.queryLike();
+
   },
   methods: {
+
     //删除评论
     deleteComment(value){
       let self = this;
@@ -172,6 +177,7 @@ export default {
         userId: this.user.userId,
         topicId: this.topic.topicData.topicId
       };
+      console.log(params)
       const url = "/api/point/doPoint";
       this.$http.fetchPost(url, params).then(res => {
         if (res.status == 200) {
@@ -327,6 +333,10 @@ export default {
             width 32px
             border-radius 50%
             background-color pink
+            img
+              height 32px
+              width 32px
+              border-radius 50%
           .head_message
             margin-left 10px
             .username

@@ -115,14 +115,7 @@
               <i class="iconfont icon-xiaoxi"></i>
               <span>{{topic.topicData.comments.length}}</span>
             </div>
-            <div class="operation">
-              <i id="col" class="iconfont icon-yixianshi-"></i>
-              <span>收藏</span>
-            </div>
-            <div class="operation">
-              <i class="iconfont icon-fenxiang"></i>
-              <span>分享</span>
-            </div>
+
           </div>
           <div class="item_rating" v-for="(commentdeatail,index2) in topic.topicData.comments"
                :key="index2" v-if="index2<3">
@@ -148,14 +141,14 @@
     <footer>
       <div @click="jumptoDe">聊天</div>
       <div class="A">丨</div>
-      <div onclick="javasctipt:document.getElementById('area_box').scrollIntoView()">动态</div>
+      <div @click="findtopic">动态</div>
       <div class="A">丨</div>
       <div @click="exitCircle">退圈 <i class="iconfont icon-tuichu" ></i></div>
     </footer>
   </div>
 </template>
 <script>
-import Cookies from "js-cookie";
+  import Cookies from "../../api/localStorage";
 export default {
   name: "circlemain",
   data() {
@@ -181,11 +174,16 @@ export default {
       this.queryAllpeople()
   },
   methods: {
+    findtopic(){
+      if(this.topics.length==0){
+        this.$toast("暂无动态")
+      }
+      document.getElementById('area_box').scrollIntoView()
+    },
     //根据圈id查询圈子详情
     circleDetails() {
       //获取本用户信息
       this.user = JSON.parse(Cookies.get("username"));
-
       let self = this;
       const params = { clusterId: this.$route.query.clusterId };
       const url = "/api/cluster/details";
@@ -329,10 +327,6 @@ export default {
           role: this.role
         }
       });
-    },
-    //跳转查看分区详情
-    jumpLookareas() {
-      this.$router.push("/lookareas");
     },
     //跳转圈子信息
     jumpCircleInfo() {
@@ -524,9 +518,10 @@ export default {
         flex-wrap wrap
         padding 10px
         .box_item
+          width  30%
           position relative
           img
-            width 100px
+            width 100%
             height 80px
             border-radius 10px
           p
@@ -539,7 +534,7 @@ export default {
             transform translateX(-50%)
         .box_item1
           background-color #e5e5e5
-          width 100px
+          width 30%
           height 80px
           text-align center
           line-height 80px
@@ -611,12 +606,12 @@ export default {
           margin-bottom 10px
           display flex
           display -webkit-flex
-          justify-content space-between
-          -webkit-justify-content space-between
           align-items center
           -webkit-align-items center
           .operation
             height 20px
+            margin-right 50px
+            margin-left 10px
             line-height 20px
             #col
              font-size 23px

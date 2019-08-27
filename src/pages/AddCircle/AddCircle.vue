@@ -35,7 +35,7 @@
 
 <script>
 import HeaderTop from "../../components/HeaderTop/HeaderTop.vue";
-import Cookies from "js-cookie";
+import Cookies from "../../api/localStorage";
 
 export default {
   data() {

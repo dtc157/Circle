@@ -49,7 +49,7 @@
 </template>
 
 <script>
-  import Cookies from "vue-cookie";
+  import Cookies from "../../api/localStorage";
   export default {
     data() {
       return {

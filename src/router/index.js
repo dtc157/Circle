@@ -47,14 +47,14 @@ const myConversation = () => import('../pages/Conversation/myConversation.vue')
 export default new VueRouter({
     // 所有路由
     routes: [{
-            path: '/',
+            path: '/LoadingPage',
             component: LoadingPage,
             meta: {
                 showFooter: false
             }
         },
         {
-          path: '/tologin',
+          path: '/',
           component: toLogin,
           meta: {
             showFooter: false

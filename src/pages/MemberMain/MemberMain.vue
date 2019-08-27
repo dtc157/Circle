@@ -48,9 +48,10 @@
             <div class="other_title">
               <span>其他</span>
             </div>
-            <div class="other_people" v-for="(user,index) in list.user" v-if="index>=1">
+            <div class="other_people" v-for="(user,index) in otherlist" v-if="index>=1">
               <div class="other_left">
-                <img :src="'http://10.96.107.14:8080/static/'+user.userPhoto">
+                <img :src="'http://10.96.107.14:8080/static/'+user.userPhoto" v-if="user.userPhoto">
+                <img src="../../assets/photo/headerimg.jpeg" v-else>
                 <span>{{user.userRealname}}</span>
                 <i class="iconfont "></i>
               </div>
@@ -63,19 +64,37 @@
 </template>
 
 <script>
-  import Cookies from "js-cookie";
+  import Cookies from "../../api/localStorage";
     export default {
       data(){
         return{
           list:"",
-          groups:""
+          groups:"",
+          otherlist:""
         }
       },
       created(){
         this.circleDetails(),
-          this.queryGroup()
+          this.queryGroup(),
+          this.queryOther()
       },
       methods:{
+        //查询其他人
+        queryOther(){
+          let self = this;
+          const params = {
+            clusterId: this.$route.query.clusterId,
+          };
+          const url = "/api/cluster/notIn";
+          this.$http.fetchGet(url, { params }).then(res => {
+            if (res.status == 200) {
+              self.otherlist = res.data;
+              console.log(self.otherlist)
+            } else {
+              this.$toast(res.msg);
+            }
+          });
+        },
         //根据圈id查询圈子详情(找出圈主和其他人)
         circleDetails() {
           //获取本用户信息

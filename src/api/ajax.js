@@ -10,7 +10,7 @@ instance.defaults.headers={"Content-Type": 'multipart/form-data'};
 
  export default {
       fetchGet(url, params = {}) {
-        let uurl="http://10.96.107.14:8080"+url;
+        let uurl="http://106.13.193.45:8080"+url;
           return new Promise((resolve, reject) => {
                 axios.get(uurl, params).then(res => {
                        if(res.data.code === 302) {
@@ -26,7 +26,7 @@ instance.defaults.headers={"Content-Type": 'multipart/form-data'};
           })
        },
    fetchPost(url, params = {}) {
-     let uurl="http://10.96.107.14:8080"+url;
+     let uurl="http://106.13.193.45:8080"+url;
   // 解决方案二：使用qs模块(axios中自带),使用qs.stringify()序列化params
            return new Promise((resolve, reject) => {
     axios.post(uurl, qs.stringify(params)).then(res => {
@@ -37,7 +37,7 @@ instance.defaults.headers={"Content-Type": 'multipart/form-data'};
              })
        },
    filePost(url, params = {}) {
-     let uurl="http://10.96.107.14:8080"+url;
+     let uurl="http://106.13.193.45:8080"+url;
      // 解决方案二：使用qs模块(axios中自带),使用qs.stringify()序列化params
      return new Promise((resolve, reject) => {
        axios.post(uurl, params).then(res => {

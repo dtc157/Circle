@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import Cookies from 'js-cookie'
+  import Cookies from "../../api/localStorage";
   import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
     export default {
         name: "MSite",

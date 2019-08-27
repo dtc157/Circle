@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import Cookies from 'js-cookie'
+  import Cookies from "../../api/localStorage";
   export default {
     data(){
       return{

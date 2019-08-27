@@ -51,7 +51,7 @@
 </template>
 
 <script>
-  import Cookies from 'js-cookie'
+  import Cookies from "../../api/localStorage";
   export default {
     name: "WebSocket",
     data() {
@@ -70,7 +70,7 @@
     },
     mounted() {
       if ('WebSocket' in window) {
-        this.websocket = new WebSocket('ws://10.96.107.14:8080/websocket/'+this.clusterId+'/'+this.userId)
+        this.websocket = new WebSocket('ws://106.13.193.45:8080/websocket/'+this.clusterId+'/'+this.userId)
         this.initWebSocket()
       } else {
         alert('当前浏览器 Not support websocket')

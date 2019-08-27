@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="login">
     <div id="top">
       <i class="iconfont icon-zuo" @click="back"></i>
     </div>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import Cookies from "js-cookie";
+  import Cookies from "../../api/localStorage";
   export default {
     data() {
       return {
@@ -101,7 +101,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  #container
+  #login
     width 100%
     height 100%
     background-color #ffffff
@@ -129,6 +129,7 @@
         height 50px
         line-height 50px
         margin auto
+        background-color #fff
         margin-bottom 20px
         border 1px solid #CECCCC
         input

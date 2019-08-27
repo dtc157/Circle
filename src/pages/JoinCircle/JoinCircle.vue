@@ -131,7 +131,7 @@
   </div>
 </template>
 <script>
-  import Cookies from 'js-cookie'
+  import Cookies from "../../api/localStorage";
   import Alert from '../../components/Alert/Alert'
   export default {
     name:"circlemain",
@@ -173,7 +173,7 @@
           if(res.status==200){
             self.list=res.data[0]
           }else{
-            alert(res.msg)
+            this.$toast(res.msg)
           }
         })
       },
@@ -186,7 +186,7 @@
           if(res.status==200){
             self.topics=res.data
           }else{
-            alert(res.msg)
+            this.$toast(res.msg)
           }
         })
       },
@@ -198,7 +198,6 @@
         this.$http.fetchGet(url,{params}).then(res => {
           if(res.status==200){
             self.role=res.msg
-            this.$toast(self.role)
           }else{
             this.$toast(res.msg)
           }

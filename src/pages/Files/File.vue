@@ -16,7 +16,7 @@
       <div class="file_wrap">
         <div class="file" v-for="(item,index) in lists" :key="index">
           <div class="file_info">
-            <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1725905429,1328505641&fm=26&gp=0.jpg">
+            <img v-lazy="'http://10.96.107.14:8080/static/'+item.icon">
             <div class="file_right">
               <p class="file_title">{{item.filerData.filerName}}</p>
               <p class="file_msg">{{item.filerData.filerCreateTime}}    来自：{{item.filerData.user.userRealname  }}</p>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import Cookies from "js-cookie";
+      import Cookies from "../../api/localStorage";
 export default {
   data(){
     return{

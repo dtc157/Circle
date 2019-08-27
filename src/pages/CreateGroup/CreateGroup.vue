@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import Cookies from "js-cookie";
+  import Cookies from "../../api/localStorage";
     export default {
       data(){
         return{
@@ -46,6 +46,7 @@
             this.$http.fetchGet(url, { params }).then(res => {
               if (res.status == 200) {
                 self.$toast("创建成功")
+                this.$router.go(-1)
               } else  if(res.status==300){
                 this.$toast(res.data);
               }else{

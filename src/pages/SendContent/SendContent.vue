@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import Cookies from 'js-cookie'
+  import Cookies from "../../api/localStorage";
     export default {
       data(){
         return{
@@ -45,7 +45,6 @@
             this.$http.filePost(url, this.formdata, config).then(res => {
               if (res.status == 200) {
                 this.imgName = res.data
-                this.$toast("上传成功")
               } else {
                 this.$toast(res.msg)
               }

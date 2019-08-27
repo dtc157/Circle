@@ -9,10 +9,12 @@ import axios from 'axios'
 import qs from 'qs'
 import Vant from 'vant'
 import 'vant/lib/index.css'
+//import Cookies from '../src/api/localStorage'
 import loading from "../src/assets/lazyloading/loading.gif"
 import VueLazyload from 'vue-lazyload'
 import vuePicturePreview from 'vue-picture-preview'
-import './fiters/index' //加载过滤器
+import './fiters/index'
+ //加载过滤器
 // import Back from ' ../src/api/Back '
 
 Vue.use(VueLazyload, { //内部自定义了一个指令lazy
