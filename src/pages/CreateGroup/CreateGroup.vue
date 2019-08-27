@@ -13,7 +13,7 @@
         </div>
         <div class="group_describe">
           <span>描述:</span>
-          <input placeholder="请输入小组名称" v-model="clusterComment">
+          <input placeholder="请输入小组描述" v-model="clusterComment">
         </div>
         <div class="group_button">
           <button @click="createGroup">创建小组</button>
@@ -44,10 +44,8 @@
             };
             const url = "/api/group/add";
             this.$http.fetchGet(url, { params }).then(res => {
-              console.log(res)
               if (res.status == 200) {
                 self.$toast("创建成功")
-                console.log(res)
               } else  if(res.status==300){
                 this.$toast(res.data);
               }else{

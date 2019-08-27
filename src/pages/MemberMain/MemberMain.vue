@@ -10,15 +10,12 @@
       <div class="search_wrap">
         <div class="content_search">
           <div class="iconfont icon-sousuo"> </div>
-          <!--<form @submit.prevent="formSubmit" action="javascript:return true">-->
-          <input class="search2" placeholder="请输入组名"
-                 >
-          <!--</form>-->
+          <input class="search2" placeholder="请输入组名">
         </div>
       </div>
       <div class="membermain_body">
         <div class="circle_main">
-          <img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1566569488&di=7b5ec3468eac08e7374da2e67724fd85&src=http://b-ssl.duitang.com/uploads/item/201503/30/20150330203115_VAGdT.jpeg">
+          <!--<img v-lazy="'http://10.96.107.14:8080/static/'+list.user[0].userIcon">-->
           <p>{{list.user[0].userRealname}}(圈主)</p>
         </div>
         <div class="groups_wrap" v-for="(group,index) in groups" :key="index"
@@ -83,7 +80,6 @@
         circleDetails() {
           //获取本用户信息
           this.user = JSON.parse(Cookies.get("username"));
-          //console.log(this.user)
           let self = this;
           const params = { clusterId: this.$route.query.clusterId };
           const url = "/api/cluster/details";
@@ -98,14 +94,12 @@
         //查询某个圈子所有的小组
         queryGroup() {
           //获取本用户信息
-          //console.log(this.user)
           let self = this;
           const params = { clusterId: this.$route.query.clusterId };
           const url = "/api/group/view";
           this.$http.fetchGet(url, { params }).then(res => {
             if (res.status == 200) {
               self.groups = res.data;
-              console.log(self.groups)
             } else {
               alert(res.msg);
             }

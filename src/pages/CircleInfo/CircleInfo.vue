@@ -6,11 +6,11 @@
         </div>
       </header>
       <div class="circle_img">
-        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566229549207&di=521990d0053a919c638f80b335f110c6&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201707%2F19%2F20170719211350_4PnBt.jpeg">
+        <img v-lazy="'http://10.96.107.14:8080/static/'+list.clusterIcon">
       </div>
       <div class="wrap_content">
         <div class="circle_name">
-           <span>雷圈官方</span>
+           <span>{{list.clusterName}}</span>
           <div class="signin " >
             <i class="iconfont icon-fenxiang"></i>
             <span>分享</span>
@@ -23,14 +23,14 @@
         <div class="circle_people">
           <span>成员</span>
           <div>
-            <span class="s">1125人</span>
+            <span class="s">{{allpeople}}人</span>
             <i class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1"></i>
           </div>
         </div>
         <div class="circle_card">
           <span >我的名片</span>
           <div>
-            <span class="s">西西弗</span>
+            <span class="s">{{user.userRealname}}</span>
             <i class="iconfont icon-fanhuizuojiantouxiangzuoshangyibuxianxing1"></i>
           </div>
         </div>
@@ -55,12 +55,53 @@
 <script>
   import Cookies from "js-cookie";
     export default {
+      data() {
+        return {
+          list: "",
+          allpeople: "",
+        }
+      },
+      created(){
+        //初始化圈详情
+        this.circleDetails(),
+          //查询圈子人数
+          this.queryAllpeople()
+      },
       methods:{
+        //根据圈id查询圈子详情
+        circleDetails() {
+          //获取本用户信息
+          this.user = JSON.parse(Cookies.get("username"));
+          let self = this;
+          const params = { clusterId: this.$route.query.clusterId };
+          const url = "/api/cluster/details";
+          this.$http.fetchGet(url, { params }).then(res => {
+            if (res.status == 200) {
+              self.list = res.data[0];
+            } else {
+             self.$toast(res.msg);
+            }
+          });
+        },
+        //查询圈子总人数
+        queryAllpeople(){
+          let self = this;
+          const params = {clusterId: this.$route.query.clusterId};
+          const url = "/api/cluster/sum";
+          this.$http.fetchGet(url, { params }).then(res => {
+            if (res.status == 200) {
+              self.allpeople = res.data;
+            } else {
+              this.$toast(res.msg)
+            }
+          });
+        },
+        //删除此圈
         deteleteCircle(){
           let self = this;
           this.$dialog.confirm({
             title: '',
-            message: '确定退出吗？'
+            message: '确定删除吗？'
           }).then(() => {
             // 退出
             const params = {
@@ -79,9 +120,10 @@
             });
           }).catch(() => {
             // on cancel
-            this.$toast("退出取消")
+            this.$toast("删除取消")
           });
         },
+        //返回上一页
         back(){
           this.$router.go(-1)
         }

@@ -51,7 +51,7 @@
             document.getElementById("rememberPassword").checked = true;
           }
         } else {
-          console.log("没有登录记录");
+          this.$toast("没有登录记录");
         }
       },
       // 登录
@@ -64,7 +64,6 @@
             .then(res => {
               if (res.status == 200) {
                 Cookies.set("username", res.data);
-                console.log(res.data);
                 if (document.getElementById("rememberPassword").checked) {
                   let rememberPasswordStatus = {
                     rememberStatus: true,

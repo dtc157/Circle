@@ -76,7 +76,6 @@
           };
           const url = "/api/group/Addgroup";
           this.$http.fetchGet(url, { params }).then(res => {
-            console.log("res")
             if (res.status == 200) {
               if(res.data==1){
                 self.judjeInGroup()
@@ -136,7 +135,6 @@
         },
         //根据组id查询组员
         queryGrouppeople() {
-          //console.log(this.user)
           let self = this;
           const params = { clusterId: this.$route.query.clusterId };
           const url = "/api/group/details";

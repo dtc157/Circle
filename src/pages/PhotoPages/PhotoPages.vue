@@ -60,7 +60,6 @@
         this.$http.filePost(url,this.formdata,config).then(res => {
           if (res.status == 200) {
             this.imgName=res.data
-            console.log(this.imgName)
             this.sendFile();
             this.$toast("上传成功")
             this.queryFile()
@@ -80,8 +79,6 @@
           userId: a,
           filerName:self.imgName
         };
-        console.log(self.imgName)
-        console.log(params)
         const url = "/api/filer/add";
         self.$http.fetchGet(url, {params}).then(res => {
           if (res.status == 200) {
@@ -95,7 +92,7 @@
       queryFile(){
         //获取本用户信息
         this.user = JSON.parse(Cookies.get("username"));
-        //console.log(this.user)
+
         let self = this;
         const params = {
           clusterId: this.$route.query.clusterId,

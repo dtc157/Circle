@@ -15,7 +15,7 @@
     </div>
     <div class="circle_title">
       <span class="title">{{list.clusterName}}</span>
-      <p class="group_people">10个成员 邀请<i class="iconfont icon-jia"></i></p>
+      <p class="group_people">{{allpeople}}个成员 邀请<i class="iconfont icon-jia"></i></p>
       <div class="user_info">
         <span> 类型：{{list.clusterComment}}</span>
         <span> 地址：{{list.clusterAddress}}</span>
@@ -42,10 +42,6 @@
         <div class="title_left">
           <span><i class="iconfont icon-weibiaoti1"></i> 文件</span>
         </div>
-        <div class="title_right" @click="hint">
-          <span>查看全部</span>
-          <i class="iconfont icon-range-left"></i>
-        </div>
       </div>
       <div id="area_box">
         <div class="box_item" @click="hint">
@@ -70,35 +66,39 @@
       <p class="reply"><i class="iconfont icon-paopao"></i>最新回复</p>
     </div>
     <div >
-      <div class="comments" >
-        <div class="comments_item"  v-for="(topic,index) in topics" :key="index">
+      <div class="comments">
+        <div
+          class="comments_item"
+          @click="hint"
+          v-for="(topic,index) in topics"
+          :key="index"
+        >
           <div class="item_master">
             <div class="userinfo">
-              <img :src="'http://10.96.107.14:8080/static/'+topic.user.userPhoto">
+              <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto" />
               <div class="username">
-                <span>{{topic.user.userRealname}}</span>
-                <p>{{topic.topicCreateTime}}</p>
+                <span>{{topic.topicData.user.userRealname}}</span>
+                <p>{{topic.topicData.topicCreateTime}}</p>
               </div>
-            </div>
-            <div class="item_update">
-              <i class="iconfont icon-qitaxuanxiang"></i>
             </div>
           </div>
           <div class="item_content">
-            <!--<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566379001016&di=39b7ed8e1f893c8ef7e9bd0f31ee1f52&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201504%2F13%2F20150413H5949_CWaPL.thumb.700_0.jpeg">-->
-            <p>{{topic.topicContent}}</p>
+            <p>{{topic.topicData.topicContent}}</p>
+            <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto"
+                 v-if="topic.topicData.topicPhoto">
           </div>
           <div class="item_operation">
             <div class="operation">
-              <i class="iconfont  icon-dianzan on"></i>
-              <span>6</span>
+              <i class="iconfont icon-dianzan" v-if="topic.likeFlag==0"></i>
+              <i class="iconfont icon-dianzan" style="color:orange"  v-if="topic.likeFlag==1"></i>
+              <span>{{topic.topicData.topicLike}}</span>
             </div>
             <div class="operation">
               <i class="iconfont icon-xiaoxi"></i>
-              <span>21</span>
+              <span>{{topic.topicData.comments.length}}</span>
             </div>
             <div class="operation">
-              <i class="iconfont icon-yixianshi-"></i>
+              <i id="col" class="iconfont icon-yixianshi-"></i>
               <span>收藏</span>
             </div>
             <div class="operation">
@@ -106,15 +106,17 @@
               <span>分享</span>
             </div>
           </div>
-          <div class="item_rating">
-            <p> <span>你</span> 回复 <span>wo</span>:
-              sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
+          <div class="item_rating" v-for="(commentdeatail,index2) in topic.topicData.comments"
+               :key="index2" v-if="index2<3">
+            <p>
+              <span>{{commentdeatail.user.userRealname}}:</span>
+              <span class="comment_content">{{commentdeatail.commentContent}}</span>
+
             </p>
           </div>
-          <div class="item_rating">
-            <p> <span>你</span>:
-              sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-            </p>
+          <div class="lookall_comment" v-if="topic.topicData.comments.length>3">
+            <span>查看更多评价</span>
+            <i class="iconfont icon-range-left"></i>
           </div>
         </div>
       </div>
@@ -141,7 +143,8 @@
         role:"",
         notes: "",
         isshow:false,
-        isclusterId:''
+        isclusterId:'',
+        allpeople:""
       }
     },
     created(){
@@ -150,7 +153,9 @@
         //初始化圈话题
         this.circletopic(),
         //初始化圈角色
-        this.judgeRole()
+        this.judgeRole(),
+        //查询圈子人数
+        this.queryAllpeople()
     },
     methods:{
       //提示未加入此圈
@@ -161,13 +166,10 @@
       circleDetails(){
         //获取本用户信息
         this.user= JSON.parse(Cookies.get('username'))
-        //console.log(this.user)
         let self=this
         const params={clusterId:this.$route.query.clusterId}
-        console.log(params)
         const url = "/api/cluster/details";
         this.$http.fetchGet(url,{params}).then(res => {
-          console.log(res)
           if(res.status==200){
             self.list=res.data[0]
           }else{
@@ -178,7 +180,7 @@
       //查询圈子动态话题
       circletopic(){
         let self=this
-        const params={clusterId:this.$route.query.clusterId}
+        const params={clusterId:this.$route.query.clusterId,userId:this.user.userId}
         const url = "/api/topic/view";
         this.$http.fetchGet(url,{params}).then(res => {
           if(res.status==200){
@@ -196,11 +198,24 @@
         this.$http.fetchGet(url,{params}).then(res => {
           if(res.status==200){
             self.role=res.msg
-            console.log(self.role)
+            this.$toast(self.role)
           }else{
-            alert(res.msg)
+            this.$toast(res.msg)
           }
         })
+      },
+      //查询圈子总人数
+      queryAllpeople(){
+        let self = this;
+        const params = {clusterId: this.$route.query.clusterId};
+        const url = "/api/cluster/sum";
+        this.$http.fetchGet(url, { params }).then(res => {
+          if (res.status == 200) {
+            self.allpeople = res.data;
+          } else {
+            this.$toast(res.msg)
+          }
+        });
       },
       //回到上一页面
       back(){
@@ -210,10 +225,8 @@
       JoinCircle(){
         let self=this
         const params={ucClusterId:this.$route.query.clusterId,ucUserId:this.user.userId}
-        console.log(params)
         const url = "/api/cluster/method";
         this.$http.fetchGet(url,{params}).then(res => {
-          console.log(res)
           if(res.status==200){
               this.$toast("加入成功")
               this.$router.replace({name:'Circlemain',query:{clusterId:this.$route.query.clusterId}})

@@ -100,8 +100,6 @@ export default {
         clusterIcon: self.imgName,
         clusterAddress: self.clusterAddress
       };
-      console.log(self.imgName)
-      console.log(params)
       const url = "/api/cluster/add";
       self.$http.fetchGet(url, {params}).then(res => {
         if (res.status == 200) {

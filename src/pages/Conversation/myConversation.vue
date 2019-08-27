@@ -95,8 +95,7 @@ export default {
     },
     //查询圈子动态话题
     circletopic() {
-      let self = this;
-      console.log(this.userId);
+      let self = this
       const url = "/api/topic/viewByUid";
       const params = {
         userId: this.userId
@@ -104,10 +103,10 @@ export default {
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.topics = res.data;
-          console.log("查询我的圈子成功");
+          this.$toast("查询我的圈子成功");
         } else {
           //   this.Toast(res.msg);
-          console.log("查询我的圈子失败");
+          this.$toast("查询我的圈子失败");
         }
       });
     },

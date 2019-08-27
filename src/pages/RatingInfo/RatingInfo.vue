@@ -20,6 +20,7 @@
     <div class="wrap_content">
       <div class="item_content">
         <p>{{topic.topicData.topicContent}}</p>
+        <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto">
       </div>
       <p class="time">最后修改时间：{{topic.topicData.topicCreateTime}}</p>
       <div class="item_operation">
@@ -135,14 +136,12 @@ export default {
       const params = {
         topicId: this.$route.query.topicId,
       };
-      console.log(params);
       const url = "/api/user/selectPointUser";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.likepeople = res.data;
-          console.log(res.data);
         } else {
-          this.$toast(res.msg);
+          // this.$toast(res.msg)
         }
       });
     },
@@ -157,12 +156,10 @@ export default {
         topicId: this.$route.query.topicId,
         userId: this.user.userId
       };
-      console.log(params);
       const url = "/api/topic/viewByTid";
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.topic = res.data;
-          console.log(res.data);
         } else {
           this.$toast(res.msg);
         }
@@ -171,7 +168,6 @@ export default {
     // 点赞
     likeit() {
       this.user = JSON.parse(Cookies.get("username"));
-      console.log(this.user);
       const params = {
         userId: this.user.userId,
         topicId: this.topic.topicData.topicId
@@ -200,7 +196,6 @@ export default {
           commentTopicId: self.topic.topicData.topicId,
           commentContent: self.comment
         };
-        console.log(params);
         this.$http.fetchGet(url, { params }).then(res => {
           if (res.status == 200) {
             this.$toast("评论成功");

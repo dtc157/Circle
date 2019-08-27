@@ -59,7 +59,6 @@
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
                 self.circles =res.data[0].clusters
-                console.log(self.circles)
               }else{
                 self.$toast(res.msg)
               }

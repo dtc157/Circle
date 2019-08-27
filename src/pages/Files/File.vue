@@ -81,7 +81,6 @@ export default {
         this.$http.filePost(url, this.formdata, config).then(res => {
           if (res.status == 200) {
             this.fileName = res.data
-            //console.log(this.fileName)
             this.sendFile();
             this.$toast("上传成功")
             this.queryFile()
@@ -102,8 +101,6 @@ export default {
         userId: a,
         filerName:self.fileName
       };
-      // console.log(self.fileName)
-      // console.log(params)
       const url = "/api/filer/add";
       self.$http.fetchGet(url, {params}).then(res => {
         if (res.status == 200) {
@@ -117,7 +114,6 @@ export default {
     queryFile(){
       //获取本用户信息
       this.user = JSON.parse(Cookies.get("username"));
-      //console.log(this.user)
       let self = this;
       const params = {
         clusterId: this.$route.query.clusterId,

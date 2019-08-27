@@ -63,10 +63,8 @@
             content:self.content,
             photo:self.imgName
           }
-          console.log(params)
           const url = "/api/topic/add";
           this.$http.fetchGet(url,{params}).then(res => {
-            console.log(res)
             if(res.status==200){
               this.$toast("发布成功")
               this.$router.go(-1)

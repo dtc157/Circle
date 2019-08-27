@@ -28,51 +28,6 @@
             <p>{{note.noteContent}}</p>
           </div>
         </div>
-        <!-- <div class="comments_item" @click="jumpRatingInfo()">
-          <div class="item_master">
-            <div class="userinfo">
-              <img src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg">
-              <div class="username">
-                <span>西西弗</span>
-                <p>昨天 9.50</p>
-              </div>
-            </div>
-            <div class="item_update">
-              <i class="iconfont icon-qitaxuanxiang"></i>
-            </div>
-          </div>
-          <div class="item_content">
-            <p>小雷家的环境好极了，团队相处非常融洽，不信你来试试，每个人都很努力</p>
-          </div>
-          <div class="item_operation">
-            <div class="operation">
-              <i class="iconfont  icon-dianzan on"></i>
-              <span>6</span>
-            </div>
-            <div class="operation">
-              <i class="iconfont icon-xiaoxi"></i>
-              <span>21</span>
-            </div>
-            <div class="operation">
-              <i class="iconfont icon-yixianshi-"></i>
-              <span>收藏</span>
-            </div>
-            <div class="operation">
-              <i class="iconfont icon-fenxiang"></i>
-              <span>分享</span>
-            </div>
-          </div>
-          <div class="item_rating">
-            <p> <span>你</span> 回复 <span>wo</span>:
-              sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-            </p>
-          </div>
-          <div class="item_rating">
-            <p> <span>你</span>:
-              sdlkfmsldmflsldfmlsdlkfssfsafdsdfs
-            </p>
-          </div>
-        </div> -->
       </div>
     </div>
 </template>
@@ -100,7 +55,6 @@
           this.$http.fetchGet(url,{params}).then(res => {
             if(res.status==200){
               self.notes=res.data
-              console.log(self.notes)
             }else{
               self.$toast(res.msg)
             }

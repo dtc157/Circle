@@ -102,11 +102,11 @@ export default {
           userRealname: this.userRealname
         };
         const url = "/api/user/add";
-        this.$http.fetchGet(url, { params }).then(res => {
+        this.$http.fetchPost(url, params ).then(res => {
           if (res.status == 200) {
             Cookies.set("username", res.data);
             this.$toast.success("注册成功");
-            this.$router.push("/msite");
+            this.$router.push("/tologin");
           } else {
             this.$toast.fail("注册失败");
           }
@@ -127,28 +127,18 @@ export default {
     usernameCheck() {
       let reg = /^\w{5,12}$/;
       let value = this.$refs.username.value;
-      console.log(value);
       if (!new RegExp(reg).test(value)) {
-        console.log(reg);
-        console.log("里面的" + value);
         this.$toast.fail("账号必须是5-12的英文字母或数字");
         this.usernameCheck_status = true;
       }else{
         this.usernameCheck_status = false;
       }
     },
-    // 用户名 获得焦点 状态为false 恢复颜色
-    // recoverStatusUname() {
-    //   this.usernameCheck_status = false;
-    // },
 
     // 密码框 表单验证
     passwordCheck(userPassword) {
       let reg = /^\w{5,12}$/;
-      console.log(userPassword);
       if (!new RegExp(reg).test(userPassword)) {
-        console.log(reg);
-        console.log("里面的" + userPassword);
         this.passwordCheck_status = true;
         this.$toast.fail("密码必须是5-12的英文字母或数字");
       }else{
@@ -161,10 +151,7 @@ export default {
     // 珍视明表单验证
     realnameCheck(userRealname) {
       let reg = /^[\u4e00-\u9fa5]{2,5}$/;
-      console.log(userRealname);
       if (!new RegExp(reg).test(userRealname)) {
-        console.log(reg);
-        console.log("里面的" + userRealname);
         this.realnameCheck_status = true;
         this.$toast.fail("此栏必须是2-5的汉字");
       }else{
@@ -177,10 +164,7 @@ export default {
     // 学校表单验证
     schoolCheck(userAddress) {
       let reg = /^[\u4e00-\u9fa5]{2,15}(大学|学院)$/;
-      console.log(userAddress);
       if (!new RegExp(reg).test(userAddress)) {
-        console.log(reg);
-        console.log("里面的" + userAddress);
         this.schoolCheck_status = true;
         this.$toast.fail("请输入**大学或**学院");
       }else{

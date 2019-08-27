@@ -22,7 +22,7 @@
   #loadingpage
     width 100%
     height 100%
-    background-color #ff722e
+    background-color #febd87
     background-size 100% 100%
     background-image url("../../assets/photo/loadingpage.png")
 </style>

@@ -58,10 +58,6 @@
         <div class="title_left">
           <span><i class="iconfont icon-weibiaoti1"></i> 文件</span>
         </div>
-        <div class="title_right" @click="jumpLookareas()">
-          <span>查看全部</span>
-          <i class="iconfont icon-range-left"></i>
-        </div>
       </div>
       <div id="area_box">
         <div class="box_item" @click="jumpFiles()">
@@ -102,9 +98,6 @@
                 <span>{{topic.topicData.user.userRealname}}</span>
                 <p>{{topic.topicData.topicCreateTime}}</p>
               </div>
-            </div>
-            <div class="item_update">
-              <i class="iconfont icon-qitaxuanxiang"></i>
             </div>
           </div>
           <div class="item_content">
@@ -192,7 +185,7 @@ export default {
     circleDetails() {
       //获取本用户信息
       this.user = JSON.parse(Cookies.get("username"));
-      //console.log(this.user)
+
       let self = this;
       const params = { clusterId: this.$route.query.clusterId };
       const url = "/api/cluster/details";
@@ -200,7 +193,7 @@ export default {
         if (res.status == 200) {
           self.list = res.data[0];
         } else {
-          alert(res.msg);
+          self.$toast(res.msg);
         }
       });
     },
@@ -527,14 +520,13 @@ export default {
         justify-content space-between
       #area_box
         display flex
-        justify-content flex-start
+        justify-content space-between
         flex-wrap wrap
         padding 10px
         .box_item
           position relative
-          margin 5px auto
           img
-            width 90px
+            width 100px
             height 80px
             border-radius 10px
           p
@@ -545,12 +537,10 @@ export default {
             font-weight 600
             color #fff
             transform translateX(-50%)
-
         .box_item1
           background-color #e5e5e5
-          width 90px
+          width 100px
           height 80px
-          margin-top 5px
           text-align center
           line-height 80px
           box-sizing border-box

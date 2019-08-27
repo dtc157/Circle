@@ -48,7 +48,6 @@ export default {
         userId:this.user.userId,
         clusterId:this.clusterId
       };
-      console.log(params);
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           this.$toast("发布成功")

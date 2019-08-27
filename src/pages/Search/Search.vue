@@ -74,18 +74,15 @@
           let self=this
           const a= JSON.parse(Cookies.get('username')).userId
           const params={ucClusterId:clusterId,ucUserId:a}
-          console.log(params)
             const url = "/api/cluster/addcluster";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
-                console.log(res)
                 if(res.data==1){
                   this.$router.push({name:"Circlemain",query:{clusterId:clusterId}})
                 }else{
                   this.$router.push({name:"JoinCircle",query: {clusterId:clusterId}})
                 }
                 self.role=res.msg
-                console.log(self.role)
               }else{
                 alert(res.msg)
               }
@@ -101,16 +98,13 @@
             clusterAddress:Address,
             pageNum:1,
             pageSize:4}
-            console.log(params)
           const url = "/api/cluster/allview";
           this.$http.fetchGet(url,{params}).then(res => {
             if (res.status == 200) {
-              console.log(res)
               if(res.data.list==""){
                 self.none=false
               }
               self.lists = res.data.list
-              console.log(self.lists)
             } else {
               alert(res.msg)
             }

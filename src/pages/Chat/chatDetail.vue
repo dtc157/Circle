@@ -13,31 +13,33 @@
     </div>
     <!-- 内容 -->
       <div class="chat_box">
-        <div class="your_chat" :class="{on:item.messageUserId==userId}" v-for="(item,index) in list"
-             :key="index">
-            <div class="header_img">
-              <img :src="item.userPhoto">
+        <div class="box_item" :class="{on:item.messageUserId==userId}"
+             v-for="(item,index) in list" :key="index">
+          <div class="item_img" :class="{on:item.messageUserId==userId}">
+            <img :src="'http://10.96.107.14:8080/static/'+item.userPhoto">
+          </div>
+          <div class="item_right" :class="{on:item.messageUserId==userId}">
+            <span class="item_span " :class="{on:item.messageUserId==userId}">{{item.userName}}</span>
+            <br>
+            <div class="text" :class="{on:item.messageUserId==userId}">
+              {{item.messageContent}}
             </div>
-            <div class="chat_right" :class="{on:item.messageUserId==userId}">
-              <p class="p" :class="{on:item.messageUserId==userId}">{{item.userName}}</p>
-              <div class="input">
-                {{item.messageContent}}
-              </div>
-            </div>
+          </div>
         </div>
 
-        <!--<div class="my_chat" v-for="(item,index) in list" :key="index" -->
-             <!--v-if="item.messageUserId==userId">-->
-          <!--<div class="chat_right">-->
-            <!--<p>{{item.userName}}</p>-->
-            <!--<div class="input">-->
-              <!--{{item.messageContent}}-->
+        <!--<div class="your_chat" :class="{on:item.messageUserId==userId}" v-for="(item,index) in list"-->
+             <!--:key="index">-->
+            <!--<div class="header_img">-->
+              <!--<img :src="'http://10.96.107.14:8080/static/'+item.userPhoto">-->
             <!--</div>-->
-          <!--</div>-->
-          <!--<div class="header_img">-->
-            <!--<img :src="item.userPhoto">-->
-          <!--</div>-->
+            <!--<div class="chat_right" :class="{on:item.messageUserId==userId}">-->
+              <!--<p class="p" :class="{on:item.messageUserId==userId}">{{item.userName}}</p>-->
+              <!--<div class="input">-->
+                <!--{{item.messageContent}}-->
+              <!--</div>-->
+            <!--</div>-->
         <!--</div>-->
+
       </div>
     <!-- 底部 -->
     <div id="fooder">
@@ -79,7 +81,15 @@
     },
     methods: {
       back(){
+        this.$dialog.confirm({
+          title: '',
+          message: '确定后将不在接受消息，确定退出吗？'
+        }).then(() => {
         this.$router.go(-1)
+        }).catch(() => {
+          // on cancel
+          this.$toast("退出取消")
+        });
       },
       initWebSocket() {
         //连接错误
@@ -134,9 +144,8 @@
 #chatdetaile
   background-color #f5f5f5
   position relative
-  height 100%
   #top
-    position absolute
+    position fixed
     display flex
     display -webkit-flex
     justify-content space-between
@@ -168,6 +177,7 @@
   .chat_box
     display flex
     padding-top 50px
+    padding-bottom 100px
     flex-direction column
     .your_chat
       padding-left 15px
@@ -204,6 +214,56 @@
           border-radius 10px
           padding 5px
           margin-top 5px
+    .box_item
+      margin-top 10px
+      margin-left 10px
+      min-height 40px
+      float left
+      &.on
+        float right
+        margin-right 10px
+      .item_img
+        float left
+        display inline-block
+        width 40px
+        &.on
+          float right
+        img
+          float left
+          width 35px
+          height 35px
+          border-radius 50%
+          border orangered solid 1px
+          &.on
+            float right
+      .item_right
+        display inline-block
+        float left
+        margin-left 5px
+        &.on
+          float right
+          margin-right 5px
+        .item_span
+          min-width 10px
+          font-size 14px
+          color red
+          float left
+          &.on
+            float right
+        .text
+          float left
+          word-wrap break-all
+          word-break break-all
+          height auto
+          line-height 18px
+          font-size 14px
+          max-width 200px
+          background-color #fff
+          border-radius 10px
+          padding 5px
+          margin-top 5px
+          &.on
+            float right
   #fooder
     position fixed
     bottom 0
