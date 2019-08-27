@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-  import Cookies from "../../api/localStorage";
+import Cookies from "../../api/localStorage";
 export default {
   data() {
     return {
@@ -39,23 +39,27 @@ export default {
   methods: {
     //发布公告
     publish() {
-      this.user = JSON.parse(Cookies.get("username"));
-      this.clusterId = this.$route.query.clusterId;
-      const url = "/api/note/add";
-      const params = {
-        title: this.title,
-        content: this.content,
-        userId:this.user.userId,
-        clusterId:this.clusterId
-      };
-      this.$http.fetchGet(url, { params }).then(res => {
-        if (res.status == 200) {
-          this.$toast("发布成功")
-          this.$router.go(-1);
-        } else {
-          this.$toast("发布失败")
-        }
-      });
+      if (this.title != "" && this.content != "") {
+        this.user = JSON.parse(Cookies.get("username"));
+        this.clusterId = this.$route.query.clusterId;
+        const url = "/api/note/add";
+        const params = {
+          title: this.title,
+          content: this.content,
+          userId: this.user.userId,
+          clusterId: this.clusterId
+        };
+        this.$http.fetchGet(url, { params }).then(res => {
+          if (res.status == 200) {
+            this.$toast("发布成功");
+            this.$router.go(-1);
+          } else {
+            this.$toast("发布失败");
+          }
+        });
+      } else {
+        this.$toast("标题和内容不能为空");
+      }
     },
     back() {
       this.$router.go(-1);

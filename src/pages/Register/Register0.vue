@@ -125,10 +125,10 @@ export default {
     },
     // 用户名 表单验证
     usernameCheck() {
-      let reg = /^\w{5,12}$/;
+      let reg = /^\w{3,}$/;
       let value = this.$refs.username.value;
       if (!new RegExp(reg).test(value)) {
-        this.$toast.fail("账号必须是5-12的英文字母或数字");
+         this.$toast.fail("账号必须是3个以上的英文字母或数字");
         this.usernameCheck_status = true;
       }else{
         this.usernameCheck_status = false;

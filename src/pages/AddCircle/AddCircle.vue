@@ -11,13 +11,10 @@
     <div class="body">
       <input type="text" class="text" placeholder="输入圈子名称" v-model="circlename" />
       <input type="text" class="text" placeholder="输入圈子地址" v-model="clusterAddress" />
-        <div class="left">
-          <van-uploader
-            :after-read="afterRead"
-            v-model="fileList"
-            max-count="1" />
-        </div>
-          <p>乌托邦头像</p>
+      <div class="left">
+        <van-uploader :after-read="afterRead" v-model="fileList" max-count="1" />
+      </div>
+      <p>乌托邦头像</p>
       <div class="joinStyle">
         <div>设置加圈方式</div>
         <select id="joinSelect" v-model="A" @click="setStyle()">
@@ -28,7 +25,9 @@
       <div class="setPassword" v-if="show">
         <input type="text" placeholder="请输入密码" v-model="clusterPassword" />
       </div>
-      <button class="createCircle" @click="sedImg">创建圈子</button>
+      <div class="createCircleDiv">
+        <button class="createCircle" @click="checkForm">创建圈子</button>
+      </div>
     </div>
   </div>
 </template>
@@ -40,8 +39,7 @@ import Cookies from "../../api/localStorage";
 export default {
   data() {
     return {
-      fileList: [
-      ],
+      fileList: [],
       title: "创建乌托邦",
       circlename: "",
       show: false,
@@ -49,28 +47,28 @@ export default {
       address: "",
       clusterPassword: "",
       clusterAddress: "",
-      imgName:"",
-      formdata:""
+      imgName: "",
+      formdata: ""
     };
   },
   methods: {
     //上传图片的回调放入format中
-    afterRead(file){
-      this.formdata = new FormData()
-      this.formdata.append('file', file.file)
+    afterRead(file) {
+      this.formdata = new FormData();
+      this.formdata.append("file", file.file);
+      this.sedImg();
     },
     //上传图片
-     sedImg() {
+    sedImg() {
       //添加请求头
-      let config = {headers: {  'Content-Type': 'multipart/form-data'}}
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
       const url = "/api/filer/upfiler";
-      this.$http.filePost(url,this.formdata,config).then(res => {
+      this.$http.filePost(url, this.formdata, config).then(res => {
         if (res.status == 200) {
-             this.imgName=res.data
-              this.createCircle();
-            this.$toast("上传成功")
+          this.imgName = res.data;
+          this.$toast("上传成功");
         } else {
-          this.$toast(res.msg)
+          this.$toast(res.msg);
         }
       });
     },
@@ -86,9 +84,29 @@ export default {
     back() {
       this.$router.back(-1);
     },
+    checkForm() {
+      const self = this;
+      if (self.show == true) {
+        if (
+          self.circlename != "" &&
+          self.clusterAddress != "" &&
+          self.clusterPassword != ""
+        ) {
+          self.createCircle();
+        } else {
+          self.$toast("请完善圈子信息");
+        }
+      } else if (self.show == false) {
+        if (self.circlename != "" && self.clusterAddress != "") {
+          self.createCircle();
+        } else {
+          self.$toast("请完善圈子信息");
+        }
+      }
+    },
     //创建圈子
     createCircle() {
-      let self = this
+      let self = this;
       //创建圈子
       const a = JSON.parse(Cookies.get("username")).userId;
       let params = {
@@ -101,7 +119,7 @@ export default {
         clusterAddress: self.clusterAddress
       };
       const url = "/api/cluster/add";
-      self.$http.fetchGet(url, {params}).then(res => {
+      self.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.$toast("创建成功");
           self.$router.push("/msite");
@@ -131,7 +149,9 @@ export default {
       margin 10px auto
     .text
       margin-top 20px
-      margin-bottom 10px
+      margin-bottom 8px
+      font-size 20px
+      height 22px
       font-size 20px
       color black
       text-align center
@@ -150,38 +170,41 @@ export default {
         color #999
     .joinStyle
       width 60%
-      height 35px
+      height 70px
       line-height 35px
-      margin 10px auto 10px auto
+      margin 10px auto 0 auto
       div
         color #7F7F7F
       select
         width 60%
-        height 80%
+        height 25px
+        line-height 25px
         text-align center
         border 1px solid #C3C3C3
     .setPassword
-      width 22%
-      height 35px
-      line-height 35px
-      margin 30px auto 10px auto
+      width 24%
+      height 30px
+      line-height 30px
+      margin 0 auto 10px auto
       input
         border none
         width 100%
         height 100%
         text-align center
-    .createCircle
-      position absolute
-      left 50%
-      transform translateX(-50%)
-      bottom 15%
+    .createCircleDiv
       width 80%
       height 50px
-      line-height 50px
-      text-align center
-      background-color #FF4500
-      border-radius 20px
-      border none
-      color #ffffff
-      font-size 17px
+      margin-top 20px
+      margin-left auto
+      margin-right auto
+      .createCircle
+        width 100%
+        height 100%
+        line-height 50px
+        text-align center
+        background-color #FF4500
+        border-radius 20px
+        border none
+        color #ffffff
+        font-size 17px
 </style>
