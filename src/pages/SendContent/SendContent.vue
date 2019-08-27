@@ -11,7 +11,7 @@
       <div class="left">
         <van-uploader :after-read="afterRead" v-model="fileList" max-count="1"/>
       </div>
-      <button @click="sedImg">确认发布</button>
+      <button @click="sendTopic">确认发布</button>
     </div>
 </template>
 
@@ -34,6 +34,7 @@
         afterRead(file){
           this.formdata = new FormData()
           this.formdata.append('file', file.file)
+          this.sedImg()
         },
         //上传图片
         sedImg() {
@@ -44,7 +45,6 @@
             this.$http.filePost(url, this.formdata, config).then(res => {
               if (res.status == 200) {
                 this.imgName = res.data
-                this.sendTopic();
                 this.$toast("上传成功")
               } else {
                 this.$toast(res.msg)
