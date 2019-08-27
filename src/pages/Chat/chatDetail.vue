@@ -68,7 +68,7 @@
     },
     mounted() {
       if ('WebSocket' in window) {
-        this.websocket = new WebSocket('ws://10.96.116.148:8080/websocket/'+this.clusterId+'/'+this.userId)
+        this.websocket = new WebSocket('ws://10.96.107.14:8080/websocket/'+this.clusterId+'/'+this.userId)
         this.initWebSocket()
       } else {
         alert('当前浏览器 Not support websocket')

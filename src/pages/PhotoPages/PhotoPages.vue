@@ -62,8 +62,8 @@
             this.imgName=res.data
             console.log(this.imgName)
             this.sendFile();
-            this.$router.go(0)
             this.$toast("上传成功")
+            this.queryFile()
           } else {
             this.$toast(res.msg)
           }

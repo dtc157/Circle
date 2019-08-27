@@ -43,124 +43,124 @@
         </div>
       </div>
       <div class="setting" @click="jumpModify">修改信息</div>
-      <div class="setting" @click="Logout()">退出登录</div>
+      <!-- <div class="setting" @click="Logout()">退出登录</div> -->
     </div>
   </div>
 </template>
 
 <script>
-import Cookies from "vue-cookie";
-export default {
-  data() {
-    return {
-      phoneNumber: true,
-      userId: JSON.parse(Cookies.get("username")).userId,
-      ursername: "",
-      userRealname: "",
-      userCardId: "",
-      userMobile: "",
-      userPhoto: ""
-    };
-  },
-  created() {
-    this.reqUserinfo();
-  },
-  methods: {
-    reqUserinfo() {
-      let self = this;
-      const url = "/api/user/ById";
-      const params = { userId: self.userId };
-      this.$http.fetchGet(url, { params }).then(res => {
-        if (res.status == 200) {
-          self.userMobile = res.data.userMobile;
-          self.userCardId = res.data.userCardId;
-          self.userRealname = res.data.userRealname;
-          self.ursername = res.data.userName;
-          self.userPhoto = res.data.userPhoto;
-        }
-      });
+  import Cookies from "vue-cookie";
+  export default {
+    data() {
+      return {
+        phoneNumber: true,
+        userId: JSON.parse(Cookies.get("username")).userId,
+        ursername: "",
+        userRealname: "",
+        userCardId: "",
+        userMobile: "",
+        userPhoto: ""
+      };
     },
-    Logout() {
-      let self = this;
-      this.$http
-        .fetchPost("/api/user/logout")
-        .then(res => {
+    created() {
+      this.reqUserinfo();
+    },
+    methods: {
+      reqUserinfo() {
+        let self = this;
+        const url = "/api/user/ById";
+        const params = { userId: self.userId };
+        this.$http.fetchGet(url, { params }).then(res => {
           if (res.status == 200) {
-            Cookies.set("username","",-1);
-            // Cookies.remove("username");
-            self.$router.replace("/toLogin");
+            self.userMobile = res.data.userMobile;
+            self.userCardId = res.data.userCardId;
+            self.userRealname = res.data.userRealname;
+            self.ursername = res.data.userName;
+            self.userPhoto = res.data.userPhoto;
           }
         });
-    },
-    jumpModify() {
-      this.$router.push({
-        path: "/modifyInformation",
-        query: {
-          userRealname: this.userRealname,
-          userMobile: this.userMobile,
-          userCardId: this.userCardId
-        }
-      });
+      },
+      // Logout() {
+      //   let self = this;
+      //   this.$http
+      //     .fetchPost("/api/user/logout")
+      //     .then(res => {
+      //       if (res.status == 200) {
+      //         Cookies.set("username","",-1);
+      //         // Cookies.remove("username");
+      //         self.$router.replace("/toLogin");
+      //       }
+      //     });
+      // },
+      jumpModify() {
+        this.$router.push({
+          path: "/modifyInformation",
+          query: {
+            userRealname: this.userRealname,
+            userMobile: this.userMobile,
+            userCardId: this.userCardId
+          }
+        });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-.userinfo
-  width 100%
-  height 100%
-  background-color #ffffff
-  .userinfo-head
-    background white
-    height 50px
-    .arrow
-      position relative
-      margin-left 2%
-      padding-top 10px
-      .icon-xiangzuo
-        font-size 40px
-        color #7e8c8d
-      .userinfo-title
-        font-size 20px
-        position absolute
-        margin 0 auto
-        left 0
-        right 0
-        margin-top 6px
-        margin-left 40%
-  .items-container
-    background white
-    width 90%
-    margin-left 5%
-    .arrow
-      display flex
-      justify-content space-between
-      .icon-range-left
-        font-size 30px
-    .userinfo-items
-      display flex
-      display -webkit-flex
-      justify-content space-between
-      -webkit-justify-content space-between
-      align-items center
-      -webkit-align-items center
+  .userinfo
+    width 100%
+    height 100%
+    background-color #ffffff
+    .userinfo-head
+      background white
       height 50px
-      width 95%
-      margin-left auto
-      margin-right auto
-      .userinfo-images
+      .arrow
+        position relative
+        margin-left 2%
+        padding-top 10px
+        .icon-xiangzuo
+          font-size 40px
+          color #7e8c8d
+        .userinfo-title
+          font-size 20px
+          position absolute
+          margin 0 auto
+          left 0
+          right 0
+          margin-top 6px
+          margin-left 40%
+    .items-container
+      background white
+      width 90%
+      margin-left 5%
+      .arrow
         display flex
         justify-content space-between
-        .userinfo_image
-          padding-right 0
-          width 40px
-          height 40px
-    .setting
-      height 50px
-      margin-left auto
-      margin-right auto
-      line-height 60px
-      text-align center
-      color red
+        .icon-range-left
+          font-size 30px
+      .userinfo-items
+        display flex
+        display -webkit-flex
+        justify-content space-between
+        -webkit-justify-content space-between
+        align-items center
+        -webkit-align-items center
+        height 50px
+        width 95%
+        margin-left auto
+        margin-right auto
+        .userinfo-images
+          display flex
+          justify-content space-between
+          .userinfo_image
+            padding-right 0
+            width 40px
+            height 40px
+      .setting
+        height 50px
+        margin-left auto
+        margin-right auto
+        line-height 60px
+        text-align center
+        color red
 </style>

@@ -23,7 +23,7 @@
             </div>
           </div>
           <a ></a>
-          <a class="file_download" :href="'http://10.96.107.14:8080/static/'+item.filerName">
+          <a class="file_download" :href="'http://10.96.107.14:8080/static/'+item.filerData.filerName">
             <i class="iconfont icon-xiazai"></i>
           </a>
         </div>
@@ -39,7 +39,8 @@ export default {
       lists:"",
       postData:[],
       fileName:"",
-      formdata:""
+      formdata:"",
+      istrue:""
     }
   },
   watch:{
@@ -53,34 +54,28 @@ export default {
     this.queryFile()
   },
   methods:{
-    //校验是否为文件
-    // async beforeRead(file){
-    //   if ((file.name).endsWith(".jpg")) {
-    //     this.$toast('此库不允许上传图片');
-    //     return false;
-    //   }
-    //     return true;
-    //
-    // },
-    //下载
-    download(value){
-      let a = document.createElement('a')
-       let url="http://10.96.107.14:8080/static/"
-      a.href =url+value
-      a.click();
-      console.log(value)
-    },
     //返回文件
     Read(file){
       this.formdata = new FormData()
-      this.formdata.append('file', file.file)
-      console.log(file)
+      if(file.file.name.endsWith(".doc")
+        ||file.file.name.endsWith(".docx")
+        ||file.file.name.endsWith(".pdf")
+        ||file.file.name.endsWith(".txt")
+        ||file.file.name.endsWith(".word")
+        ||file.file.name.endsWith(".ppt")
+        ||file.file.name.endsWith(".xlsx")){
+        this.istrue=true
+        this.formdata.append('file', file.file)
+      }else {
+        this.istrue=false
+        this.$toast("文件类型不匹配")
+      }
       this.uploadFile()
     },
     //上传文件返回参数
     uploadFile() {
       //添加请求头
-      //  if(this.beforeRead()==true) {
+     if(this.istrue) {
         let config = {headers: {'Content-Type': 'multipart/form-data'}}
         const url = "/api/filer/upfiler";
         this.$http.filePost(url, this.formdata, config).then(res => {
@@ -89,11 +84,12 @@ export default {
             //console.log(this.fileName)
             this.sendFile();
             this.$toast("上传成功")
+            this.queryFile()
           } else {
             this.$toast(res.msg)
           }
         });
-     //}
+     }
     },
     //将返回参数插入到数据库
     sendFile() {
@@ -159,6 +155,7 @@ export default {
         font-size 20px
         font-weight 500
       i
+        position relative
         font-size 20px
     .btn_wrap
       bottom-border-1px(#e5e5e5)

@@ -534,7 +534,7 @@ export default {
           position relative
           margin 5px auto
           img
-            width 100px
+            width 90px
             height 80px
             border-radius 10px
           p
@@ -548,7 +548,7 @@ export default {
 
         .box_item1
           background-color #e5e5e5
-          width 100px
+          width 90px
           height 80px
           margin-top 5px
           text-align center
