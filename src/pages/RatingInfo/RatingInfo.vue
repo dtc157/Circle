@@ -177,9 +177,9 @@ export default {
         if (res.status == 200) {
           // this.dz = true;
           this.topicDetail();
-          this.$toast("点赞/取消成功");
+          //this.$toast("点赞成功");
         } else {
-          this.$toast("点赞/取消失败");
+          //this.$toast("点赞/取消失败");
         }
       });
     },
