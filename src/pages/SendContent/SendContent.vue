@@ -9,7 +9,7 @@
       <textarea placeholder="有什么新消息分享给大家..." v-model="content">
       </textarea>
       <div class="left">
-        <van-uploader :after-read="afterRead" v-model="fileList" />
+        <van-uploader :after-read="afterRead" v-model="fileList" max-count="1"/>
       </div>
       <button @click="sedImg">确认发布</button>
     </div>
@@ -38,17 +38,19 @@
         //上传图片
         sedImg() {
           //添加请求头
-          let config = {headers: {  'Content-Type': 'multipart/form-data'}}
-          const url = "/api/filer/upfiler";
-          this.$http.filePost(url,this.formdata,config).then(res => {
-            if (res.status == 200) {
-              this.imgName=res.data
-              this.sendTopic();
-              this.$toast("上传成功")
-            } else {
-              this.$toast(res.msg)
-            }
-          });
+          if(content!=null) {
+            let config = {headers: {'Content-Type': 'multipart/form-data'}}
+            const url = "/api/filer/upfiler";
+            this.$http.filePost(url, this.formdata, config).then(res => {
+              if (res.status == 200) {
+                this.imgName = res.data
+                this.sendTopic();
+                this.$toast("上传成功")
+              } else {
+                this.$toast(res.msg)
+              }
+            });
+          }
         },
         //发布动态话题
         sendTopic(){
@@ -69,7 +71,7 @@
               this.$toast("发布成功")
               this.$router.go(-1)
             }else{
-              alert(res.msg)
+              this.$toast(res.msg)
             }
           })
         },

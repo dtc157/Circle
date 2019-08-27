@@ -12,7 +12,10 @@
       <input type="text" class="text" placeholder="输入圈子名称" v-model="circlename" />
       <input type="text" class="text" placeholder="输入圈子地址" v-model="clusterAddress" />
         <div class="left">
-          <van-uploader :after-read="afterRead" v-model="fileList" />
+          <van-uploader
+            :after-read="afterRead"
+            v-model="fileList"
+            max-count="1" />
         </div>
           <p>乌托邦头像</p>
       <div class="joinStyle">

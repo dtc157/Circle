@@ -79,8 +79,9 @@
             console.log("res")
             if (res.status == 200) {
               if(res.data==1){
+                self.judjeInGroup()
                 this.$toast("加入成功")
-                this.$router.go(0);
+                // this.$router.go(0);
               }
             } else if(res.status==300){
               this.$toast(res.data);
@@ -105,6 +106,7 @@
             this.$http.fetchGet(url, {params}).then(res => {
               if (res.status == 200) {
                 self.isIn = res.data
+                self.judjeInGroup()
                 this.$toast("退出成功")
               } else {
                 this.$toast(res.msg);

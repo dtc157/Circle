@@ -19,7 +19,7 @@
             <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1725905429,1328505641&fm=26&gp=0.jpg">
             <div class="file_right">
               <p class="file_title">{{item.filerData.filerName}}</p>
-              <p class="file_msg">{{item.filerData.filerCreateTime}}     来自：小心心</p>
+              <p class="file_msg">{{item.filerData.filerCreateTime}}    来自：{{item.filerData.user.userRealname  }}</p>
             </div>
           </div>
           <a ></a>

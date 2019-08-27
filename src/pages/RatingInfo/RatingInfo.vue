@@ -116,8 +116,9 @@ export default {
         }).then(() => {
       const params = {id: value};
       const url = "/api/comment/delete";
-      this.$http.fetchPost(url, { params }).then(res => {
+      this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
+          self.topicDetail()
           self.$toast(res.msg)
         } else {
           self.$toast(res.msg)
@@ -141,7 +142,7 @@ export default {
           self.likepeople = res.data;
           console.log(res.data);
         } else {
-          alert(res.msg);
+          this.$toast(res.msg);
         }
       });
     },
@@ -163,7 +164,7 @@ export default {
           self.topic = res.data;
           console.log(res.data);
         } else {
-          alert(res.msg);
+          this.$toast(res.msg);
         }
       });
     },
@@ -180,9 +181,9 @@ export default {
         if (res.status == 200) {
           // this.dz = true;
           this.topicDetail();
-          console.log("点赞/取消成功");
+          this.$toast("点赞/取消成功");
         } else {
-          console.log("点赞/取消失败");
+          this.$toast("点赞/取消失败");
         }
       });
     },
@@ -202,11 +203,11 @@ export default {
         console.log(params);
         this.$http.fetchGet(url, { params }).then(res => {
           if (res.status == 200) {
-            alert("评论成功");
+            this.$toast("评论成功");
             self.comment = "";
             self.topicDetail();
           } else {
-            alert("评论失败");
+            this.$toast("评论失败");
           }
         });
       }
@@ -303,6 +304,7 @@ export default {
   .comment_container
     top-border-1px(#EDEDED)
     width 100%
+    margin-bottom 50px
     background-color #FBFBFB
     .comment_main
       bottom-border-1px(#EDEDED)
