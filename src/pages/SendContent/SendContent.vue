@@ -11,9 +11,7 @@
       <div class="left">
         <van-uploader :after-read="afterRead" v-model="fileList" />
       </div>
-
-
-      <button @click="sendTopic">确认发布</button>
+      <button @click="sedImg">确认发布</button>
     </div>
 </template>
 
@@ -24,21 +22,33 @@
         return{
           content:"",
           fileList: [
-            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
             // Uploader 根据文件后缀来判断是否为图片文件
             // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-          ]
+          ],
+          formdata:"",
+          imgName:""
         }
       },
       methods:{
-        //用于上传文件
-        afterRead(file) {
-          // 此时可以自行将文件上传至服务器
-          console.log(file);
+        //上传图片的回调放入format中
+        afterRead(file){
+          this.formdata = new FormData()
+          this.formdata.append('file', file.file)
         },
-        //返回上一界面
-        back(){
-          this.$router.go(-1)
+        //上传图片
+        sedImg() {
+          //添加请求头
+          let config = {headers: {  'Content-Type': 'multipart/form-data'}}
+          const url = "/api/filer/upfiler";
+          this.$http.filePost(url,this.formdata,config).then(res => {
+            if (res.status == 200) {
+              this.imgName=res.data
+              this.sendTopic();
+              this.$toast("上传成功")
+            } else {
+              this.$toast(res.msg)
+            }
+          });
         },
         //发布动态话题
         sendTopic(){
@@ -49,9 +59,12 @@
             userId:userId,
             clusterId:clusterId,
             content:self.content,
+            photo:self.imgName
           }
+          console.log(params)
           const url = "/api/topic/add";
           this.$http.fetchGet(url,{params}).then(res => {
+            console.log(res)
             if(res.status==200){
               this.$toast("发布成功")
               this.$router.go(-1)
@@ -59,6 +72,10 @@
               alert(res.msg)
             }
           })
+        },
+        //返回上一界面
+        back(){
+          this.$router.go(-1)
         },
         Jumpchooseareas(){
           this.$router.push("/chooseareas")

@@ -14,7 +14,7 @@
         <div class="circle_join" @click="jumpCirclemain(circle.clusterId)"
              v-for="(circle,clusterId) in circles" v-show="circles!==null ">
           <div class="img_wrap">
-            <img :src="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
+            <img v-lazy="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
           </div>
           <div class="circle_title">
             <p>{{circle.clusterName}}</p>

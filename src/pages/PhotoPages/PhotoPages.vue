@@ -16,8 +16,8 @@
     </div>
     <div class="photo_wrap">
       <div class="img">
-        <img v-preview="'http://10.96.107.14:8080/static/'+item.filerName"
-             :src="'http://10.96.107.14:8080/static/'+item.filerName"
+        <img v-preview="'http://10.96.107.14:8080/static/'+item.filerData.filerName"
+             :src="'http://10.96.107.14:8080/static/'+item.filerData.filerName"
              v-for="(item,index) in lists" :key="index">
       </div>
     </div>
@@ -29,34 +29,65 @@
   export default {
     data(){
       return{
-        lists:""
+        lists:"",
+        imgName:"",
+        formdata:""
       }
     },
     created(){
       this.queryFile()
     },
+    watch:{
+      lists(){
+        this.$nextTick(()=>{
+          this.queryFile()
+        })
+      }
+    },
+
     methods:{
-      //上传文件
-      async  Read(file) {
-        // this.postData.push(file)
-        // 此时可以自行将文件上传至服务器
-        console.log(file.file)
-        let self = this;
-        let formdata = new FormData()
-        formdata.append('file', file.file)
-        let config = {
-          headers: { //添加请求头
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-        // console.log(params.content)
+      //返回文件
+      Read(file){
+        this.formdata = new FormData()
+        this.formdata.append('file', file.file)
+        this.uploadFile()
+      },
+      //上传文件返回参数
+      uploadFile() {
+        //添加请求头
+        let config = {headers: {  'Content-Type': 'multipart/form-data'}}
         const url = "/api/filer/upfiler";
-        this.$http.filePost(url,formdata,config).then(res => {
+        this.$http.filePost(url,this.formdata,config).then(res => {
           if (res.status == 200) {
-            console.log(res)
+            this.imgName=res.data
+            console.log(this.imgName)
+            this.sendFile();
+            this.$router.go(0)
             this.$toast("上传成功")
           } else {
             this.$toast(res.msg)
+          }
+        });
+      },
+      //将返回参数插入到数据库
+      sendFile() {
+        let self = this
+        //创建圈子
+        const a = JSON.parse(Cookies.get("username")).userId;
+        let params = {
+          clusterId: this.$route.query.clusterId,
+          columnId:0,
+          userId: a,
+          filerName:self.imgName
+        };
+        console.log(self.imgName)
+        console.log(params)
+        const url = "/api/filer/add";
+        self.$http.fetchGet(url, {params}).then(res => {
+          if (res.status == 200) {
+            self.$toast("上传成功");
+          } else {
+            self.$toast(res.msg);
           }
         });
       },

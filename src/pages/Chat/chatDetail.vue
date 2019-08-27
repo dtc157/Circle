@@ -13,59 +13,32 @@
     </div>
     <!-- 内容 -->
       <div class="chat_box">
-        <div class="your_chat">
+        <div class="your_chat" :class="{on:item.messageUserId==userId}" v-for="(item,index) in list"
+             :key="index">
             <div class="header_img">
-              <img src="../../assets/photo/hi.png">
+              <img :src="item.userPhoto">
             </div>
-            <div class="chat_right">
-              <p>付小华</p>
+            <div class="chat_right" :class="{on:item.messageUserId==userId}">
+              <p class="p" :class="{on:item.messageUserId==userId}">{{item.userName}}</p>
               <div class="input">
-                附小哈奥斯卡加拿大的健康三道坎阿克苏加拿大看
+                {{item.messageContent}}
               </div>
             </div>
         </div>
-        <div class="your_chat">
-          <div class="header_img">
-            <img src="../../assets/photo/hi.png">
-          </div>
-          <div class="chat_right">
-            <p>付小华</p>
-            <div class="input">
-              附小哈奥斯卡加拿大的健康三道坎阿克苏加拿大看
-            </div>
-          </div>
-        </div>
-        <div class="your_chat">
-          <div class="header_img">
-            <img src="../../assets/photo/hi.png">
-          </div>
-          <div class="chat_right">
-            <p>付小华</p>
-            <div class="input">
-              附小哈奥斯卡加拿大的健康三道坎阿克苏加拿大看
-            </div>
-          </div>
-        </div>
-        <div class="my_chat">
-          <div class="chat_right">
-            <p>付小华</p>
-            <div class="input">
-              附小哈奥斯卡加拿大的健康三道坎阿克苏加拿大看
-            </div>
-          </div>
-          <div class="header_img">
-            <img src="../../assets/photo/hi.png">
-          </div>
-        </div>
-      </div>
-      <!--<div class="chatSelf">-->
-        <!--<div class="chatSelf_content">-->
-          <!--<div class="chatContent">哦i管理局卡诺i国际上来看耨i剪了个酷哦给家里困难都i格局来看的</div>-->
-          <!--<div class="chatHeat_picture"></div>-->
+
+        <!--<div class="my_chat" v-for="(item,index) in list" :key="index" -->
+             <!--v-if="item.messageUserId==userId">-->
+          <!--<div class="chat_right">-->
+            <!--<p>{{item.userName}}</p>-->
+            <!--<div class="input">-->
+              <!--{{item.messageContent}}-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="header_img">-->
+            <!--<img :src="item.userPhoto">-->
+          <!--</div>-->
         <!--</div>-->
-      <!--</div>-->
-
-
+      </div>
     <!-- 底部 -->
     <div id="fooder">
       <div id="comment_area">
@@ -76,25 +49,26 @@
 </template>
 
 <script>
-  import Vue from 'vue'
+  import Cookies from 'js-cookie'
   export default {
     name: "WebSocket",
-    components: {
-
-    },
     data() {
       return {
         text: '',
         data: '',
         websocket: null,
         list:[],
-        array:[],
-        clusterName:this.$route.query.clusterName
+        userId:"",
+        clusterName:this.$route.query.clusterName,
+        clusterId:this.$route.query.clusterId
       }
+    },
+    created(){
+      this.userId=parseInt(JSON.parse(Cookies.get('username')).userId)
     },
     mounted() {
       if ('WebSocket' in window) {
-        this.websocket = new WebSocket('ws://10.96.116.148:8080/websocket/'+1+'/'+this.clusterName)
+        this.websocket = new WebSocket('ws://10.96.116.148:8080/websocket/'+this.clusterId+'/'+this.userId)
         this.initWebSocket()
       } else {
         alert('当前浏览器 Not support websocket')
@@ -130,12 +104,9 @@
         this.data = "WebSocket连接成功" + '   状态码：' + this.websocket.readyState;
       },
       setOnmessageMessage(event) {
-          this.array
-            var A=event.data.split("￥");
-          console.log(A)
-          this.list.push(A[0])
+        this.data =event.data;
+        this.list.push(JSON.parse(this.data))
         console.log(this.list)
-        // this.text=event.data;
       },
       setOncloseMessage() {
         this.data = "WebSocket连接关闭" + '   状态码：' + this.websocket.readyState;
@@ -202,6 +173,8 @@
       padding-left 15px
       margin-top 10px
       display flex
+      &.on
+        justify-content flex-end
       .header_img
         img
           border orangered solid  1px
@@ -212,43 +185,14 @@
         margin-left 10px
         display flex
         flex-direction column
-        p
-          padding-top 5px
-          font-size 12px
-        .input
-          word-wrap break-all
-          word-break break-all
-          height auto
-          line-height 18px
-          font-size 14px
-          max-width 200px
-          background-color #fff
-          border-radius 10px
-          padding 5px
-          margin-top 5px
-
-    .my_chat
-      padding-right 15px
-      margin-top 10px
-      display flex
-      justify-content flex-end
-      .header_img
-        img
-          border orangered solid  1px
-          border-radius 50%
-          width 35px
-          height 35px
-      .chat_right
-        display flex
-        margin-right 10px
-        justify-content flex-end
-        flex-direction column
-        p
-          display flex
+        &.on
           justify-content flex-end
-          float right
+        .p
           padding-top 5px
           font-size 12px
+          &.on
+            display flex
+          justify-content flex-end
         .input
           word-wrap break-all
           word-break break-all
@@ -260,7 +204,6 @@
           border-radius 10px
           padding 5px
           margin-top 5px
-
   #fooder
     position fixed
     bottom 0

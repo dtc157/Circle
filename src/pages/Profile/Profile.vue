@@ -4,7 +4,7 @@
     <div class="myInform_outContainer">
       <div class="myInform" @click="jumpInform">
         <div class="myInform_picture">
-          <img :src="'http://10.96.107.14:8080/static/'+userPhoto" />
+          <img v-lazy="'http://10.96.107.14:8080/static/'+userPhoto" />
         </div>
         <div class="myInform_main">
           <div class="myInform_name">{{nickName}}</div>

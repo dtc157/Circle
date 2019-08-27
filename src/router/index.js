@@ -6,46 +6,44 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 声明使用插件
 Vue.use(VueRouter)
-import MSite from '../pages/MSite/MSite.vue'
-import Inform from '../pages/Inform/Inform.vue'
-import Chat from '../pages/Chat/Chat.vue'
-import Profile from '../pages/Profile/Profile.vue'
-import Circlemain from '../pages/Circlemain/Circlemain.vue'
-import Search from '../pages/Search/Search.vue'
-import AddCircle from '../pages/AddCircle/AddCircle.vue'
-import RatingInfo from "../pages/RatingInfo/RatingInfo";
-import TopicSearch from "../pages/TopicSearch/TopicSearch";
-import SendContent from "../pages/SendContent/SendContent";
-import LookTopics from "../pages/LookTopics/LookTopics";
-import Lookareas from "../pages/Lookareas/Lookareas";
-import Chooseareas from "../pages/Chooseareas/Chooseareas";
-import CircleInfo from "../pages/CircleInfo/CircleInfo";
-import JoinCircle from "../pages/JoinCircle/JoinCircle";
-import UserInfo from "../pages/UserInfo/UserInfo";
-import Collection from '../pages/Collection/Collection.vue'
-import Conversation from '../pages/Conversation/Conversation.vue'
-import Setting from '../pages/Setting/Setting.vue'
-import toLogin from '../pages/toLogin/toLogin.vue'
-import Login from '../pages/Login/Login.vue'
-import NoteInfo from '../pages/NoteInfo/NoteInfo.vue'
-import Register1 from '../pages/Register/Register1.vue'
-import Register2 from '../pages/Register/Register2.vue'
-import Register3 from '../pages/Register/Register3.vue'
-import loginTest from '../pages/toLogin/toLogin.vue'
-import Register0 from '../pages/Register/Register0.vue'
-import NickName from "../pages/NickName/NickName"
-import Files from "../pages/Files/File"
-import LoadingPage from "../pages/LoadingPage/LoadingPage"
-import MemberMain from "../pages/MemberMain/MemberMain"
-import PhotoPages from "../pages/PhotoPages/PhotoPages"
-import publishNotice from '../pages/LookTopics/publishNotice.vue'
-import Groupdetails from "../pages/Groupdetails/Groupdetails"
-import chatDetail from '../pages/Chat/chatDetail.vue'
-import CreateGroup from '../pages/CreateGroup/CreateGroup.vue'
-// const MSite = () => import('../pages/MSite/MSite.vue')
-// const Search = () => import('../pages/Search/Search.vue')
-// const Order = () => import('../pages/Order/Order.vue')
-// const Profile = () => import('../pages/Profile/Profile.vue')
+ const MSite = () => import('../pages/MSite/MSite.vue')
+const Inform = () => import('../pages/Inform/Inform.vue')
+const Chat = () => import('../pages/Chat/Chat.vue')
+const Profile = () => import('../pages/Profile/Profile.vue')
+const Circlemain = () => import('../pages/Circlemain/Circlemain.vue')
+const Search = () => import('../pages/Search/Search.vue')
+const AddCircle = () => import('../pages/AddCircle/AddCircle.vue')
+const RatingInfo = () => import('../pages/RatingInfo/RatingInfo.vue')
+const TopicSearch = () => import('../pages/TopicSearch/TopicSearch.vue')
+const SendContent = () => import('../pages/SendContent/SendContent.vue')
+const LookTopics = () => import('../pages/LookTopics/LookTopics.vue')
+const Lookareas = () => import('../pages/Lookareas/Lookareas.vue')
+const Chooseareas = () => import('../pages/Chooseareas/Chooseareas.vue')
+const CircleInfo = () => import('../pages/CircleInfo/CircleInfo.vue')
+const JoinCircle = () => import('../pages/JoinCircle/JoinCircle.vue')
+const UserInfo = () => import('../pages/UserInfo/UserInfo.vue')
+const Collection = () => import('../pages/Collection/Collection.vue')
+const Conversation = () => import('../pages/Conversation/Conversation.vue')
+const Setting = () => import('../pages/Setting/Setting.vue')
+const toLogin = () => import('../pages/toLogin/toLogin.vue')
+const Login = () => import('../pages/Login/Login.vue')
+const NoteInfo = () => import('../pages/NoteInfo/NoteInfo.vue')
+const Register1 = () => import('../pages/Register/Register1.vue')
+const Register2 = () => import('../pages/Register/Register2.vue')
+const Register3 = () => import('../pages/Register/Register3.vue')
+const loginTest = () => import('../pages/toLogin/toLogin.vue')
+const Register0 = () => import('../pages/Register/Register0.vue')
+const Files = () => import('../pages/Files/File.vue')
+const LoadingPage = () => import('../pages/LoadingPage/LoadingPage.vue')
+const MemberMain = () => import('../pages/MemberMain/MemberMain.vue')
+const PhotoPages = () => import('../pages/PhotoPages/PhotoPages.vue')
+const publishNotice = () => import('../pages/LookTopics/publishNotice.vue')
+const Groupdetails = () => import('../pages/Groupdetails/Groupdetails.vue')
+const chatDetail = () => import('../pages/Chat/chatDetail.vue')
+const CreateGroup = () => import('../pages/CreateGroup/CreateGroup.vue')
+const modifyInformation = () => import('../pages/modifyInformation/modifyInformation.vue')
+const myConversation = () => import('../pages/Conversation/myConversation.vue')
+
 export default new VueRouter({
     // 所有路由
     routes: [{
@@ -90,6 +88,16 @@ export default new VueRouter({
                 showFooter: true
             }
         },
+        //修改用户
+        {
+          path: '/modifyInformation',
+          component: modifyInformation,
+        },
+        //我的话题
+        {
+          path: '/myConversation',
+          component: myConversation
+        },
         //加载页面
         {
           path: '/loadingpage',
@@ -124,11 +132,6 @@ export default new VueRouter({
           path: '/chatDetail',
           name:'chatDetail',
           component: chatDetail
-        },
-        //昵称修改页面
-        {
-            path: '/nickname',
-            component: NickName,
         },
         {
             path: '/search',

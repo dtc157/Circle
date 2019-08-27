@@ -22,12 +22,13 @@
           <p>{{list.user[0].userRealname}}(圈主)</p>
         </div>
         <div class="groups_wrap" v-for="(group,index) in groups" :key="index"
-             @click="jumpGroupdetails(group.clusterId)">
+             @click="jumpGroupdetails(group.clusterId)" v-if="group.user.length>0">
           <div class="group" >
             <div class="group_title">
               <span>{{group.clusterName}}</span>
             </div>
-            <div class="group_leader" v-for="(item1,index1) in group.user" :key="index1" v-if="index1<1" >
+            <div class="group_leader" v-for="(item1,index1) in group.user"
+                 :key="index1" v-if="index1<1" >
               <div class="leader_left">
                 <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566580014530&di=8454588083b2b18213b6aa14c15bbee2&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201810%2F18%2F20181018162951_kgwzm.thumb.700_0.jpeg">
                 <span>{{item1.userRealname}}</span>
@@ -52,7 +53,7 @@
             </div>
             <div class="other_people" v-for="(user,index) in list.user" v-if="index>=1">
               <div class="other_left">
-                <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566580014530&di=8454588083b2b18213b6aa14c15bbee2&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201810%2F18%2F20181018162951_kgwzm.thumb.700_0.jpeg">
+                <img :src="'http://10.96.107.14:8080/static/'+user.userPhoto">
                 <span>{{user.userRealname}}</span>
                 <i class="iconfont "></i>
               </div>

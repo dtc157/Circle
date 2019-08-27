@@ -3,10 +3,8 @@
       <div class="search_wrap">
         <div class="content_search">
           <div class="iconfont icon-sousuo"> </div>
-          <!--<form @submit.prevent="formSubmit" action="javascript:return true">-->
-            <input class="search2" placeholder="请输入圈名/圈名关键字" @keydown="searchCircle($event)"
+            <input class="search2" placeholder="输入圈名/圈名关键字" @keydown="searchCircle($event)"
                    v-model="searchName">
-          <!--</form>-->
         </div>
         <span @click="back">取消</span>
       </div>
@@ -16,7 +14,7 @@
           <li class="content_item" @click="jumpJoinCircle(item.clusterId)"
               v-for="(item,index) in lists" :key="index">
             <div class="img">
-              <img :src="'http://10.96.107.14:8080/static/'+item.clusterIcon">
+              <img v-lazy="'http://10.96.107.14:8080/static/'+item.clusterIcon">
             </div>
             <div class="content">
               <p class="title">{{item.clusterName}}</p>

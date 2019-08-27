@@ -12,7 +12,7 @@
       </div>
     </header>
     <div class="circle_img">
-      <img :src="'http://10.96.107.14:8080/static/'+list.clusterIcon">
+      <img v-lazy="'http://10.96.107.14:8080/static/'+list.clusterIcon">
     </div>
     <div class="circle_title">
       <span class="title">{{list.clusterName}}</span>
@@ -24,7 +24,7 @@
 
       <div class="user_info">
         <div class="user">
-          <img :src="'http://10.96.107.14:8080/static/'+user.userPhoto">
+          <img v-lazy="'http://10.96.107.14:8080/static/'+user.userPhoto">
           <span class="username">{{user.userRealname}}({{role}})</span>
         </div>
         <div class="signin">
@@ -97,7 +97,7 @@
         >
           <div class="item_master">
             <div class="userinfo">
-              <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto" />
+              <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto" />
               <div class="username">
                 <span>{{topic.topicData.user.userRealname}}</span>
                 <p>{{topic.topicData.topicCreateTime}}</p>
@@ -109,7 +109,7 @@
           </div>
           <div class="item_content">
             <p>{{topic.topicData.topicContent}}</p>
-            <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto"
+            <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto"
                  v-if="topic.topicData.topicPhoto">
           </div>
           <div class="item_operation">

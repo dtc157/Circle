@@ -9,11 +9,16 @@ import axios from 'axios'
 import qs from 'qs'
 import Vant from 'vant'
 import 'vant/lib/index.css'
+import loading from "../src/assets/lazyloading/loading.gif"
+import VueLazyload from 'vue-lazyload'
 import vuePicturePreview from 'vue-picture-preview'
+import './fiters/index' //加载过滤器
 
+Vue.use(VueLazyload, { //内部自定义了一个指令lazy
+  loading
+})
 Vue.use(vuePicturePreview)
 Vue.use(Vant)
-Vue.prototype.$uploader=upLoade
 Vue.prototype.$http =http
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs

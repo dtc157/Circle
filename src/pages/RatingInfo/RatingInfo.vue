@@ -7,9 +7,7 @@
     </HeaderTop>
     <div class="item_master">
       <div class="userinfo">
-        <img
-          src="https://b-ssl.duitang.com/uploads/item/201807/24/20180724113155_QfPZZ.thumb.700_0.jpeg"
-        />
+        <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto">
         <div class="username">
           <span>{{topic.topicData.user.userRealname}}</span>
           <p>{{topic.topicData.topicCreateTime}}</p>
@@ -52,15 +50,8 @@
     <div class="good_people">
       <i class="iconfont icon-xin"></i>
       <div class="header_img_component">
-        <div class="header_img">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566895070&di=382d2b3b3d59b7ae956f148864207da2&imgtype=jpg&er=1&src=http%3A%2F%2Fpic29.nipic.com%2F20130507%2F8952533_183922555000_2.jpg"
-          />
-        </div>
-        <div class="header_img">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566895070&di=382d2b3b3d59b7ae956f148864207da2&imgtype=jpg&er=1&src=http%3A%2F%2Fpic29.nipic.com%2F20130507%2F8952533_183922555000_2.jpg"
-          />
+        <div class="header_img" v-for="(item,index) in likepeople" :key="index" v-if="index<=4">
+          <img :src="'http://10.96.107.14:8080/static/'+item.userPhoto">
         </div>
         <span>等</span>
         <span>{{topic.topicData.topicLike}}</span><span>人觉得很赞</span>
@@ -81,31 +72,14 @@
             </div>
           </div>
           <div class="option">
-            <span>删除</span>
+            <span v-if="topicComments.user.userId==user.userId"
+                  @click="deleteComment(topicComments.commentId)">删除</span>
             <span>·赞</span>
             <i class="iconfont icon-dianzan2"></i>
           </div>
         </div>
         <div class="comment_content">{{topicComments.commentContent}}</div>
       </div>
-      <!-- 评论测试2 -->
-      <!-- <div class="comment_main">
-          <div class="comment_head">
-            <div class="head_container">
-              <div class="head_picture"></div>
-              <div class="head_message">
-                <div class="username">3号测试员工</div>
-                <div class="time">11:53</div>
-              </div>
-            </div>
-            <div class="option">
-              <span>删除</span>
-              <span>·赞</span>
-              <i class="iconfont icon-dianzan2"></i>
-            </div>
-          </div>
-          <div class="comment_content">评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论</div>
-      </div>-->
     </div>
     <footer class="footer">
       <input type="text" placeholder="说点什么" v-model="comment" @keydown="addcomment($event)" />
@@ -124,13 +98,53 @@ export default {
       comment: "",
       user: JSON.parse(Cookies.get("username")),
       dz: false,
-      likeSum: ""
+      likeSum: "",
+      likepeople:""
     };
   },
   created() {
     this.topicDetail();
+    this.queryLike();
   },
   methods: {
+    //删除评论
+    deleteComment(value){
+      let self = this;
+        this.$dialog.confirm({
+          title: '',
+          message: '确定删除吗？'
+        }).then(() => {
+      const params = {id: value};
+      const url = "/api/comment/delete";
+      this.$http.fetchPost(url, { params }).then(res => {
+        if (res.status == 200) {
+          self.$toast(res.msg)
+        } else {
+          self.$toast(res.msg)
+        }
+      });
+        }).catch(() => {
+          // on cancel
+          this.$toast("退出取消")
+        });
+    },
+    //查询点赞人的头像
+    queryLike(){
+      let self = this;
+      const params = {
+        topicId: this.$route.query.topicId,
+      };
+      console.log(params);
+      const url = "/api/user/selectPointUser";
+      this.$http.fetchGet(url, { params }).then(res => {
+        if (res.status == 200) {
+          self.likepeople = res.data;
+          console.log(res.data);
+        } else {
+          alert(res.msg);
+        }
+      });
+    },
     //返回上一页面
     back() {
       this.$router.go(-1);
@@ -152,19 +166,6 @@ export default {
           alert(res.msg);
         }
       });
-      // .then(() => {//通过then链式解决异步的顺序问题
-      //   console.log("mount");
-      //   console.log(self.topic.topicId);
-      //   let url = "http://10.96.107.14:8080/api/topic/likesum";
-      //   this.$http.fetchPost(url, { topoic_id: this.topic.topicId }).then(res => {
-      //     if (res.status == 200) {
-      //       self.likeSum = res.data;
-      //       console.log("获取点赞数量成功");
-      //     } else {
-      //       console.log("获取点赞数量失败");
-      //     }
-      //   });
-      // });
     },
     // 点赞
     likeit() {
@@ -185,7 +186,6 @@ export default {
         }
       });
     },
-
     // 添加评论
     addcomment(ev) {
       let self = this;

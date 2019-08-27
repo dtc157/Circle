@@ -37,7 +37,7 @@
               password:this.userPass
           }
             console.log(params)
-            const url = "http://10.96.107.14:8080/api/cluster/password";
+            const url = "/api/cluster/password";
             this.$http.fetchGet(url, {params}).then(res => {
               console.log(res)
               if (res.status == 200) {

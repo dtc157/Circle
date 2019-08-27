@@ -18,8 +18,8 @@
           <div class="file_info">
             <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1725905429,1328505641&fm=26&gp=0.jpg">
             <div class="file_right">
-              <p class="file_title">{{item.filerName}}</p>
-              <p class="file_msg">{{item.filerCreateTime}}     来自：小心心</p>
+              <p class="file_title">{{item.filerData.filerName}}</p>
+              <p class="file_msg">{{item.filerData.filerCreateTime}}     来自：小心心</p>
             </div>
           </div>
           <a ></a>
@@ -37,13 +37,31 @@ export default {
   data(){
     return{
       lists:"",
-      postData:[]
+      postData:[],
+      fileName:"",
+      formdata:""
+    }
+  },
+  watch:{
+    lists(){
+      this.$nextTick(()=>{
+        this.queryFile()
+      })
     }
   },
   created(){
     this.queryFile()
   },
   methods:{
+    //校验是否为文件
+    // async beforeRead(file){
+    //   if ((file.name).endsWith(".jpg")) {
+    //     this.$toast('此库不允许上传图片');
+    //     return false;
+    //   }
+    //     return true;
+    //
+    // },
     //下载
     download(value){
       let a = document.createElement('a')
@@ -52,21 +70,50 @@ export default {
       a.click();
       console.log(value)
     },
-    //上传文件
-    async  Read(file) {
-      // this.postData.push(file)
-      // 此时可以自行将文件上传至服务器
-       let formdata = new FormData()
-      formdata.append('file', file.file)
+    //返回文件
+    Read(file){
+      this.formdata = new FormData()
+      this.formdata.append('file', file.file)
+      console.log(file)
+      this.uploadFile()
+    },
+    //上传文件返回参数
+    uploadFile() {
       //添加请求头
-      let config = {headers: {  'Content-Type': 'multipart/form-data'}}
-      const url = "/api/filer/upfiler";
-      this.$http.filePost(url,formdata,config).then(res => {
+      //  if(this.beforeRead()==true) {
+        let config = {headers: {'Content-Type': 'multipart/form-data'}}
+        const url = "/api/filer/upfiler";
+        this.$http.filePost(url, this.formdata, config).then(res => {
+          if (res.status == 200) {
+            this.fileName = res.data
+            //console.log(this.fileName)
+            this.sendFile();
+            this.$toast("上传成功")
+          } else {
+            this.$toast(res.msg)
+          }
+        });
+     //}
+    },
+    //将返回参数插入到数据库
+    sendFile() {
+      let self = this
+      //创建圈子
+      const a = JSON.parse(Cookies.get("username")).userId;
+      let params = {
+        clusterId: this.$route.query.clusterId,
+        columnId:1,
+        userId: a,
+        filerName:self.fileName
+      };
+      // console.log(self.fileName)
+      // console.log(params)
+      const url = "/api/filer/add";
+      self.$http.fetchGet(url, {params}).then(res => {
         if (res.status == 200) {
-          console.log(res)
-          this.$toast("上传成功")
+          self.$toast("上传成功");
         } else {
-          this.$toast(res.msg)
+          self.$toast(res.msg);
         }
       });
     },

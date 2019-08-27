@@ -9,7 +9,6 @@
         setTimeout(()=>{   //设置延迟执行
           this.$router.push("/tologin")
         },1500);
-
       },
       methods:{
         jumpMsite(){
@@ -23,7 +22,7 @@
   #loadingpage
     width 100%
     height 100%
-    background-color pink
+    background-color #ff722e
     background-size 100% 100%
     background-image url("../../assets/photo/loadingpage.png")
 </style>

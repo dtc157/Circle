@@ -1,6 +1,6 @@
 <template>
-  <div id="joincircle">
-    <button class="btn" @click="JoinCircle">
+  <div id="joincircle" >
+    <button class="btn" @click.stop="JoinCircle">
       <i class="iconfont icon-jiaru"></i>
       申请加入
     </button >
@@ -19,57 +19,49 @@
       <div class="user_info">
         <span> 类型：{{list.clusterComment}}</span>
         <span> 地址：{{list.clusterAddress}}</span>
-        <!--<div class="user" >-->
-          <!--<img :src="'http://10.96.107.14:8080/static/'+user.userPhoto">-->
-          <!--<span class="username">{{user.userRealname}}({{role}})</span>-->
-        <!--</div>-->
-        <!--<div class="signin " >-->
-          <!--<i class="iconfont icon-xiezi"></i>-->
-          <!--<span>签到</span>-->
-        <!--</div>-->
-        <!--<div class="signin1" style="display: none">-->
-          <!--<i class="iconfont icon-icon-test3"></i>-->
-          <!--<span>签到成功</span>-->
-        <!--</div>-->
       </div>
     </div>
     <div class="stick_wrap">
       <div class="stick">
         <div class="stick_left">
           <i class="iconfont icon-zhiding1"></i>
-          <span>置顶</span>
+          <span>公告</span>
         </div>
-        <div class="stick_right" >
-          <span>查看全部2</span>
+        <div class="stick_right" @click="hint">
+          <span>查看全部{{notes.length}}</span>
           <i class="iconfont icon-range-left"></i>
         </div>
       </div>
-      <p class="stick_content"><i class="iconfont icon-xing"></i> 小雷家大队招募成员啦！！！有意向的快来加入我们吧</p>
-      <p class="stick_content"> <i class="iconfont icon-xingzuhe"></i>小雷家大队招募成员啦！！！有意向的快来加入我们吧</p>
+      <p class="stick_content" v-for="(note,index) in notes" :key="index" v-if="index<3">
+        <i class="iconfont icon-xing"></i>
+        &nbsp;&nbsp;{{note.noteName}}:{{note.noteContent}}
+      </p>
     </div>
     <div class="all_area">
       <div class="area_title">
         <div class="title_left">
-          <i class="iconfont icon-fenlei1"></i>
-          <span>全部分区6</span>
+          <span><i class="iconfont icon-weibiaoti1"></i> 文件</span>
         </div>
-        <div class="title_right" >
+        <div class="title_right" @click="hint">
           <span>查看全部</span>
           <i class="iconfont icon-range-left"></i>
         </div>
       </div>
-      <div class="area_box">
-        <div class="box_item">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>图片</p>
+      <div id="area_box">
+        <div class="box_item" @click="hint">
+          <img
+            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566668486206&di=e3bc29df34d0f3134a653626b4fc9b2f&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fc%2F53cdd1f7c1f21.jpg"
+          />
+          <p>文件</p>
         </div>
-        <div class="box_item">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>简历</p>
+        <div class="box_item" @click="hint" >
+          <img
+            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566672704855&di=86b89b9c1bdd690bf65e69199f94eae4&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201210%2F21%2F20121021201351_hx3R2.thumb.700_0.jpeg"
+          />
+          <p>照片</p>
         </div>
-        <div class="box_item">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566279520407&di=6042610925884fbd53d813e9e566d12b&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F491e61eff9a351d71d50db5197f5f5f883c9e565.jpg">
-          <p>社长报道</p>
+        <div class="box_item1"@click="hint">
+          <p><i class="iconfont icon-svg"></i></p>
         </div>
       </div>
     </div>
@@ -147,6 +139,7 @@
         user:"",
         topics:"",
         role:"",
+        notes: "",
         isshow:false,
         isclusterId:''
       }
@@ -160,6 +153,10 @@
         this.judgeRole()
     },
     methods:{
+      //提示未加入此圈
+      hint(){
+        this.$toast("您还未加入此圈")
+      },
       //根据圈id查询圈子详情
       circleDetails(){
         //获取本用户信息
@@ -227,7 +224,20 @@
             this.$toast("加入错误")
           }
         })
-      }
+      },
+      //查询当前圈子的公告
+      queryNotes() {
+        let self = this;
+        const params = { clusterId: this.$route.query.clusterId };
+        const url = "/api/note/view";
+        this.$http.fetchGet(url, { params }).then(res => {
+          if (res.status == 200) {
+            self.notes = res.data;
+          } else {
+            //this.$toast(res.msg)
+          }
+        });
+      },
     },
     components:{
       Alert
@@ -326,7 +336,7 @@
           color #fc9020
           i
             font-size 20px
-        .stick_right,i
+        .stick_right, i
           text-align center
           line-height 10px
           color #999
@@ -334,7 +344,7 @@
       .stick_content
         display inline-block
         font-size 14px
-        padding  5px
+        padding 5px
         overflow hidden
         text-overflow ellipsis
         white-space nowrap
@@ -353,14 +363,14 @@
         color #7f7f7f
         font-size 14px
         justify-content space-between
-      .area_box
+      #area_box
         display flex
         justify-content flex-start
         flex-wrap wrap
         padding 10px
         .box_item
           position relative
-          margin 5px  auto
+          margin 5px auto
           img
             width 100px
             height 80px
@@ -369,10 +379,22 @@
             position absolute
             bottom 10px
             left 50%
-            font-size 12px
+            font-size 14px
             font-weight 600
             color #fff
             transform translateX(-50%)
+
+        .box_item1
+          background-color #e5e5e5
+          width 100px
+          height 80px
+          margin-top 5px
+          text-align center
+          line-height 80px
+          box-sizing border-box
+          border-radius 10px
+          i
+            font-size 30px
     .nav
       display flex
       padding  0 10px
