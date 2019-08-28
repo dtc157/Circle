@@ -6,7 +6,7 @@
         </div>
       </header>
       <div class="circle_img">
-        <img v-lazy="'http://10.96.107.14:8080/static/'+list.clusterIcon">
+        <img v-lazy="'http://106.13.193.45:8080/static/'+list.clusterIcon">
       </div>
       <div class="wrap_content">
         <div class="circle_name">

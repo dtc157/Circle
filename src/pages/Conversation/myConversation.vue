@@ -19,7 +19,7 @@
         >
           <div class="item_master">
             <div class="userinfo">
-              <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto" />
+              <img :src="'http://106.13.193.45:8080/static/'+topic.topicData.user.userPhoto" />
               <div class="username">
                 <span>{{topic.topicData.user.userRealname}}</span>
                 <p>{{topic.topicData.topicCreateTime}}</p>
@@ -32,7 +32,7 @@
           <div class="item_content">
             <p>{{topic.topicData.topicContent}}</p>
             <img
-              :src="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto"
+              :src="'http://106.13.193.45:8080/static/'+topic.topicData.topicPhoto"
               v-if="topic.topicData.topicPhoto"
             />
           </div>
@@ -103,10 +103,10 @@ export default {
       this.$http.fetchGet(url, { params }).then(res => {
         if (res.status == 200) {
           self.topics = res.data;
-          this.$toast("查询我的圈子成功");
+          // this.$toast("查询我的圈子成功");
         } else {
           //   this.Toast(res.msg);
-          this.$toast("查询我的圈子失败");
+          // this.$toast("查询我的圈子失败");
         }
       });
     },

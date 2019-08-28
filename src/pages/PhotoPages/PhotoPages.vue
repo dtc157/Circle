@@ -16,8 +16,8 @@
     </div>
     <div class="photo_wrap">
       <div class="img">
-        <img v-preview="'http://10.96.107.14:8080/static/'+item.filerData.filerName"
-             :src="'http://10.96.107.14:8080/static/'+item.filerData.filerName"
+        <img v-preview="'http://106.13.193.45:8080/static/'+item.filerData.filerName"
+             :src="'http://106.13.193.45:8080/static/'+item.filerData.filerName"
              v-for="(item,index) in lists" :key="index">
       </div>
     </div>
@@ -48,9 +48,15 @@
     methods:{
       //返回文件
       Read(file){
-        this.formdata = new FormData()
-        this.formdata.append('file', file.file)
-        this.uploadFile()
+        if(file.file.name.endsWith(".jpg")){
+          this.formdata = new FormData()
+          this.formdata.append('file', file.file)
+          this.uploadFile()
+        }else{
+          this.istrue=false
+          this.$toast("请上传jpg格式")
+        }
+
       },
       //上传文件返回参数
       uploadFile() {

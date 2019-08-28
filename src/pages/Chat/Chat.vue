@@ -8,7 +8,7 @@
         <div class="comment_head">
           <div class="head_container">
             <div class="head_picture">
-              <img :src="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
+              <img :src="'http://106.13.193.45:8080/static/'+circle.clusterIcon">
             </div>
             <div class="head_message">
               <div class="username">{{circle.clusterName}}</div>

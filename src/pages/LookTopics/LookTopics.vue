@@ -12,7 +12,7 @@
              v-for="(note,index) in notes" :key="index">
           <div class="item_master">
             <div class="userinfo">
-              <img :src="'http://10.96.107.14:8080/static/'+note.user.userPhoto">
+              <img :src="'http://106.13.193.45:8080/static/'+note.user.userPhoto">
               <div class="username">
                 <span>{{note.user.userRealname}}&nbsp;<i class="iconfont icon-zhiding2"></i></span>
                 <p>{{note.user.noteCreateTime}}</p>
@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="item_content" >
-            <!--<img :src="'http://10.96.107.14:8080/static/'+note.user.userPhoto">-->
+            <!--<img :src="'http://106.13.193.45:8080/static/'+note.user.userPhoto">-->
             <p style="color: orangered"><i class="iconfont icon-xing1"></i> {{note.noteName}}</p>
             <p>{{note.noteContent}}</p>
           </div>

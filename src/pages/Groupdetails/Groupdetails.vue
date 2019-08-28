@@ -1,153 +1,149 @@
 <template>
-    <div id="groupdetails">
-      <header class="group_header">
-        <i class="iconfont icon-zuo" @click="back()"></i>
-        <div class="header_title">
-          <p>{{peoples.clusterName}}</p>
-        </div>
-      </header>
-      <div class="search_wrap">
-        <div class="content_search">
-          <div class="iconfont icon-sousuo"> </div>
-          <!--<form @submit.prevent="formSubmit" action="javascript:return true">-->
-          <input class="search2" placeholder="请输入组员"
-          >
-          <!--</form>-->
-        </div>
+  <div id="groupdetails">
+    <header class="group_header">
+      <i class="iconfont icon-zuo" @click="back()"></i>
+      <div class="header_title">
+        <p>{{peoples.clusterName}}</p>
       </div>
-      <div class="group">
-        <div class="group_people" v-for="(people,index) in peoples.user"
-             :key="index" v-if="index==0">
-          <div class="leader_left">
-            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566580014530&di=8454588083b2b18213b6aa14c15bbee2&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201810%2F18%2F20181018162951_kgwzm.thumb.700_0.jpeg">
-            <span>{{people.userRealname}}</span>
-            <i class="iconfont "></i>
-          </div>
-          <span class="leader_right">组长</span>
-        </div>
-        <div class="group_people" v-for="(people,index) in peoples.user" :key="index" v-if="index>0" >
-          <div class="leader_left">
-            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566580014530&di=8454588083b2b18213b6aa14c15bbee2&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201810%2F18%2F20181018162951_kgwzm.thumb.700_0.jpeg">
-            <span>{{people.userRealname}}</span>
-            <i class="iconfont "></i>
-          </div>
-          <span class="leader_right">组员</span>
-        </div>
+    </header>
+    <div class="search_wrap">
+      <div class="content_search">
+        <div class="iconfont icon-sousuo"> </div>
+        <!--<form @submit.prevent="formSubmit" action="javascript:return true">-->
+        <input class="search2" placeholder="请输入组员"
+        >
+        <!--</form>-->
       </div>
-      <footer>
-        <button class="join" v-show="isIn==0" @click="joinGroup">立即加入</button>
-        <button class="exit"  v-show ="isIn==1" @click="exitGroup">退出</button>
-      </footer>
     </div>
+    <div class="group">
+      <div class="group_people" v-for="(people,index) in peoples.user"
+           :key="index" v-if="index==0">
+        <div class="leader_left">
+          <img v-lazy="'http://106.13.193.45:8080/static/'+people.userPhoto">
+          <span>{{people.userRealname}}</span>
+          <i class="iconfont "></i>
+        </div>
+        <span class="leader_right">组长</span>
+      </div>
+      <div class="group_people" v-for="(people,index) in peoples.user" :key="index" v-if="index>0" >
+        <div class="leader_left">
+          <img v-lazy="'http://106.13.193.45:8080/static/'+people.userPhoto">
+          <span>{{people.userRealname}}</span>
+          <i class="iconfont "></i>
+        </div>
+        <span class="leader_right">组员</span>
+      </div>
+    </div>
+    <footer>
+      <button class="join" v-show="isIn==0" @click="joinGroup">立即加入</button>
+      <button class="exit"  v-show ="isIn==1" @click="exitGroup">退出</button>
+    </footer>
+  </div>
 </template>
 
 <script>
   import Cookies from "../../api/localStorage";
-    export default {
-      data(){
-        return{
-          isIn:"",
-          peoples:''
-        }
+  export default {
+    data(){
+      return{
+        isIn:"",
+        peoples:''
+      }
+    },
+    created(){
+      this.judjeInGroup(),
+        this.queryGrouppeople()
+    },
+    methods: {
+      //返回上一界面
+      back() {
+        this.$router.go(-1)
       },
-      // watch:{
-      //   peoples(){
-      //     this.$nextTick(()=>{
-      //       this.judjeInGroup()
-      //     })
-      //   }
-      // },
-      created(){
-        this.judjeInGroup(),
-          this.queryGrouppeople()
+      //加入小组
+      joinGroup(){
+        const userId = JSON.parse(Cookies.get("username")).userId;
+        let self = this;
+        const params = {
+          clusterId: this.$route.query.clusterId,
+          userId:userId
+        };
+        const url = "/api/group/Addgroup";
+        this.$http.fetchGet(url, { params }).then(res => {
+          if (res.status == 200) {
+            if(res.data==1){
+
+              this.$toast("加入成功")
+              self.queryGrouppeople()
+              self.judjeInGroup()
+              //this.$router.go(0);
+            }
+          } else if(res.status==300){
+            this.$toast(res.data);
+          }else{
+            this.$toast(res.msg);
+          }
+        });
       },
-      methods: {
-        //返回上一界面
-        back() {
-          this.$router.go(-1)
-        },
-        //加入小组
-        joinGroup(){
-          const userId = JSON.parse(Cookies.get("username")).userId;
-          let self = this;
+      //退出小组
+      exitGroup(){
+        const userId = JSON.parse(Cookies.get("username")).userId;
+        let self = this;
+        this.$dialog.confirm({
+          title: '',
+          message: '确定退出吗？'
+        }).then(() => {
           const params = {
             clusterId: this.$route.query.clusterId,
-            userId:userId
+            userId: userId
           };
-          const url = "/api/group/Addgroup";
-          this.$http.fetchGet(url, { params }).then(res => {
+          const url = "/api/group/quit";
+          this.$http.fetchGet(url, {params}).then(res => {
             if (res.status == 200) {
-              if(res.data==1){
-                self.judjeInGroup()
-                this.$toast("加入成功")
-                // this.$router.go(0);
-              }
-            } else if(res.status==300){
-              this.$toast(res.data);
-            }else{
+              self.isIn = res.data
+              self.queryGrouppeople()
+              this.$toast("退出成功")
+              self.$router.go(-1);
+            } else {
               this.$toast(res.msg);
             }
           });
-        },
-        //退出小组
-        exitGroup(){
-          const userId = JSON.parse(Cookies.get("username")).userId;
-          let self = this;
-          this.$dialog.confirm({
-            title: '',
-            message: '确定退出吗？'
-          }).then(() => {
-            const params = {
-              clusterId: this.$route.query.clusterId,
-              userId: userId
-            };
-            const url = "/api/group/quit";
-            this.$http.fetchGet(url, {params}).then(res => {
-              if (res.status == 200) {
-                self.isIn = res.data
-                self.judjeInGroup()
-                this.$toast("退出成功")
-              } else {
-                this.$toast(res.msg);
-              }
-            });
-            self.$router.go(-1);
-          }).catch(()=>{
-            this.$toast("退出取消")
-          })
-        },
-        //判断此人是否在这个小组
-        judjeInGroup() {
-          const userId = JSON.parse(Cookies.get("username")).userId;
-          let self = this;
-          const params = {
-            clusterId: this.$route.query.clusterId,
-            userId:userId
-          };
-          const url = "/api/group/addcluster";
-          this.$http.fetchGet(url, { params }).then(res => {
-            if (res.status == 200) {
-              self.isIn=res.data
-            } else {
-              self.$toast(res.msg);
-            }
-          });
-        },
-        //根据组id查询组员
-        queryGrouppeople() {
-          let self = this;
-          const params = { clusterId: this.$route.query.clusterId };
-          const url = "/api/group/details";
-          this.$http.fetchGet(url, { params }).then(res => {
-            if (res.status == 200) {
-              self.peoples = res.data[0];
-            } else {
-              self.$toast(res.msg);
-            }
-          });
-        },
-      }
+        }).catch(()=>{
+          this.$toast("退出取消")
+        })
+      },
+      //判断此人是否在这个小组
+      judjeInGroup() {
+        const userId = JSON.parse(Cookies.get("username")).userId;
+        let self = this;
+        const params = {
+          clusterId: this.$route.query.clusterId,
+          userId:userId
+        };
+        const url = "/api/group/addcluster";
+        this.$http.fetchGet(url, { params }).then(res => {
+          if (res.status == 200) {
+            self.isIn=res.data
+          } else {
+            self.$toast(res.msg);
+          }
+        });
+      },
+      //根据组id查询组员
+      queryGrouppeople() {
+        let self = this;
+        const params = { clusterId: this.$route.query.clusterId };
+        const url = "/api/group/details";
+        this.$http.fetchGet(url, { params }).then(res => {
+          if (res.status == 200) {
+            self.peoples = res.data[0];
+            console.log(self.peoples)
+          } else {
+            self.$toast(res.msg);
+          }
+        });
+      },
     }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

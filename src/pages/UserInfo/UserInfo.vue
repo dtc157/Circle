@@ -10,7 +10,7 @@
       <div class="userinfo-items">
         <div class="head-img">头像</div>
         <div class="userinfo-images">
-          <img :src="'http://10.96.107.14:8080/static/'+userPhoto" class="userinfo_image" />
+          <img :src="'http://106.13.193.45:8080/static/'+userPhoto" class="userinfo_image" />
         </div>
       </div>
       <div class="userinfo-items">
@@ -80,18 +80,6 @@
           }
         });
       },
-      // Logout() {
-      //   let self = this;
-      //   this.$http
-      //     .fetchPost("/api/user/logout")
-      //     .then(res => {
-      //       if (res.status == 200) {
-      //         Cookies.set("username","",-1);
-      //         // Cookies.remove("username");
-      //         self.$router.replace("/toLogin");
-      //       }
-      //     });
-      // },
       jumpModify() {
         this.$router.push({
           path: "/modifyInformation",

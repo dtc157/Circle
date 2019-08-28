@@ -1,7 +1,6 @@
 //封装操作localstorage本地存储的方法
 
 var Cookies = {
-
   //存储
   set(key, value) {
     localStorage.setItem(key, JSON.stringify(value));

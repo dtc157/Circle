@@ -16,7 +16,7 @@
         <div class="box_item" :class="{on:item.messageUserId==userId}"
              v-for="(item,index) in list" :key="index">
           <div class="item_img" :class="{on:item.messageUserId==userId}">
-            <img :src="'http://10.96.107.14:8080/static/'+item.userPhoto">
+            <img :src="'http://106.13.193.45:8080/static/'+item.userPhoto">
           </div>
           <div class="item_right" :class="{on:item.messageUserId==userId}">
             <span class="item_span " :class="{on:item.messageUserId==userId}">{{item.userName}}</span>
@@ -30,7 +30,7 @@
         <!--<div class="your_chat" :class="{on:item.messageUserId==userId}" v-for="(item,index) in list"-->
              <!--:key="index">-->
             <!--<div class="header_img">-->
-              <!--<img :src="'http://10.96.107.14:8080/static/'+item.userPhoto">-->
+              <!--<img :src="'http://106.13.193.45:8080/static/'+item.userPhoto">-->
             <!--</div>-->
             <!--<div class="chat_right" :class="{on:item.messageUserId==userId}">-->
               <!--<p class="p" :class="{on:item.messageUserId==userId}">{{item.userName}}</p>-->

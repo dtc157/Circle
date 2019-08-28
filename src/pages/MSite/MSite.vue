@@ -14,7 +14,7 @@
         <div class="circle_join" @click="jumpCirclemain(circle.clusterId)"
              v-for="(circle,clusterId) in circles" v-show="circles!==null ">
           <div class="img_wrap">
-            <img v-lazy="'http://10.96.107.14:8080/static/'+circle.clusterIcon">
+            <img v-lazy="'http://106.13.193.45:8080/static/'+circle.clusterIcon">
           </div>
           <div class="circle_title">
             <p>{{circle.clusterName}}</p>
@@ -58,6 +58,7 @@
             const url = "/api/cluster/view";
             this.$http.fetchGet(url,{params}).then(res => {
               if(res.status==200){
+                console.log(res.data)
                 self.circles =res.data[0].clusters
               }else{
                 self.$toast(res.msg)

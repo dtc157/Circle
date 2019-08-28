@@ -4,7 +4,7 @@
     <div class="myInform_outContainer">
       <div class="myInform" >
         <div class="myInform_picture">
-          <img v-lazy="'http://10.96.107.14:8080/static/'+userPhoto"
+          <img v-lazy="'http://106.13.193.45:8080/static/'+userPhoto"
           v-if="userPhoto!==null"/>
           <div clsss="img" v-else>
             <van-uploader :after-read.stop="Read" :preview-size="50" />
@@ -24,7 +24,7 @@
     <!-- 去掉 -->
     <!-- <router-link to="/userinfo" class="profile-link">
       <div class="profile-images">
-        <img :src="'http://10.96.122.34:8080/static/'+userPhoto" class="profile_image" />
+        <img :src="'http://106.13.193.45:8080/static/'+userPhoto" class="profile_image" />
       </div>
       <div class="user">
         <div class="user-info">

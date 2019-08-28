@@ -7,7 +7,7 @@
     </HeaderTop>
     <div class="item_master">
       <div class="userinfo">
-        <img :src="'http://10.96.107.14:8080/static/'+topic.topicData.user.userPhoto">
+        <img :src="'http://106.13.193.45:8080/static/'+topic.topicData.user.userPhoto">
         <div class="username">
           <span>{{topic.topicData.user.userRealname}}</span>
           <p>{{topic.topicData.topicCreateTime}}</p>
@@ -20,7 +20,7 @@
     <div class="wrap_content">
       <div class="item_content">
         <p>{{topic.topicData.topicContent}}</p>
-        <img v-lazy="'http://10.96.107.14:8080/static/'+topic.topicData.topicPhoto" v-if="topic.topicData.topicPhoto">
+        <img v-lazy="'http://106.13.193.45:8080/static/'+topic.topicData.topicPhoto" v-if="topic.topicData.topicPhoto">
       </div>
       <p class="time">最后修改时间：{{topic.topicData.topicCreateTime}}</p>
       <div class="item_operation">
@@ -51,10 +51,10 @@
     <div class="good_people">
       <i class="iconfont icon-xin"></i>
       <div class="header_img_component">
-        <div class="header_img" v-for="(item,index) in likepeople" :key="index" v-if="index<=4">
-          <img :src="'http://10.96.107.14:8080/static/'+item.userPhoto">
-        </div>
-        <span>等</span>
+        <!--<div class="header_img" v-for="(item,index) in likepeople" :key="index" v-if="index<=4">-->
+          <!--<img :src="'http://106.13.193.45:8080/static/'+item.userPhoto">-->
+        <!--</div>-->
+        <!--<span>等</span>-->
         <span>{{topic.topicData.topicLike}}</span><span>人觉得很赞</span>
       </div>
     </div>
@@ -67,7 +67,7 @@
         <div class="comment_head">
           <div class="head_container">
             <div class="head_picture">
-              <img :src="'http://10.96.107.14:8080/static/'+topicComments.user.userPhoto">
+              <img :src="'http://106.13.193.45:8080/static/'+topicComments.user.userPhoto">
             </div>
             <div class="head_message">
               <div class="username">{{topicComments.user.userRealname}}</div>

@@ -8,7 +8,6 @@
         <div class="btn">
             <van-uploader accept="*" :after-read="Read" >
               上传文件
-              <!--<button>上传文件askmfdksamlfmlsdmfldmflsamflsdmflsdkmfks</button>-->
             </van-uploader>
             <!--<button @click="afterRead">上传</button>-->
         </div>
@@ -16,14 +15,14 @@
       <div class="file_wrap">
         <div class="file" v-for="(item,index) in lists" :key="index">
           <div class="file_info">
-            <img v-lazy="'http://10.96.107.14:8080/static/'+item.icon">
+            <img v-lazy="'http://106.13.193.45:8080/static/'+item.icon">
             <div class="file_right">
               <p class="file_title">{{item.filerData.filerName}}</p>
               <p class="file_msg">{{item.filerData.filerCreateTime}}    来自：{{item.filerData.user.userRealname  }}</p>
             </div>
           </div>
           <a ></a>
-          <a class="file_download" :href="'http://10.96.107.14:8080/static/'+item.filerData.filerName">
+          <a class="file_download" :href="'http://106.13.193.45:8080/static/'+item.filerData.filerName">
             <i class="iconfont icon-xiazai"></i>
           </a>
         </div>
@@ -60,7 +59,6 @@ export default {
       if(file.file.name.endsWith(".doc")
         ||file.file.name.endsWith(".docx")
         ||file.file.name.endsWith(".pdf")
-        ||file.file.name.endsWith(".txt")
         ||file.file.name.endsWith(".word")
         ||file.file.name.endsWith(".ppt")
         ||file.file.name.endsWith(".xlsx")){
@@ -84,6 +82,7 @@ export default {
             this.sendFile();
             this.$toast("上传成功")
             this.queryFile()
+            console.log(res)
           } else {
             this.$toast(res.msg)
           }

@@ -1,86 +1,86 @@
 <template>
-    <div id="sendcontent">
-      <header class="sendcontent_header">
-        <i class="iconfont icon-zuo" @click="back()"></i>
-        <div class="header_title">
-          <p>发动态</p>
-        </div>
-      </header>
-      <textarea placeholder="有什么新消息分享给大家..." v-model="content">
-      </textarea>
-      <div class="left">
-        <van-uploader :after-read="afterRead" v-model="fileList" max-count="1"/>
+  <div id="sendcontent">
+    <header class="sendcontent_header">
+      <i class="iconfont icon-zuo" @click="back()"></i>
+      <div class="header_title">
+        <p>发动态</p>
       </div>
-      <button @click="sendTopic">确认发布</button>
+    </header>
+    <textarea placeholder="有什么新消息分享给大家..." v-model="content">
+      </textarea>
+    <div class="left">
+      <van-uploader :after-read="afterRead" v-model="fileList" :max-count="1"/>
     </div>
+    <button @click="sendTopic">确认发布</button>
+  </div>
 </template>
 
 <script>
   import Cookies from "../../api/localStorage";
-    export default {
-      data(){
-        return{
-          content:"",
-          fileList: [
-            // Uploader 根据文件后缀来判断是否为图片文件
-            // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-          ],
-          formdata:"",
-          imgName:""
-        }
+  export default {
+    data(){
+      return{
+        content:"",
+        fileList: [],
+        formdata:"",
+        imgName1:""
+      }
+    },
+    methods: {
+      //上传图片的回调放入format中
+      afterRead(file) {
+        this.formdata = new FormData()
+        this.formdata.append('file', file.file)
+        this.sedImg1()
       },
-      methods:{
-        //上传图片的回调放入format中
-        afterRead(file){
-          this.formdata = new FormData()
-          this.formdata.append('file', file.file)
-          this.sedImg()
-        },
-        //上传图片
-        sedImg() {
-          //添加请求头
-          if(content!=null) {
-            let config = {headers: {'Content-Type': 'multipart/form-data'}}
-            const url = "/api/filer/upfiler";
-            this.$http.filePost(url, this.formdata, config).then(res => {
-              if (res.status == 200) {
-                this.imgName = res.data
-              } else {
-                this.$toast(res.msg)
-              }
-            });
+      //上传图片
+      sedImg1() {
+        //添加请求头
+        let config = {headers: {'Content-Type': 'multipart/form-data'}}
+        const url = "/api/filer/upfiler";
+        this.$http.filePost(url, this.formdata, config).then(res => {
+          if (res.status == 200) {
+            this.imgName1 = res.data
+            console.log(this.imgName1)
+            this.$toast("上传成功")
+          } else {
+            this.$toast(res.msg)
           }
-        },
-        //发布动态话题
-        sendTopic(){
-          let self=this
-          const userId=JSON.parse(Cookies.get('username')).userId
-          const clusterId= this.$route.query.clusterId
-          const params={
-            userId:userId,
-            clusterId:clusterId,
-            content:self.content,
-            photo:self.imgName
-          }
-          const url = "/api/topic/add";
-          this.$http.fetchGet(url,{params}).then(res => {
-            if(res.status==200){
-              this.$toast("发布成功")
-              this.$router.go(-1)
-            }else{
-              this.$toast(res.msg)
-            }
-          })
-        },
-        //返回上一界面
-        back(){
-          this.$router.go(-1)
-        },
-        Jumpchooseareas(){
-          this.$router.push("/chooseareas")
+        }).catch(rej => {
+          this.$toast(rej)
+        });
+      },
+      //发布动态话题
+      sendTopic() {
+        let self = this
+        const userId = JSON.parse(Cookies.get('username')).userId
+        const clusterId = this.$route.query.clusterId
+        const params = {
+          userId: userId,
+          clusterId: clusterId,
+          content: self.content,
+          photo: self.imgName1
         }
+        console.log(params)
+        const url = "/api/topic/add";
+        this.$http.fetchGet(url, {params}).then(res => {
+          if (res.status == 200) {
+            this.$toast("发布成功")
+            this.$router.go(-1)
+          } else {
+            this.$toast(res.msg)
+          }
+        })
+      },
+      //返回上一界面
+      back() {
+        this.$router.go(-1)
+      },
+      Jumpchooseareas() {
+        this.$router.push("/chooseareas")
       },
     }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

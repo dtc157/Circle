@@ -9,23 +9,23 @@
         <span @click="back">取消</span>
       </div>
       <div class="content_wrap" v-show="none">
-        <p class="recommended" v-if="!searchName">推荐乌托邦</p>
+        <p class="recommended" v-if="!searchName">推荐圈子</p>
         <ul>
           <li class="content_item" @click="jumpJoinCircle(item.clusterId)"
               v-for="(item,index) in lists" :key="index">
             <div class="img">
-              <img v-lazy="'http://10.96.107.14:8080/static/'+item.clusterIcon">
+              <img v-lazy="'http://106.13.193.45:8080/static/'+item.clusterIcon">
             </div>
             <div class="content">
               <p class="title">{{item.clusterName}}</p>
-              <p class="introduce">免费：吹牛逼.打广告.专业大小锤.三陪服务</p>
-              <p class="sort">拆迁大队·成员 N</p>
+              <p class="introduce">{{item.clusterComment}}</p>
+              <p class="sort">{{item.clusterAddress}}</p>
             </div>
           </li>
         </ul>
       </div>
       <div class="content_wrap" v-show="!none">
-        <p>暂无此圈</p>
+        <p>暂无推荐</p>
       </div>
     </div>
 </template>
@@ -84,7 +84,7 @@
                 }
                 self.role=res.msg
               }else{
-                alert(res.msg)
+                this.$toast(res.msg)
               }
             })
         },
@@ -106,7 +106,7 @@
               }
               self.lists = res.data.list
             } else {
-              alert(res.msg)
+             this.$toast(res.msg)
             }
           })
         }
