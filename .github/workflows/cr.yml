@@ -16,7 +16,7 @@ jobs:
       - uses: anc95/ChatGPT-CodeReview@main
         env:
           GITHUB_TOKEN: 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
-          OPENAI_API_KEY: CRGPT
+          OPENAI_API_KEY: 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
           # Optional
           LANGUAGE: Chinese
           MODEL:
