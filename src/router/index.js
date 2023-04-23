@@ -40,6 +40,9 @@ const PhotoPages = () => import('../pages/PhotoPages/PhotoPages.vue')
 const publishNotice = () => import('../pages/LookTopics/publishNotice.vue')
 const Groupdetails = () => import('../pages/Groupdetails/Groupdetails.vue')
 const chatDetail = () => import('../pages/Chat/chatDetail.vue')
+const chatDetailV2 = () => import('../pages/ChatV2/chatDetail.vue')
+const ChatV2 = () => import('../pages/ChatV2/Chat.vue')
+
 const CreateGroup = () => import('../pages/CreateGroup/CreateGroup.vue')
 const modifyInformation = () => import('../pages/modifyInformation/modifyInformation.vue')
 const myConversation = () => import('../pages/Conversation/myConversation.vue')
@@ -70,6 +73,12 @@ export default new VueRouter({
         {
             path: '/chat',
             component: Chat,
+            meta: {
+                showFooter: true
+            }
+        },{
+            path: '/chatv2',
+            component: ChatV2,
             meta: {
                 showFooter: true
             }
@@ -132,7 +141,11 @@ export default new VueRouter({
           path: '/chatDetail',
           name:'chatDetail',
           component: chatDetail
-        },
+        },{
+            path: '/chatDetailV2',
+            name:'chatDetailV2',
+            component: chatDetailV2
+          },
         {
             path: '/search',
             component: Search,
