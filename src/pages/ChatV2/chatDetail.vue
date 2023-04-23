@@ -122,11 +122,17 @@
         this.data = "WebSocket连接关闭" + '   状态码：' + this.websocket.readyState;
       },
       onbeforeunload() {
-        this.closeWebSocket();
+        this.closeWebSocket()
       },
 
       //websocket发送消息
       send(ev) {
+        var a =  123;
+        if(a){
+          return 123
+        }else{
+          return 123
+        }
         if(ev.keyCode == 13) {
           this.websocket.send(this.text)
           this.text = ''
